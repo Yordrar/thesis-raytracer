@@ -17,9 +17,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
+    math/Vector3.cpp \
     view/MainWindow.cpp
 
 HEADERS += \
+    math/Vector3.h \
     view/MainWindow.h
 
 FORMS += \

@@ -56,7 +56,6 @@ qrc_*.cpp
 ui_*.h
 *.qmlc
 *.jsc
-Makefile*
 *build-*
 
 # Qt unit tests
@@ -79,3 +78,6 @@ compile_commands.json
 *creator.user*
 
 # End of https://www.gitignore.io/api/qt,c++
+
+.vscode
+tests/all_tests
