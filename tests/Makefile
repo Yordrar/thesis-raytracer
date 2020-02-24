@@ -1,8 +1,9 @@
-CSOURCES = $(wildcard */*.cpp) $(wildcard ../src/math/*.cpp)
+TESTS = $(wildcard */*.cpp)
+CPPSOURCES = $(wildcard ../src/math/*.cpp)
 
-OBJECTS = $(patsubst %.cpp, %.o, $(CSOURCES))
+OBJECTS = $(patsubst %.cpp, %.o, $(CPPSOURCES)) $(patsubst %.cpp, %.o, $(TESTS))
 
-GTEST = C:/GTest
+GTEST = ../deps/gtest
 
 CC = g++
 CFLAGS = -std=gnu++11 -I$(GTEST)/include -I../src -c
@@ -24,4 +25,4 @@ $(TARGET): $(OBJECTS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -rf $(OBJECTS) $(TARGET)
+	rm -rf $(patsubst %.cpp, %.o, $(TESTS)) $(TARGET)

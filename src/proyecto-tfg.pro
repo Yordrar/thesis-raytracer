@@ -17,10 +17,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
+    math/Math.cpp \
+    math/Ray.cpp \
     math/Vector3.cpp \
     view/MainWindow.cpp
 
 HEADERS += \
+    math/Math.h \
+    math/Ray.h \
     math/Vector3.h \
     view/MainWindow.h
 
@@ -31,3 +35,5 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=
