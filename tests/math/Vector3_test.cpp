@@ -37,7 +37,7 @@ TEST(Vector3, CrossProduct) {
     EXPECT_EQ(v3.dot(v2), 0);
 }
 
-TEST(Vector3, Sum) {
+TEST(Vector3, SumTwoVectors) {
     Vector3 v1(1, 2, 3), v2(4, 5, 6);
     Vector3 v3 = v1 + v2;
     EXPECT_EQ(v3.get_x(), 5);
@@ -80,7 +80,11 @@ TEST(Vector3, DivWithScalar) {
 TEST(Vector3, ConvertToUnitVector) {
     Vector3 v1(1, 2, 3);
     Vector3 u = v1.unit();
-    ASSERT_EQ(round(u.get_magnitude()), 1);
+	EXPECT_EQ(roundf(u.get_magnitude()), 1);
+
+	Vector3 v2(0, 0, 0);
+	u = v2.unit();
+	EXPECT_EQ(roundf(u.get_magnitude()), 0);
 }
 
 TEST(Vector3, AngleBetweenOtherVector) {

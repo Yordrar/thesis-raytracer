@@ -5,7 +5,11 @@
 class Ray
 {
 public:
-	Ray();
+	Ray(Vector3 direction);
+	Ray(Vector3 origin, Vector3 direction);
+
+	inline Vector3 get_origin() const {return origin;}
+	inline Vector3 get_direction() const {return direction;}
 
 private:
 	Vector3 origin, direction;
