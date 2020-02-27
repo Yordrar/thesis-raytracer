@@ -10,6 +10,7 @@ public:
 
 	inline Vector3 get_origin() const {return origin;}
 	inline Vector3 get_direction() const {return direction;}
+	inline Vector3 get_point(float t) const {return origin + direction*t;}
 
 private:
 	Vector3 origin, direction;

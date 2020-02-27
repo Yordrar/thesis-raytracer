@@ -16,7 +16,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    geometry/Camera.cpp \
     geometry/Entity.cpp \
+    geometry/Scene.cpp \
     geometry/Sphere.cpp \
     main.cpp \
     math/Math.cpp \
@@ -25,7 +27,9 @@ SOURCES += \
     view/MainWindow.cpp
 
 HEADERS += \
+    geometry/Camera.h \
     geometry/Entity.h \
+    geometry/Scene.h \
     geometry/Sphere.h \
     math/Math.h \
     math/Ray.h \

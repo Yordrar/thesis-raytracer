@@ -11,7 +11,7 @@ public:
 	inline void set_radius(float r) {radius = r;}
 	inline float get_radius() const {return radius;}
 
-	float intersects(Ray ray) const override;
+	float get_intersection(Ray ray) const override;
 	Vector3 get_normal(Vector3 point) const override;
 
 private:

@@ -2,6 +2,7 @@
 
 #include <geometry/Sphere.h>
 #include <math/Vector3.h>
+#include <math/Math.h>
 #include <math/Ray.h>
 
 TEST(Sphere, Constructors) {
@@ -19,11 +20,11 @@ TEST(Sphere, Constructors) {
 }
 
 TEST(Sphere, Intersect) {
-	Ray r(Vector3(0, 0, 0), Vector3(1, 1, 1));
-	Sphere s(Vector3(5, 5, 5), 2);
+	Ray r(Vector3(0, 0, 0), Vector3(0, 0, 1));
+	Sphere s(Vector3(0, 0, 5), 2);
 
-	EXPECT_EQ(s.intersects(r), 1.0f);
+	EXPECT_TRUE(Math::Float_Eq(s.get_intersection(r), 3.0f));
 
 	s.set_position(Vector3(5, 0, 0));
-	EXPECT_EQ(s.intersects(r), 0.0f);
+	EXPECT_EQ(s.get_intersection(r), -1.0f);
 }

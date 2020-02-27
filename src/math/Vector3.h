@@ -25,13 +25,23 @@ public:
 
 	inline Vector3 operator+(Vector3 other) const {return Vector3(x+other.x, y+other.y, z+other.z);}
 	inline Vector3 operator-(Vector3 other) const {return Vector3(x-other.x, y-other.y, z-other.z);}
+	inline Vector3 operator-() const {return Vector3(-x, -y, -z);}
 	inline Vector3 operator*(float val) const {return Vector3(x*val, y*val, z*val);}
 	inline Vector3 operator/(float val) const {return *this * (1.0f/val);}
 	inline Vector3 operator+=(Vector3 other) {return Vector3(x+=other.x, y+=other.y, z+=other.z);}
 	inline Vector3 operator*=(float val) {return Vector3(x*=val, y*=val, z*=val);}
-	inline Vector3 operator/=(float val) {return *this * (1.0f/val);}
+	inline Vector3 operator/=(float val) {return *this *= (1.0f/val);}
 	inline bool operator==(Vector3 other) const {return Math::Float_Eq(x, other.x) && Math::Float_Eq(y, other.y) && Math::Float_Eq(z, other.z);}
+	inline bool operator!=(Vector3 other) const {return !(*this == other);}
 
 private:
     float x, y, z;
 };
+
+inline Vector3 operator*(const float& val, const Vector3& vec) {
+	return vec*val;
+}
+
+inline Vector3 operator/(const float& val, const Vector3& vec) {
+	return vec/val;
+}
