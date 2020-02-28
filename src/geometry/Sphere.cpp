@@ -12,6 +12,7 @@ Sphere::~Sphere()
 
 }
 
+#define T_MIN 0.001f
 float Sphere::get_intersection(Ray r) const
 {
 	Vector3 oc = r.get_origin() - position;
@@ -22,13 +23,13 @@ float Sphere::get_intersection(Ray r) const
 	float t1 = -b + sqrtf(discriminant) / a;
 	float t2 = -b - sqrtf(discriminant) / a;
 	if (discriminant > 0) {
-		if(t1 > 0 && t2 > 0) {
+		if(t1 > T_MIN && t2 > T_MIN) {
 			return fminf(t1, t2);
 		}
-		if (t2 < FLT_MAX && t2 > 0) {
+		if (t2 < FLT_MAX && t2 > T_MIN) {
 			return t2;
 		}
-		if (t1 < FLT_MAX && t1 > 0) {
+		if (t1 < FLT_MAX && t1 > T_MIN) {
 			return t1;
 		}
 	}

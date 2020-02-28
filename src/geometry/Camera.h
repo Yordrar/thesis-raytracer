@@ -2,6 +2,9 @@
 
 #include <math/Vector3.h>
 #include <math/Ray.h>
+#include <geometry/Entity.h>
+
+#include <list>
 
 class Camera
 {
@@ -13,10 +16,12 @@ public:
 	inline int get_width() const {return width;}
 	inline int get_height() const {return height;}
 
-	Ray get_ray(float x, float y) const;
+	Vector3 get_color(float x, float y, const std::list<Entity*> entities) const;
 
 private:
 	Vector3 position, direction;
 	int width, height;
+
+	Vector3 shoot_ray(Ray r, const std::list<Entity*> entities) const ;
 };
 

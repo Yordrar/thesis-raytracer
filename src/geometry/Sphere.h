@@ -1,7 +1,6 @@
 #pragma once
 
 #include <geometry/Entity.h>
-
 class Sphere : public Entity
 {
 public:

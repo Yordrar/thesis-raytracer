@@ -21,6 +21,7 @@ SOURCES += \
     geometry/Scene.cpp \
     geometry/Sphere.cpp \
     main.cpp \
+    material/Material.cpp \
     math/Math.cpp \
     math/Ray.cpp \
     math/Vector3.cpp \
@@ -31,6 +32,7 @@ HEADERS += \
     geometry/Entity.h \
     geometry/Scene.h \
     geometry/Sphere.h \
+    material/Material.h \
     math/Math.h \
     math/Ray.h \
     math/Vector3.h \

@@ -12,6 +12,7 @@ SOURCES += \
         ../src/geometry/Entity.cpp \
         ../src/geometry/Scene.cpp \
         ../src/geometry/Sphere.cpp \
+        ../src/material/Material.cpp \
         geometry/Camera_test.cpp \
         geometry/Scene_test.cpp \
         geometry/Sphere_test.cpp \
@@ -21,5 +22,11 @@ SOURCES += \
         ../src/math/*.cpp
 
 HEADERS += \
+    ../src/geometry/Camera.h \
     ../src/geometry/Entity.h \
-    ../src/geometry/Sphere.h
+    ../src/geometry/Scene.h \
+    ../src/geometry/Sphere.h \
+    ../src/material/Material.h \
+    ../src/math/Math.h \
+    ../src/math/Ray.h \
+    ../src/math/Vector3.h

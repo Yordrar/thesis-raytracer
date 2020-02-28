@@ -1,6 +1,8 @@
 #include "Scene.h"
 
 #include <fstream>
+#include <iostream>
+#include <chrono>
 
 Scene::Scene()
 {
@@ -41,11 +43,9 @@ void Scene::remove_entity(Entity* e)
 	}
 }
 
-inline float random_double() {
-	return rand() / (RAND_MAX + 1.0f);
-}
 QPixmap Scene::render() const
 {
+	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 	float width = camera.get_width();
 	float height = camera.get_height();
 	int n_samples = 50;
@@ -55,31 +55,15 @@ QPixmap Scene::render() const
 		for(int i = 0; i < width; i++) {
 			Vector3 color;
 			for(int n = 0; n < n_samples; n++) {
-				float min_t = FLT_MAX;
-				Entity* intersected_e = nullptr;
-				Ray r = camera.get_ray(float(i+random_double()), float(j+random_double()));
-				for(auto e : entities) {
-					float t = e->get_intersection(r);
-					if(t > 0.0f && t < min_t) {
-						min_t = t;
-						intersected_e = e;
-					}
-				}
-				if(intersected_e) {
-					Vector3 normal = intersected_e->get_normal(r.get_point(min_t));
-					normal = (normal+Vector3(1.0f, 1.0f, 1.0f))*0.5f;
-					color += Vector3(normal.get_x(), normal.get_y(), normal.get_z());
-				}
-				else {
-					Vector3 unit_direction = r.get_direction().unit();
-					float t = 0.5f*(unit_direction.get_y() + 1.0f);
-					color += (1.0f-t)*Vector3(1.0f, 1.0f, 1.0f) + t*Vector3(0.5f, 0.7f, 1.0f);
-				}
+				color += camera.get_color(float(i+Math::Randf()), float(j+Math::Randf()), entities);
 			}
 			color /= n_samples;
+			color = Vector3(sqrtf(color.get_x()), sqrtf(color.get_y()), sqrtf(color.get_z()));
 			image << int(color.get_x()*255.99f) << " " << int(color.get_y()*255.99f) << " " << int(color.get_z()*255.99f) << "\n";
 		}
 	}
 	image.close();
+	std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+	std::cout << "Scene rendered in " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms" << std::endl;
 	return QPixmap("image.ppm");
 }

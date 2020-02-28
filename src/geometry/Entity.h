@@ -18,4 +18,3 @@ public:
 	virtual float get_intersection(Ray ray) const = 0;
 	virtual Vector3 get_normal(Vector3 point) const = 0;
 };
-
