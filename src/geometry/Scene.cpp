@@ -48,7 +48,7 @@ QPixmap Scene::render() const
 	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 	float width = camera.get_width();
 	float height = camera.get_height();
-	int n_samples = 50;
+	int n_samples = 100;
 	std::fstream image("image.ppm", std::fstream::out | std::fstream::trunc);
 	image << "P3\n" << width << " " << height << "\n255\n";
 	for(int j = 0; j < height; j++) {

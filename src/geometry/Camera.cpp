@@ -45,8 +45,7 @@ Vector3 Camera::shoot_ray(Ray r, const std::list<Entity*> entities) const
 	if(intersected_e) {
 		Vector3 intersection_point = r.get_point(min_t);
 		Vector3 normal = intersected_e->get_normal(intersection_point);
-		Vector3 new_ray_direction = intersection_point + normal + Vector3::create_random_in_unit_sphere();
-		new_ray_direction -= intersection_point;
+		Vector3 new_ray_direction = normal + Vector3::create_random_in_unit_sphere();
 		Ray new_ray(intersection_point, new_ray_direction);
 		color = 0.5f * shoot_ray(new_ray, entities);
 	}

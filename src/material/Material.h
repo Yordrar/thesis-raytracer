@@ -7,6 +7,8 @@ class Material
 {
 public:
 	Material();
+	Material(Vector3 albedo);
+	Material(float r, float g, float b);
 	virtual ~Material() = 0;
 
 	virtual Ray scatter(Ray ray) = 0;

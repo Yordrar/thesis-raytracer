@@ -21,7 +21,10 @@ SOURCES += \
     geometry/Scene.cpp \
     geometry/Sphere.cpp \
     main.cpp \
+    manager/RenderManager.cpp \
+    material/Diffuse.cpp \
     material/Material.cpp \
+    material/Metal.cpp \
     math/Math.cpp \
     math/Ray.cpp \
     math/Vector3.cpp \
@@ -32,7 +35,10 @@ HEADERS += \
     geometry/Entity.h \
     geometry/Scene.h \
     geometry/Sphere.h \
+    manager/RenderManager.h \
+    material/Diffuse.h \
     material/Material.h \
+    material/Metal.h \
     math/Math.h \
     math/Ray.h \
     math/Vector3.h \

@@ -15,6 +15,7 @@ public:
 	inline float get_y() const {return y;}
 	inline float get_z() const {return z;}
 	inline float get_magnitude() const {return sqrtf(x*x + y*y + z*z);}
+	inline float get_squared_magnitude() const {return x*x + y*y + z*z;}
 
 	Vector3 unit() const;
 	inline float dot(Vector3 other) const {return x*other.x + y*other.y + z*other.z;}
