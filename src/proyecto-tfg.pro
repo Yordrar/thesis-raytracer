@@ -18,11 +18,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     geometry/Camera.cpp \
     geometry/Entity.cpp \
+    geometry/Intersectable.cpp \
     geometry/Scene.cpp \
     geometry/Sphere.cpp \
     main.cpp \
     manager/RenderManager.cpp \
-    material/Diffuse.cpp \
+    material/Dielectric.cpp \
+    material/Lambertian.cpp \
     material/Material.cpp \
     material/Metal.cpp \
     math/Math.cpp \
@@ -33,10 +35,12 @@ SOURCES += \
 HEADERS += \
     geometry/Camera.h \
     geometry/Entity.h \
+    geometry/Intersectable.h \
     geometry/Scene.h \
     geometry/Sphere.h \
     manager/RenderManager.h \
-    material/Diffuse.h \
+    material/Dielectric.h \
+    material/Lambertian.h \
     material/Material.h \
     material/Metal.h \
     math/Math.h \
@@ -52,4 +56,6 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES +=
+QMAKE_CXXFLAGS += -march=native
+INCLUDEPATH += "..\deps\opencl\include" "..\deps\computecpp\include"
+LIBS += -static -L"..\deps\opencl\lib" -L"..\deps\computecpp\lib" -lOpenCL

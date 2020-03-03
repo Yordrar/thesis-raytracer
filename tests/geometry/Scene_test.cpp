@@ -22,7 +22,7 @@ TEST(Scene, AddEntity) {
 	Scene s1{&sph1, &sph1, &sph1, &sph1};
 	EXPECT_EQ(s1.get_entities().size(), 4);
 
-	s1.add_entity(&sph1);
+	s1.add_intersectable(&sph1);
 	EXPECT_EQ(s1.get_entities().size(), 5);
 }
 

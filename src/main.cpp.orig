@@ -1,0 +1,20 @@
+#include "view/MainWindow.h"
+
+#include <QApplication>
+#include "sycl-test.cpp"
+
+int main(int argc, char *argv[])
+{
+<<<<<<< Updated upstream
+=======
+	sycl_test();
+>>>>>>> Stashed changes
+	QApplication app(argc, argv);
+    MainWindow w;
+    w.show();
+	return app.exec();
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
+}

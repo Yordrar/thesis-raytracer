@@ -2,6 +2,7 @@
 
 Sphere::Sphere(Vector3 _position, float radius)
 	: Entity(_position),
+	  Intersectable(),
 	  radius(radius)
 {
 
@@ -38,4 +39,9 @@ float Sphere::get_intersection(Ray r) const
 
 Vector3 Sphere::get_normal(Vector3 point) const {
 	return (point - position).unit();
+}
+
+Ray Sphere::scatter(Ray ray, float t) const
+{
+	return material->scatter(ray, t, get_normal(ray.get_point(t)));
 }

@@ -9,33 +9,28 @@ Camera::Camera(Vector3 position, Vector3 direction, int width, int height)
 
 }
 
-Vector3 Camera::get_color(float x, float y, std::list<Entity*> entities) const
+Vector3 Camera::get_color(float x, float y, std::list<Intersectable*> intersectables) const
 {
-	float fov = 90.0f;
-	float fovx = 2*atanf(width/(2*fov));
-	float fovy = 2*atanf(height/(2*fov));
+	float vfov = 90.0f;
+	float half_height = tanf(Math::Deg2Rad(vfov)/2);
+	float half_width = static_cast<float>(width)/static_cast<float>(height) * half_height;
+	float plane_width = half_width * 2.0f;
+	float plane_height = half_height * 2.0f;
 
-	float plane_width = 2;
-	float plane_height = 2;
-	if(fovx > fovy) {
-		plane_height = height*(plane_width/width);
-	}
-	else if(fovx < fovy) {
-		plane_width = width*(plane_height/height);
-	}
-	Vector3 upper_left_corner = Vector3(0-plane_width/2, 0+plane_height/2, -1);
+	Vector3 upper_left_corner = Vector3(-half_width, half_height, -1);
 	float u = x / float(width);
 	float v = y / float(height);
 	Ray r(position, upper_left_corner + Vector3(u*plane_width, -v*plane_height, 0));
-	return shoot_ray(r, entities);
+	return shoot_ray(r, intersectables, 0);
 }
 
-Vector3 Camera::shoot_ray(Ray r, const std::list<Entity*> entities) const
+#define MAX_DEPTH 50
+Vector3 Camera::shoot_ray(Ray r, const std::list<Intersectable*> intersectables, int depth) const
 {
 	Vector3 color;
 	float min_t = FLT_MAX;
-	Entity* intersected_e = nullptr;
-	for(auto e : entities) {
+	Intersectable* intersected_e = nullptr;
+	for(auto e : intersectables) {
 		float t = e->get_intersection(r);
 		if(t > 0.0f && t < min_t) {
 			min_t = t;
@@ -43,11 +38,12 @@ Vector3 Camera::shoot_ray(Ray r, const std::list<Entity*> entities) const
 		}
 	}
 	if(intersected_e) {
-		Vector3 intersection_point = r.get_point(min_t);
-		Vector3 normal = intersected_e->get_normal(intersection_point);
-		Vector3 new_ray_direction = normal + Vector3::create_random_in_unit_sphere();
-		Ray new_ray(intersection_point, new_ray_direction);
-		color = 0.5f * shoot_ray(new_ray, entities);
+		Material* material = intersected_e->get_material();
+		Ray new_ray = material->scatter(r, min_t, intersected_e->get_normal(r.get_point(min_t)));
+		if(depth < MAX_DEPTH && new_ray.get_direction().dot(intersected_e->get_normal(r.get_point(min_t))) > 0)
+			color = material->get_albedo() / 255.0f * shoot_ray(new_ray, intersectables, depth+1);
+		else
+			color = Vector3();
 	}
 	else {
 		Vector3 unit_direction = r.get_direction().unit();

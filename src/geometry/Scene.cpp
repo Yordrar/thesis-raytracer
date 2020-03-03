@@ -9,10 +9,10 @@ Scene::Scene()
 
 }
 
-Scene::Scene(std::initializer_list<Entity*> entitites)
+Scene::Scene(std::initializer_list<Intersectable*> entitites)
 {
 	for(auto e : entitites) {
-		this->entities.push_back(e);
+		this->intersectables.push_back(e);
 	}
 }
 
@@ -21,22 +21,22 @@ Scene::Scene(Camera c)
 	camera = c;
 }
 
-Entity* Scene::get_entity(int index) const
+Intersectable* Scene::get_intersectable(int index) const
 {
-	if(index < 0 || index >= static_cast<int>(entities.size())) {
+	if(index < 0 || index >= static_cast<int>(intersectables.size())) {
 		return nullptr;
 	}
-	auto it = entities.begin();
+	auto it = intersectables.begin();
 	std::advance(it, index);
 	return *it;
 }
 
-void Scene::remove_entity(Entity* e)
+void Scene::remove_intersectable(Intersectable* e)
 {
-	auto it = entities.begin();
-	while(it != entities.end()) {
+	auto it = intersectables.begin();
+	while(it != intersectables.end()) {
 		if(*it == e) {
-			entities.erase(it);
+			intersectables.erase(it);
 			return;
 		}
 		it++;
@@ -48,14 +48,14 @@ QPixmap Scene::render() const
 	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 	float width = camera.get_width();
 	float height = camera.get_height();
-	int n_samples = 100;
+	int n_samples = 50;
 	std::fstream image("image.ppm", std::fstream::out | std::fstream::trunc);
 	image << "P3\n" << width << " " << height << "\n255\n";
 	for(int j = 0; j < height; j++) {
 		for(int i = 0; i < width; i++) {
 			Vector3 color;
 			for(int n = 0; n < n_samples; n++) {
-				color += camera.get_color(float(i+Math::Randf()), float(j+Math::Randf()), entities);
+				color += camera.get_color(float(i+Math::Randf()), float(j+Math::Randf()), intersectables);
 			}
 			color /= n_samples;
 			color = Vector3(sqrtf(color.get_x()), sqrtf(color.get_y()), sqrtf(color.get_z()));

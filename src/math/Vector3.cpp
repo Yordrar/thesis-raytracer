@@ -29,7 +29,7 @@ Vector3 Vector3::unit() const
 	}
 }
 
-Vector3 Vector3::create_random_in_unit_sphere()
+Vector3 Vector3::random_in_unit_sphere()
 {
 	Vector3 p;
 	do {
