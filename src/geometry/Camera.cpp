@@ -11,7 +11,7 @@ Camera::Camera(Vector3 position, Vector3 direction, int width, int height)
 
 Vector3 Camera::get_color(float x, float y, std::list<Intersectable*> intersectables) const
 {
-	float vfov = 90.0f;
+	float vfov = 100.0f;
 	float half_height = tanf(Math::Deg2Rad(vfov)/2);
 	float half_width = static_cast<float>(width)/static_cast<float>(height) * half_height;
 	float plane_width = half_width * 2.0f;
@@ -29,18 +29,18 @@ Vector3 Camera::shoot_ray(Ray r, const std::list<Intersectable*> intersectables,
 {
 	Vector3 color;
 	float min_t = FLT_MAX;
-	Intersectable* intersected_e = nullptr;
+	Intersectable* intersected = nullptr;
 	for(auto e : intersectables) {
 		float t = e->get_intersection(r);
 		if(t > 0.0f && t < min_t) {
 			min_t = t;
-			intersected_e = e;
+			intersected = e;
 		}
 	}
-	if(intersected_e) {
-		Material* material = intersected_e->get_material();
-		Ray new_ray = material->scatter(r, min_t, intersected_e->get_normal(r.get_point(min_t)));
-		if(depth < MAX_DEPTH && new_ray.get_direction().dot(intersected_e->get_normal(r.get_point(min_t))) > 0)
+	if(intersected) {
+		Material* material = intersected->get_material();
+		Ray new_ray = material->scatter(r, min_t, intersected->get_normal(r.get_point(min_t)));
+		if(depth < MAX_DEPTH && new_ray.get_direction().dot(intersected->get_normal(r.get_point(min_t))) > 0)
 			color = material->get_albedo() / 255.0f * shoot_ray(new_ray, intersectables, depth+1);
 		else
 			color = Vector3();
