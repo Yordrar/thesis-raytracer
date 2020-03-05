@@ -17,8 +17,8 @@ public:
 	inline static float Map(float value, float in_min, float in_max, float out_min, float out_max) {
 		return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 	}
+	// Returns a number in the range [0, 1)
 	inline static float Randf() {return rand() / (RAND_MAX + 1.0f);}
 	inline static float Rad2Deg(float radians) {return radians * (180.0f/PI);}
 	inline static float Deg2Rad(float degrees) {return degrees * (PI/180.0f);}
 };
-

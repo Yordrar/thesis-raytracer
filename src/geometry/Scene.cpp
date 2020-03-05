@@ -4,6 +4,10 @@
 #include <iostream>
 #include <chrono>
 
+#include <math/Vector3.h>
+
+#include <QImage>
+
 Scene::Scene()
 {
 
@@ -45,12 +49,14 @@ void Scene::remove_intersectable(Intersectable* e)
 
 QPixmap Scene::render() const
 {
-	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-	float width = camera.get_width();
-	float height = camera.get_height();
+	int width = camera.get_width();
+	int height = camera.get_height();
 	int n_samples = 50;
-	std::fstream image("image.ppm", std::fstream::out | std::fstream::trunc);
-	image << "P3\n" << width << " " << height << "\n255\n";
+
+	QImage framebuffer(width, height, QImage::Format_RGB888);
+
+	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+	#pragma omp parallel for collapse(2) schedule(dynamic) shared(framebuffer)
 	for(int j = 0; j < height; j++) {
 		for(int i = 0; i < width; i++) {
 			Vector3 color;
@@ -59,11 +65,11 @@ QPixmap Scene::render() const
 			}
 			color /= n_samples;
 			color = Vector3(sqrtf(color.get_x()), sqrtf(color.get_y()), sqrtf(color.get_z()));
-			image << int(color.get_x()*255.99f) << " " << int(color.get_y()*255.99f) << " " << int(color.get_z()*255.99f) << "\n";
+			framebuffer.setPixelColor(i, j, QColor(color.get_x()*255.99f,color.get_y()*255.99f,color.get_z()*255.99f));
 		}
 	}
-	image.close();
 	std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 	std::cout << "Scene rendered in " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms" << std::endl;
-	return QPixmap("image.ppm");
+
+	return QPixmap::fromImage(framebuffer);
 }
