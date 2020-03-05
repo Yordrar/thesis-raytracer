@@ -57,5 +57,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 QMAKE_CXXFLAGS += -march=native
-INCLUDEPATH += "..\deps\opencl\include" "..\deps\computecpp\include"
-LIBS += -static -L"..\deps\opencl\lib" -L"..\deps\computecpp\lib" -lOpenCL
+#INCLUDEPATH += "..\deps\opencl\include" "..\deps\computecpp\include"
+#LIBS += -static -L"..\deps\opencl\lib" -L"..\deps\computecpp\lib" -lOpenCL

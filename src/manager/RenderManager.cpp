@@ -9,6 +9,7 @@
 
 #include <material/Lambertian.h>
 #include <material/Metal.h>
+#include <material/Dielectric.h>
 
 RenderManager* RenderManager::instance = nullptr;
 
@@ -41,7 +42,7 @@ QPixmap RenderManager::render(int width, int height)
 	s3.set_material(new Metal(Vector3(184, 115, 51)));
 
 	Sphere s4(Vector3(-1, 0, -1.0f), 0.5f);
-	s4.set_material(new Metal(Vector3(128, 0, 0), 0.3f));
+	s4.set_material(new Dielectric(Vector3(128, 128, 128), 1.5f));
 
 	Camera c(Vector3(0, 0, 0), Vector3(0, 0, -1), width, height);
 	Scene escena{&s1, &s2, &s3, &s4};

@@ -13,5 +13,7 @@ public:
 
 private:
 	float refraction_index;
+
+	bool get_discriminant(Ray ray, Vector3 normal, float ni_over_nt);
 };
 
