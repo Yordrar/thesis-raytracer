@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <chrono>
+#include <omp.h>
 
 #include <math/Vector3.h>
 
@@ -70,7 +71,8 @@ QPixmap Scene::render(int n_samples) const
 		}
 	}
 	std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-	std::cout << "Scene rendered in " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms" << std::endl;
+	std::cout << "Scene rendered in " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms ";
+	std::cout << "(" << omp_get_max_threads() << " threads)" << std::endl;
 
 	return QPixmap::fromImage(framebuffer);
 }

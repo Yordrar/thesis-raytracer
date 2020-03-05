@@ -4,7 +4,7 @@
 #include <QLabel>
 #include <QSpinBox>
 
-#include <fstream>
+#include <omp.h>
 
 #include <manager/RenderManager.h>
 
@@ -23,6 +23,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_render_button_clicked()
 {
+	omp_set_num_threads(ui->centralwidget->findChild<QSpinBox*>("threads")->value());
+
 	int width = ui->centralwidget->findChild<QSpinBox*>("width")->value();
 	int height = ui->centralwidget->findChild<QSpinBox*>("height")->value();
 	int n_samples = ui->centralwidget->findChild<QSpinBox*>("samples")->value();

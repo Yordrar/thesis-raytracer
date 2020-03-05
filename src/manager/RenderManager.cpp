@@ -1,11 +1,10 @@
 #include "RenderManager.h"
 
 #include <math/Vector3.h>
+
 #include <geometry/Camera.h>
 #include <geometry/Scene.h>
 #include <geometry/Sphere.h>
-
-#include <math/Vector3.h>
 
 #include <material/Lambertian.h>
 #include <material/Metal.h>
