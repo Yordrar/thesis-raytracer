@@ -38,7 +38,7 @@ float Sphere::get_intersection(Ray r) const
 }
 
 Vector3 Sphere::get_normal(Vector3 point) const {
-	return (point - position).unit();
+	return (point - position) / radius;
 }
 
 Ray Sphere::scatter(Ray ray, float t) const

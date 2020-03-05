@@ -47,11 +47,10 @@ void Scene::remove_intersectable(Intersectable* e)
 	}
 }
 
-QPixmap Scene::render() const
+QPixmap Scene::render(int n_samples) const
 {
 	int width = camera.get_width();
 	int height = camera.get_height();
-	int n_samples = 50;
 
 	QImage framebuffer(width, height, QImage::Format_RGB888);
 
@@ -65,7 +64,9 @@ QPixmap Scene::render() const
 			}
 			color /= n_samples;
 			color = Vector3(sqrtf(color.get_x()), sqrtf(color.get_y()), sqrtf(color.get_z()));
-			framebuffer.setPixelColor(i, j, QColor(color.get_x()*255.99f,color.get_y()*255.99f,color.get_z()*255.99f));
+			framebuffer.setPixelColor(i, j, QColor(static_cast<int>(color.get_x()*255.99f),
+												   static_cast<int>(color.get_y()*255.99f),
+												   static_cast<int>(color.get_z()*255.99f)));
 		}
 	}
 	std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();

@@ -24,7 +24,7 @@ public:
 	Intersectable* get_intersectable(int index) const;
 	void remove_intersectable(Intersectable* e);
 
-	QPixmap render() const;
+	QPixmap render(int n_samples) const;
 
 private:
 	std::list<Intersectable*> intersectables;
