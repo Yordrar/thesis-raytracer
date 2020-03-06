@@ -28,6 +28,7 @@ SOURCES += \
     material/Material.cpp \
     material/Metal.cpp \
     math/Math.cpp \
+    math/Quaternion.cpp \
     math/Ray.cpp \
     math/Vector3.cpp \
     view/MainWindow.cpp
@@ -44,6 +45,7 @@ HEADERS += \
     material/Material.h \
     material/Metal.h \
     math/Math.h \
+    math/Quaternion.h \
     math/Ray.h \
     math/Vector3.h \
     view/MainWindow.h

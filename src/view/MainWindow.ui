@@ -56,7 +56,7 @@
      <rect>
       <x>740</x>
       <y>10</y>
-      <width>42</width>
+      <width>51</width>
       <height>22</height>
      </rect>
     </property>
@@ -78,7 +78,7 @@
      <rect>
       <x>740</x>
       <y>50</y>
-      <width>42</width>
+      <width>51</width>
       <height>22</height>
      </rect>
     </property>
@@ -100,7 +100,7 @@
      <rect>
       <x>740</x>
       <y>90</y>
-      <width>42</width>
+      <width>51</width>
       <height>22</height>
      </rect>
     </property>
@@ -122,8 +122,8 @@
      <rect>
       <x>700</x>
       <y>10</y>
-      <width>31</width>
-      <height>16</height>
+      <width>41</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
@@ -133,10 +133,10 @@
    <widget class="QLabel" name="height_label">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>690</x>
       <y>50</y>
-      <width>31</width>
-      <height>16</height>
+      <width>51</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
@@ -146,9 +146,9 @@
    <widget class="QLabel" name="samples_label">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>640</x>
       <y>90</y>
-      <width>71</width>
+      <width>101</width>
       <height>20</height>
      </rect>
     </property>
@@ -172,9 +172,9 @@
    <widget class="QLabel" name="threads_label">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>640</x>
       <y>130</y>
-      <width>71</width>
+      <width>91</width>
       <height>20</height>
      </rect>
     </property>
@@ -187,7 +187,7 @@
      <rect>
       <x>740</x>
       <y>130</y>
-      <width>42</width>
+      <width>51</width>
       <height>22</height>
      </rect>
     </property>
@@ -211,7 +211,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
