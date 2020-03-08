@@ -1,23 +1,22 @@
 #include "Camera.h"
 
-Camera::Camera(Vector3 position, Vector3 direction, int width, int height)
+Camera::Camera(Vector3 position, Vector3 direction, int width, int height, float vertical_fov)
 	: position(position),
 	  direction(direction),
 	  width(width),
-	  height(height)
+	  height(height),
+	  vfov(vertical_fov)
 {
+	float half_height = tanf(Math::Deg2Rad(vfov)/2);
+	float half_width = static_cast<float>(width)/static_cast<float>(height) * half_height;
 
+	plane_width = half_width * 2.0f;
+	plane_height = half_height * 2.0f;
+	upper_left_corner = Vector3(-half_width, half_height, -1);
 }
 
 Vector3 Camera::get_color(float x, float y, std::list<Intersectable*> intersectables) const
 {
-	float vfov = 90.0f;
-	float half_height = tanf(Math::Deg2Rad(vfov)/2);
-	float half_width = static_cast<float>(width)/static_cast<float>(height) * half_height;
-	float plane_width = half_width * 2.0f;
-	float plane_height = half_height * 2.0f;
-
-	Vector3 upper_left_corner = Vector3(-half_width, half_height, -1);
 	float u = x / float(width);
 	float v = y / float(height);
 	Ray r(position, upper_left_corner + Vector3(u*plane_width, -v*plane_height, 0));

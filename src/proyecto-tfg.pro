@@ -58,7 +58,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-QMAKE_CXXFLAGS += -march=native -fopenmp
-QMAKE_LFLAGS += -fopenmp
-#INCLUDEPATH += "..\deps\opencl\include" "..\deps\computecpp\include"
-#LIBS += -static -L"..\deps\opencl\lib" -L"..\deps\computecpp\lib" -lOpenCL
+QMAKE_CXXFLAGS += -march=native -fopenmp -fopenacc
+QMAKE_LFLAGS += -fopenmp -fopenacc
+INCLUDEPATH += "..\deps\opencl\include"
+LIBS += -static -L"..\deps\opencl\lib" -lOpenCL

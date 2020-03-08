@@ -1,7 +1,7 @@
 #include "Dielectric.h"
 
-Dielectric::Dielectric(Vector3 albedo, float refraction_index)
-	: Material(albedo)
+Dielectric::Dielectric(Vector3 _albedo, float refraction_index)
+	: Material(_albedo)
 {
 	this->refraction_index = refraction_index;
 }
@@ -61,6 +61,8 @@ Ray Dielectric::scatter(Ray ray, float t, Vector3 normal)
 		reflect_prob = 1.0f;
 	}
 
+	// If we reflect, we do it like a metal material with no roughness
+	// If not, we calculate the scattered ray and return it
 	if(Math::Randf() < reflect_prob) {
 		Vector3 new_direction = ray.get_direction() - 2*ray.get_direction().dot(normal)*normal;
 		return Ray(ray.get_point(t), new_direction);

@@ -21,9 +21,9 @@ float Sphere::get_intersection(Ray r) const
 	float b = oc.dot(r.get_direction());
 	float c = oc.dot(oc) - radius*radius;
 	float discriminant = b*b - a*c;
-	float t1 = -b + sqrtf(discriminant) / a;
-	float t2 = -b - sqrtf(discriminant) / a;
 	if (discriminant > 0) {
+		float t1 = -b + sqrtf(discriminant) / a;
+		float t2 = -b - sqrtf(discriminant) / a;
 		if(t1 > T_MIN && t2 > T_MIN) {
 			return fminf(t1, t2);
 		}
