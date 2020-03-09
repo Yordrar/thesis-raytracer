@@ -120,7 +120,7 @@
    <widget class="QLabel" name="width_label">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>690</x>
       <y>10</y>
       <width>41</width>
       <height>20</height>
@@ -129,11 +129,14 @@
     <property name="text">
      <string>Width</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="height_label">
     <property name="geometry">
      <rect>
-      <x>690</x>
+      <x>680</x>
       <y>50</y>
       <width>51</width>
       <height>20</height>
@@ -142,11 +145,14 @@
     <property name="text">
      <string>Height</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="samples_label">
     <property name="geometry">
      <rect>
-      <x>640</x>
+      <x>630</x>
       <y>90</y>
       <width>101</width>
       <height>20</height>
@@ -154,6 +160,9 @@
     </property>
     <property name="text">
      <string>Num. Samples</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QPushButton" name="render_button">
@@ -180,6 +189,9 @@
     </property>
     <property name="text">
      <string>Num. Threads</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QSpinBox" name="threads">
@@ -211,7 +223,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

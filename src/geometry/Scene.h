@@ -7,7 +7,7 @@
 #include <geometry/Intersectable.h>
 #include <geometry/Camera.h>
 
-#include <QPixmap>
+#include <image/Framebuffer.h>
 
 class Scene
 {
@@ -24,7 +24,7 @@ public:
 	Intersectable* get_intersectable(int index) const;
 	void remove_intersectable(Intersectable* e);
 
-	QPixmap render(int n_samples) const;
+	Framebuffer render(int n_samples) const;
 
 private:
 	std::list<Intersectable*> intersectables;

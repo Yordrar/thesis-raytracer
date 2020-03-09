@@ -20,6 +20,11 @@ TEST(Vector3, GetMagnitude) {
     ASSERT_EQ(v.get_magnitude(), static_cast<float>(sqrt(1*1 + 2*2 + 3*3)));
 }
 
+TEST(Vector3, GetSquaredMagnitude) {
+	Vector3 v(1, 2, 3);
+	ASSERT_EQ(v.get_squared_magnitude(), static_cast<float>(1*1 + 2*2 + 3*3));
+}
+
 TEST(Vector3, DotProduct) {
     Vector3 v1(1, 2, 3), v2(4, 5, 6);
     ASSERT_EQ(v1.dot(v2), 32);
@@ -49,6 +54,20 @@ TEST(Vector3, SumTwoVectors) {
     EXPECT_EQ(v4.get_x(), 6);
     EXPECT_EQ(v4.get_y(), 8);
     EXPECT_EQ(v4.get_z(), 10);
+}
+
+TEST(Vector3, SubTwoVectors) {
+	Vector3 v1(1, 2, 3), v2(4, 5, 6);
+	Vector3 v3 = v1 - v2;
+	EXPECT_EQ(v3.get_x(), -3);
+	EXPECT_EQ(v3.get_y(), -3);
+	EXPECT_EQ(v3.get_z(), -3);
+
+	Vector3 v4(1, 1, 1);
+	v4 -= v1 - v2;
+	EXPECT_EQ(v4.get_x(), 4);
+	EXPECT_EQ(v4.get_y(), 4);
+	EXPECT_EQ(v4.get_z(), 4);
 }
 
 TEST(Vector3, MultWithScalar) {
@@ -98,4 +117,11 @@ TEST(Vector3, Equality) {
     ASSERT_TRUE(v1 == v3);
     ASSERT_FALSE(v1 == v2);
     ASSERT_FALSE(v3 == v2);
+}
+
+TEST(Vector3, Inequality) {
+	Vector3 v1(1, 2, 3), v2(4, 5, 6), v3(1, 2, 3);
+	ASSERT_FALSE(v1 != v3);
+	ASSERT_TRUE(v1 != v2);
+	ASSERT_TRUE(v3 != v2);
 }

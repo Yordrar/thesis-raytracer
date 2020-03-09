@@ -32,3 +32,31 @@ TEST(Math, Map) {
     EXPECT_TRUE(Math::Float_Eq(Math::Map(0, 0, 1, 10, 100), 10));
     EXPECT_TRUE(Math::Float_Eq(Math::Map(1, 0, 1, 10, 100), 100));
 }
+
+TEST(Math, Randf) {
+	for(int i = 0; i < 10; i++) {
+		float rnd = Math::Randf();
+		EXPECT_GE(rnd, 0.0f);
+		EXPECT_LT(rnd, 1.0f);
+	}
+}
+
+TEST(Math, Deg2Rad) {
+	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(0), 0));
+	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(90), Math::PI/2.0f));
+	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(180), Math::PI));
+	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(270), 3*Math::PI/2.0f));
+	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(360), 2*Math::PI));
+	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(45), Math::PI/4.0f));
+	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(135), 3*Math::PI/4.0f));
+}
+
+TEST(Math, Rad2Deg) {
+	EXPECT_TRUE(Math::Float_Eq(Math::Rad2Deg(0), 0));
+	EXPECT_TRUE(Math::Float_Eq(Math::Rad2Deg(Math::PI/2.0f),90));
+	EXPECT_TRUE(Math::Float_Eq(Math::Rad2Deg(Math::PI), 180));
+	EXPECT_TRUE(Math::Float_Eq(Math::Rad2Deg(3*Math::PI/2.0f), 270));
+	EXPECT_TRUE(Math::Float_Eq(Math::Rad2Deg(2*Math::PI), 360));
+	EXPECT_TRUE(Math::Float_Eq(Math::Rad2Deg(Math::PI/4.0f), 45));
+	EXPECT_TRUE(Math::Float_Eq(Math::Rad2Deg(3*Math::PI/4.0f), 135));
+}

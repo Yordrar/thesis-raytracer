@@ -7,6 +7,7 @@
 #include <omp.h>
 
 #include <manager/RenderManager.h>
+#include <image/Framebuffer.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -31,7 +32,17 @@ void MainWindow::on_render_button_clicked()
 
 	QLabel* label = ui->centralwidget->findChild<QLabel*>("image");
 	label->setGeometry(label->geometry().x(), label->geometry().y(), width, height);
-	label->setPixmap(RenderManager::get_manager()->render(width,
-														  height,
-														  n_samples));
+	Framebuffer frame = RenderManager::get_manager()->render(width,
+															 height,
+															 n_samples);
+	QImage image(width, height, QImage::Format_RGB888);
+	for (int j = 0; j < height; j++) {
+		for (int i = 0; i < width; i++) {
+			Vector3 color = frame.get_pixel_color(i, j);
+			image.setPixelColor(i, j, QColor(static_cast<int>(color.get_x()),
+											 static_cast<int>(color.get_y()),
+											 static_cast<int>(color.get_z())));
+		}
+	}
+	label->setPixmap(QPixmap::fromImage(image));
 }

@@ -19,6 +19,15 @@ Quaternion::Quaternion(Vector3 imaginary, float real)
 
 }
 
+Quaternion::Quaternion(float real, Vector3 imaginary)
+	: x(imaginary.get_x()),
+	  y(imaginary.get_y()),
+	  z(imaginary.get_z()),
+	  w(real)
+{
+
+}
+
 Quaternion Quaternion::get_inverse() const
 {
 	Vector3 imaginary = get_imaginary();

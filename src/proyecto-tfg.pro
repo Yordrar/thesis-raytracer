@@ -21,6 +21,7 @@ SOURCES += \
     geometry/Intersectable.cpp \
     geometry/Scene.cpp \
     geometry/Sphere.cpp \
+    image/Framebuffer.cpp \
     main.cpp \
     manager/RenderManager.cpp \
     material/Dielectric.cpp \
@@ -39,6 +40,7 @@ HEADERS += \
     geometry/Intersectable.h \
     geometry/Scene.h \
     geometry/Sphere.h \
+    image/Framebuffer.h \
     manager/RenderManager.h \
     material/Dielectric.h \
     material/Lambertian.h \
@@ -58,7 +60,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-QMAKE_CXXFLAGS += -march=native -fopenmp -fopenacc
-QMAKE_LFLAGS += -fopenmp -fopenacc
-INCLUDEPATH += "..\deps\opencl\include"
-LIBS += -static -L"..\deps\opencl\lib" -lOpenCL
+QMAKE_CXXFLAGS += -march=native -fopenmp
+QMAKE_LFLAGS += -fopenmp
+INCLUDEPATH += "..\deps\opencl\include" "..\deps\assimp\include"
+LIBS += -static -L"..\deps\opencl\lib" -L"..\deps\assimp\lib" -lOpenCL -lassimp -lIrrXML -lzlibstatic

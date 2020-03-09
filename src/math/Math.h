@@ -9,7 +9,7 @@ public:
 	Math() = delete;
 	~Math() = delete;
 
-	static constexpr float PI = 3.14159265f;
+	static constexpr float PI = 3.14159265358979323846f;
 
 	inline static bool Float_Eq(float a, float b) {return fabsf(a-b) <= FLT_EPSILON;}
 	inline static int Clamp(int value, int min_value, int max_value) {return static_cast<int>(Clampf(value, min_value, max_value));}

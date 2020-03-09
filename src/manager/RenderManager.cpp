@@ -30,7 +30,7 @@ RenderManager* RenderManager::get_manager()
 	return instance;
 }
 
-QPixmap RenderManager::render(int width, int height, int n_samples)
+Framebuffer RenderManager::render(int width, int height, int n_samples)
 {
 	Sphere s1(Vector3(0, 0, -1.0f), 0.5f);
 	s1.set_material(new Lambertian(Vector3(10, 60, 255)));

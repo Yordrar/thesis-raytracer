@@ -41,6 +41,19 @@ public:
 	inline bool operator==(const Vector3 other) const {return Math::Float_Eq(x, other.x) && Math::Float_Eq(y, other.y) && Math::Float_Eq(z, other.z);}
 	inline bool operator!=(const Vector3 other) const {return !(*this == other);}
 
+	inline float operator[](const int index) const {
+		switch(index) {
+		case 0:
+			return x;
+		case 1:
+			return y;
+		case 2:
+			return z;
+		default:
+			return 0;
+		}
+	}
+
 	static Vector3 random_in_unit_sphere();
 
 private:
