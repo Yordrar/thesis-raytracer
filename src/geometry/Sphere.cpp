@@ -37,10 +37,6 @@ float Sphere::get_intersection(Ray r) const
 	return -1.0f;
 }
 
-Vector3 Sphere::get_normal(Vector3 point) const {
-	return (point - position) / radius;
-}
-
 Ray Sphere::scatter(Ray ray, float t) const
 {
 	return material->scatter(ray, t, get_normal(ray.get_point(t)));

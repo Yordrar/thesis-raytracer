@@ -12,11 +12,13 @@ public:
 	inline void set_radius(float r) {radius = r;}
 	inline float get_radius() const {return radius;}
 
+	// Intersectable interface
 	float get_intersection(Ray ray) const override;
-	Vector3 get_normal(Vector3 point) const override;
 	Ray scatter(Ray ray, float t) const override;
 
 private:
 	float radius;
+
+	inline Vector3 get_normal(Vector3 point) const {return (point - position) / radius;}
 };
 

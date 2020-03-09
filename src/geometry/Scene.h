@@ -1,7 +1,7 @@
 #pragma once
 
 #include <initializer_list>
-#include <list>
+#include <vector>
 
 #include <geometry/Entity.h>
 #include <geometry/Intersectable.h>
@@ -16,18 +16,18 @@ public:
 	Scene(std::initializer_list<Intersectable*> intersectables);
 	Scene(Camera c);
 
-	inline std::list<Intersectable*> get_entities() const {return intersectables;}
+	inline std::vector<Intersectable*> get_entities() const {return intersectables;}
 
 	inline void set_camera(Camera cam) {camera = cam;}
 
-	inline void add_intersectable(Intersectable* e) { intersectables.push_front(e); }
+	inline void add_intersectable(Intersectable* e) {intersectables.push_back(e);}
 	Intersectable* get_intersectable(int index) const;
 	void remove_intersectable(Intersectable* e);
 
 	Framebuffer render(int n_samples) const;
 
 private:
-	std::list<Intersectable*> intersectables;
+	std::vector<Intersectable*> intersectables;
 	Camera camera;
 };
 

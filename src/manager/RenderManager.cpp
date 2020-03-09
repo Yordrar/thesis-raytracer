@@ -5,6 +5,7 @@
 #include <geometry/Camera.h>
 #include <geometry/Scene.h>
 #include <geometry/Sphere.h>
+#include <geometry/Mesh.h>
 
 #include <material/Lambertian.h>
 #include <material/Metal.h>
@@ -43,9 +44,16 @@ Framebuffer RenderManager::render(int width, int height, int n_samples)
 	Sphere s4(Vector3(-1.0f, 0, -1.0f), 0.5f);
 	s4.set_material(new Dielectric(Vector3(255, 255, 255), 1.5f));
 
-	Camera c(Vector3(0, 0, 0), Vector3(0, 0, -1), width, height);
+	Camera c(Vector3(0, 0, 2), Vector3(0, 0, -1), width, height);
 	Scene escena{&s1, &s2, &s3, &s4};
 	escena.set_camera(c);
+
+	Mesh m;
+	m.add_vertex(Vector3(0.5f, 1.5f, 0));
+	m.add_vertex(Vector3(1, 0.5f, 0));
+	m.add_vertex(Vector3(0, 0.5f, 0));
+	m.add_triangle(0, 1, 2);
+	escena.add_intersectable(&m);
 
 	/*
 	Sphere s5(Vector3(-1.0f, 0, -1.0f), -0.45f);

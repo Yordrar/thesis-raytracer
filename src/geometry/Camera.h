@@ -5,7 +5,7 @@
 #include <geometry/Entity.h>
 #include <geometry/Intersectable.h>
 
-#include <list>
+#include <vector>
 
 class Camera
 {
@@ -17,7 +17,7 @@ public:
 	inline int get_width() const {return width;}
 	inline int get_height() const {return height;}
 
-	Vector3 get_color(float x, float y, const std::list<Intersectable*> intersectables) const;
+	Vector3 get_color(float x, float y, const std::vector<Intersectable*> intersectables) const;
 
 private:
 	Vector3 position, direction;
@@ -26,6 +26,6 @@ private:
 	Vector3 upper_left_corner;
 
 
-	Vector3 shoot_ray(Ray r, const std::list<Intersectable*> intersectables, int depth) const ;
+	Vector3 shoot_ray(Ray r, const std::vector<Intersectable*> intersectables, int depth) const ;
 };
 

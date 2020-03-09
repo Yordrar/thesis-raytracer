@@ -19,8 +19,11 @@ SOURCES += \
     geometry/Camera.cpp \
     geometry/Entity.cpp \
     geometry/Intersectable.cpp \
+    geometry/Mesh.cpp \
+    geometry/MeshLoader.cpp \
     geometry/Scene.cpp \
     geometry/Sphere.cpp \
+    geometry/Triangle.cpp \
     image/Framebuffer.cpp \
     main.cpp \
     manager/RenderManager.cpp \
@@ -38,8 +41,11 @@ HEADERS += \
     geometry/Camera.h \
     geometry/Entity.h \
     geometry/Intersectable.h \
+    geometry/Mesh.h \
+    geometry/MeshLoader.h \
     geometry/Scene.h \
     geometry/Sphere.h \
+    geometry/Triangle.h \
     image/Framebuffer.h \
     manager/RenderManager.h \
     material/Dielectric.h \
