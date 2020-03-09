@@ -7,7 +7,7 @@ Triangle::Triangle(Vector3 v0, Vector3 v1, Vector3 v2)
 {
 	edge01 = v1 - v0;
 	edge02 = v2 - v0;
-	normal = edge02.cross(edge01).unit();
+	normal = edge01.cross(edge02).unit();
 }
 
 float Triangle::get_intersection(Ray ray) const
@@ -28,13 +28,11 @@ float Triangle::get_intersection(Ray ray) const
 	v = f * ray.get_direction().dot(q);
 	if (v < 0.0f || u + v > 1.0f)
 		return 0.0f;
-	// At this stage we can compute t to find out where the intersection point is on the line.
 	float t = f * edge02.dot(q);
-	if (!Math::Float_Eq(t, 0.0f)) // ray intersection
-	{
-		return t;
+	if (!Math::Float_Eq(t, 0.0f)) {
+		return t; // There is an intersection
 	}
-	else // This means that there is a line intersection but not a ray intersection.
+	else // The ray is contained in the triangle
 		return 0.0f;
 }
 

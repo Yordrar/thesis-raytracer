@@ -6,6 +6,7 @@
 #include <geometry/Scene.h>
 #include <geometry/Sphere.h>
 #include <geometry/Mesh.h>
+#include <geometry/MeshLoader.h>
 
 #include <material/Lambertian.h>
 #include <material/Metal.h>
@@ -33,7 +34,7 @@ RenderManager* RenderManager::get_manager()
 
 Framebuffer RenderManager::render(int width, int height, int n_samples)
 {
-	Sphere s1(Vector3(0, 0, -1.0f), 0.5f);
+	/*Sphere s1(Vector3(0, 0, -1.0f), 0.5f);
 	s1.set_material(new Lambertian(Vector3(10, 60, 255)));
 
 	Sphere s2(Vector3(0, -100-s1.get_radius(), -1), 100);
@@ -44,22 +45,18 @@ Framebuffer RenderManager::render(int width, int height, int n_samples)
 	Sphere s4(Vector3(-1.0f, 0, -1.0f), 0.5f);
 	s4.set_material(new Dielectric(Vector3(255, 255, 255), 1.5f));
 
-	Camera c(Vector3(0, 0, 2), Vector3(0, 0, -1), width, height);
-	Scene escena{&s1, &s2, &s3, &s4};
-	escena.set_camera(c);
-
-	Mesh m;
-	m.add_vertex(Vector3(0.5f, 1.5f, 0));
-	m.add_vertex(Vector3(1, 0.5f, 0));
-	m.add_vertex(Vector3(0, 0.5f, 0));
-	m.add_triangle(0, 1, 2);
-	escena.add_intersectable(&m);
-
-	/*
 	Sphere s5(Vector3(-1.0f, 0, -1.0f), -0.45f);
 	s5.set_material(new Dielectric(Vector3(255, 255, 255), 1.5f));
 	escena.add_intersectable(&s5);
-	*/
+
+	Scene escena{&s1, &s2, &s3, &s4};*/
+
+	Scene escena;
+	Camera c(Vector3(0, 0, 4), Vector3(0, 0, -1), width, height, 45);
+	escena.set_camera(c);
+
+	Mesh m = MeshLoader::load_from_file("C:\\Users\\juana\\Desktop\\suzanne.obj");
+	escena.add_intersectable(&m);
 
 	return escena.render(n_samples);
 }
