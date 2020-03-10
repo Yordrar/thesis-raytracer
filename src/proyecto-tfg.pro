@@ -68,5 +68,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 QMAKE_CXXFLAGS += -march=native -fopenmp
 QMAKE_LFLAGS += -fopenmp
-INCLUDEPATH += "..\deps\opencl\include" "..\deps\assimp\include"
-LIBS += -static -L"..\deps\opencl\lib" -L"..\deps\assimp\lib" -lOpenCL -lassimp -lIrrXML -lzlibstatic
+INCLUDEPATH += "../deps/opencl/include" "../deps/assimp/include"
+LIBS += -static -L"../deps/opencl/lib" -L"../deps/assimp/lib" -lOpenCL -lassimp -lIrrXML -lzlibstatic
