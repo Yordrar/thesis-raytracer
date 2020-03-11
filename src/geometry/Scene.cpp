@@ -53,13 +53,15 @@ Framebuffer Scene::render(int n_samples) const
 
 	Framebuffer framebuffer(width, height);
 
+	BVH hierarchy(intersectables, intersectables.size());
+
 	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 	#pragma omp parallel for collapse(2) schedule(dynamic) shared(framebuffer)
 	for(int j = 0; j < height; j++) {
 		for(int i = 0; i < width; i++) {
 			Vector3 color;
 			for(int n = 0; n < n_samples; n++) {
-				color += camera.get_color(float(i+Math::Randf()), float(j+Math::Randf()), intersectables);
+				color += camera.get_color(float(i+Math::Randf()), float(j+Math::Randf()), hierarchy);
 			}
 			color /= n_samples;
 			color = Vector3(sqrtf(color.get_x()), sqrtf(color.get_y()), sqrtf(color.get_z()));

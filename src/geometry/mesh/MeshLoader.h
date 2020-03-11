@@ -1,6 +1,6 @@
 #pragma once
 
-#include <geometry/Mesh.h>
+#include <geometry/mesh/Mesh.h>
 
 #include <string>
 

@@ -4,6 +4,7 @@
 #include <math/Ray.h>
 #include <geometry/Entity.h>
 #include <geometry/Intersectable.h>
+#include <geometry/BVH/BVH.h>
 
 #include <vector>
 
@@ -17,7 +18,7 @@ public:
 	inline int get_width() const {return width;}
 	inline int get_height() const {return height;}
 
-	Vector3 get_color(float x, float y, const std::vector<Intersectable*> intersectables) const;
+	Vector3 get_color(float x, float y, const BVH intersectables) const;
 
 private:
 	Vector3 position, direction;
@@ -26,6 +27,6 @@ private:
 	Vector3 upper_left_corner;
 
 
-	Vector3 shoot_ray(Ray r, const std::vector<Intersectable*> intersectables, int depth) const ;
+	Vector3 shoot_ray(Ray r, const BVH intersectables, int depth) const ;
 };
 

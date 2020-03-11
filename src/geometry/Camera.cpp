@@ -15,7 +15,7 @@ Camera::Camera(Vector3 position, Vector3 direction, int width, int height, float
 	upper_left_corner = Vector3(-half_width, half_height, -1);
 }
 
-Vector3 Camera::get_color(float x, float y, std::vector<Intersectable*> intersectables) const
+Vector3 Camera::get_color(float x, float y, BVH intersectables) const
 {
 	float u = x / float(width);
 	float v = y / float(height);
@@ -24,21 +24,15 @@ Vector3 Camera::get_color(float x, float y, std::vector<Intersectable*> intersec
 }
 
 #define MAX_DEPTH 50
-Vector3 Camera::shoot_ray(Ray r, const std::vector<Intersectable*> intersectables, int depth) const
+Vector3 Camera::shoot_ray(Ray r, BVH intersectables, int depth) const
 {
 	Vector3 color;
-	float min_t = FLT_MAX;
-	Intersectable* intersected = nullptr;
-	for(auto e : intersectables) {
-		float t = e->get_intersection(r);
-		if(t > 0.0f && t < min_t) {
-			min_t = t;
-			intersected = e;
-		}
-	}
+	std::pair<const Intersectable*, float> intersection = intersectables.get_intersection(r);
+	const Intersectable* intersected = intersection.first;
+	float t = intersection.second;
 	if(intersected) {
 		Material* material = intersected->get_material();
-		Ray new_ray = intersected->scatter(r, min_t);
+		Ray new_ray = material->scatter(r, t, intersected->get_normal(r.get_point(t)));
 		if(depth < MAX_DEPTH)
 			color = material->get_albedo() / 255.0f * shoot_ray(new_ray, intersectables, depth+1);
 		else

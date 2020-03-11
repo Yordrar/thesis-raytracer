@@ -16,14 +16,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    geometry/BVH/AxisAlignedBoundingBox.cpp \
+    geometry/BVH/BVH.cpp \
     geometry/Camera.cpp \
     geometry/Entity.cpp \
+    geometry/Hit.cpp \
     geometry/Intersectable.cpp \
-    geometry/Mesh.cpp \
-    geometry/MeshLoader.cpp \
     geometry/Scene.cpp \
     geometry/Sphere.cpp \
-    geometry/Triangle.cpp \
+    geometry/mesh/MeshLoader.cpp \
+    geometry/mesh/Mesh.cpp \
+    geometry/mesh/Triangle.cpp \
     image/Framebuffer.cpp \
     main.cpp \
     manager/RenderManager.cpp \
@@ -38,14 +41,17 @@ SOURCES += \
     view/MainWindow.cpp
 
 HEADERS += \
+    geometry/BVH/AxisAlignedBoundingBox.h \
+    geometry/BVH/BVH.h \
     geometry/Camera.h \
     geometry/Entity.h \
+    geometry/Hit.h \
     geometry/Intersectable.h \
-    geometry/Mesh.h \
-    geometry/MeshLoader.h \
     geometry/Scene.h \
     geometry/Sphere.h \
-    geometry/Triangle.h \
+    geometry/mesh/Mesh.h \
+    geometry/mesh/MeshLoader.h \
+    geometry/mesh/Triangle.h \
     image/Framebuffer.h \
     manager/RenderManager.h \
     material/Dielectric.h \

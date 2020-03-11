@@ -5,8 +5,8 @@
 #include <geometry/Camera.h>
 #include <geometry/Scene.h>
 #include <geometry/Sphere.h>
-#include <geometry/Mesh.h>
-#include <geometry/MeshLoader.h>
+#include <geometry/mesh/Mesh.h>
+#include <geometry/mesh/MeshLoader.h>
 
 #include <material/Lambertian.h>
 #include <material/Metal.h>
@@ -56,6 +56,7 @@ Framebuffer RenderManager::render(int width, int height, int n_samples)
 	escena.set_camera(c);
 
 	Mesh m = MeshLoader::load_from_file("C:\\Users\\juana\\Desktop\\suzanne.obj");
+	m.set_material(new Lambertian());
 	escena.add_intersectable(&m);
 
 	return escena.render(n_samples);

@@ -5,7 +5,8 @@ Sphere::Sphere(Vector3 _position, float radius)
 	  Intersectable(),
 	  radius(radius)
 {
-
+	Vector3 radius_vec(radius, radius, radius);
+	bounding_box = AxisAlignedBoundingBox(position - radius_vec, position + radius_vec);
 }
 
 Sphere::~Sphere()
@@ -14,7 +15,7 @@ Sphere::~Sphere()
 }
 
 #define T_MIN 0.001f
-float Sphere::get_intersection(Ray r) const
+std::pair<const Intersectable*, float> Sphere::get_intersection(Ray r) const
 {
 	Vector3 oc = r.get_origin() - position;
 	float a = r.get_direction().dot(r.get_direction());
@@ -25,19 +26,25 @@ float Sphere::get_intersection(Ray r) const
 		float t1 = -b + sqrtf(discriminant) / a;
 		float t2 = -b - sqrtf(discriminant) / a;
 		if(t1 > T_MIN && t2 > T_MIN) {
-			return fminf(t1, t2);
+			return std::make_pair<const Intersectable*, float>(this, fminf(t1, t2));
 		}
 		if (t2 < FLT_MAX && t2 > T_MIN) {
-			return t2;
+			return std::make_pair<const Intersectable*, float>(this, static_cast<float>(t2));
 		}
 		if (t1 < FLT_MAX && t1 > T_MIN) {
-			return t1;
+			return std::make_pair<const Intersectable*, float>(this, static_cast<float>(t1));
 		}
 	}
-	return -1.0f;
+	return std::make_pair<Intersectable*, float>(nullptr, 0.0f);
 }
 
-Ray Sphere::scatter(Ray ray, float t) const
+
+Vector3 Sphere::get_normal(Vector3 point) const
 {
-	return material->scatter(ray, t, get_normal(ray.get_point(t)));
+	return (point - position) / radius;
+}
+
+AxisAlignedBoundingBox Sphere::get_bounding_box() const
+{
+	return bounding_box;
 }

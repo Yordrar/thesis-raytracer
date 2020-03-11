@@ -1,27 +1,29 @@
 #pragma once
 
-#include <geometry/Entity.h>
+#include <vector>
+
 #include <geometry/Intersectable.h>
 #include <geometry/BVH/AxisAlignedBoundingBox.h>
 
-class Sphere : public Entity, public Intersectable
+class BVH : Intersectable
 {
 public:
-	Sphere(Vector3 _position = Vector3(0, 0, 0), float radius = 0);
-	~Sphere() override;
+	BVH();
+	BVH(std::vector<Intersectable*> intersectables, int num_elem);
+	~BVH() override;
 
-	inline void set_radius(float r) {radius = r;}
-	inline float get_radius() const {return radius;}
-
-	// Intersectable interface
 	std::pair<const Intersectable*, float> get_intersection(Ray ray) const override;
 
 private:
-	float radius;
+	Intersectable* left;
+	Intersectable* right;
 
 	// Intersectable interface
 public:
 	Vector3 get_normal(Vector3 point) const override;
+
+	// Intersectable interface
+public:
 	AxisAlignedBoundingBox get_bounding_box() const override;
 };
 

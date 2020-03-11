@@ -4,7 +4,7 @@
 
 Intersectable::Intersectable()
 {
-	material = new Lambertian();
+	material = nullptr;
 }
 
 Intersectable::Intersectable(Material* m)
@@ -14,5 +14,5 @@ Intersectable::Intersectable(Material* m)
 
 Intersectable::~Intersectable()
 {
-	delete material;
+	if(material) delete material;
 }
