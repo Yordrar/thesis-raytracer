@@ -15,7 +15,7 @@ Sphere::~Sphere()
 }
 
 #define T_MIN 0.001f
-std::pair<const Intersectable*, float> Sphere::get_intersection(Ray r) const
+Hit Sphere::get_intersection(Ray r) const
 {
 	Vector3 oc = r.get_origin() - position;
 	float a = r.get_direction().dot(r.get_direction());
@@ -26,25 +26,21 @@ std::pair<const Intersectable*, float> Sphere::get_intersection(Ray r) const
 		float t1 = -b + sqrtf(discriminant) / a;
 		float t2 = -b - sqrtf(discriminant) / a;
 		if(t1 > T_MIN && t2 > T_MIN) {
-			return std::make_pair<const Intersectable*, float>(this, fminf(t1, t2));
+			float t = fminf(t1, t2);
+			return Hit(true, material, get_normal(r.get_point(t)), t);
 		}
 		if (t2 < FLT_MAX && t2 > T_MIN) {
-			return std::make_pair<const Intersectable*, float>(this, static_cast<float>(t2));
+			return Hit(true, material, get_normal(r.get_point(t2)), t2);
 		}
 		if (t1 < FLT_MAX && t1 > T_MIN) {
-			return std::make_pair<const Intersectable*, float>(this, static_cast<float>(t1));
+			return Hit(true, material, get_normal(r.get_point(t1)), t1);
 		}
 	}
-	return std::make_pair<Intersectable*, float>(nullptr, 0.0f);
+	return Hit();
 }
 
 
 Vector3 Sphere::get_normal(Vector3 point) const
 {
-	return (point - position) / radius;
-}
-
-AxisAlignedBoundingBox Sphere::get_bounding_box() const
-{
-	return bounding_box;
+	return (point - radius).unit();
 }

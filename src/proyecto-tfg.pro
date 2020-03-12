@@ -22,6 +22,7 @@ SOURCES += \
     geometry/Entity.cpp \
     geometry/Hit.cpp \
     geometry/Intersectable.cpp \
+    geometry/Scatterer.cpp \
     geometry/Scene.cpp \
     geometry/Sphere.cpp \
     geometry/mesh/MeshLoader.cpp \
@@ -47,6 +48,7 @@ HEADERS += \
     geometry/Entity.h \
     geometry/Hit.h \
     geometry/Intersectable.h \
+    geometry/Scatterer.h \
     geometry/Scene.h \
     geometry/Sphere.h \
     geometry/mesh/Mesh.h \

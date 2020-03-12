@@ -5,29 +5,31 @@
 #include <math/Vector3.h>
 #include <geometry/Entity.h>
 #include <geometry/Intersectable.h>
+#include <geometry/Scatterer.h>
+#include <geometry/mesh/Triangle.h>
 #include <geometry/BVH/AxisAlignedBoundingBox.h>
+#include <geometry/BVH/BVH.h>
 
-class Mesh : public Entity, public Intersectable
+class Mesh : public Entity, public Intersectable, public Scatterer
 {
 public:
-	Mesh();
+	Mesh(std::vector<Triangle>& triangles);
 	~Mesh() override;
-
-	void add_vertex(Vector3 vertex);
-	void add_triangle(int v0, int v1, int v2);
 
 	// TODO: override the Entity interface to calculate the position as
 	// mean of the vertices' positions
 
 	// Intersectable interface
-	std::pair<const Intersectable*, float> get_intersection(Ray ray) const override;
+	Hit get_intersection(Ray ray) const override;
 	AxisAlignedBoundingBox get_bounding_box() const override;
+
+	// Scatterer interface
 	Vector3 get_normal(Vector3 point) const override;
 
 private:
 	// The representation is a simple Indexed Triangle List
 	// The vertices are stored without repetition (some triangles may share vertices)
 	// In another list, indices to the vertex list are stored. These are what define the triangles
-	std::vector<Vector3> vertices;
-	std::vector<int> triangles;
+	std::vector<Triangle> triangles;
+	BVH* tri_hierarchy;
 };

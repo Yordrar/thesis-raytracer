@@ -1,5 +1,7 @@
 #include "Camera.h"
 
+#include <geometry/Scatterer.h>
+
 Camera::Camera(Vector3 position, Vector3 direction, int width, int height, float vertical_fov)
 	: position(position),
 	  direction(direction),
@@ -27,12 +29,11 @@ Vector3 Camera::get_color(float x, float y, BVH intersectables) const
 Vector3 Camera::shoot_ray(Ray r, BVH intersectables, int depth) const
 {
 	Vector3 color;
-	std::pair<const Intersectable*, float> intersection = intersectables.get_intersection(r);
-	const Intersectable* intersected = intersection.first;
-	float t = intersection.second;
-	if(intersected) {
-		Material* material = intersected->get_material();
-		Ray new_ray = material->scatter(r, t, intersected->get_normal(r.get_point(t)));
+	Hit intersection = intersectables.get_intersection(r);
+	if(intersection.is_hit()) {
+		float t = intersection.get_t();
+		Material* material = intersection.get_material();
+		Ray new_ray = material->scatter(r, t, intersection.get_normal());
 		if(depth < MAX_DEPTH)
 			color = material->get_albedo() / 255.0f * shoot_ray(new_ray, intersectables, depth+1);
 		else

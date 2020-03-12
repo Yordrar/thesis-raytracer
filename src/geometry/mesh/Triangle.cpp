@@ -26,7 +26,7 @@ Vector3 Triangle::get_normal(Vector3 point) const
 	return normal;
 }
 
-std::pair<const Intersectable*, float> Triangle::get_intersection(Ray ray) const
+Hit Triangle::get_intersection(Ray ray) const
 {
 	// Möller-Trumbore algorithm
 	Vector3 h, s, q;
@@ -34,22 +34,22 @@ std::pair<const Intersectable*, float> Triangle::get_intersection(Ray ray) const
 	h = ray.get_direction().cross(edge02);
 	a = edge01.dot(h);
 	if(Math::Float_Eq(a, 0.0f))
-		return std::make_pair(nullptr, 0.0f); // This ray is parallel to this triangle.
+		return Hit(); // This ray is parallel to this triangle.
 	f = 1.0f/a;
 	s = ray.get_origin() - v0;
 	u = f * s.dot(h);
 	if (u < 0.0f || u > 1.0f)
-		return std::make_pair(nullptr, 0.0f);
+		return Hit();
 	q = s.cross(edge01);
 	v = f * ray.get_direction().dot(q);
 	if (v < 0.0f || u + v > 1.0f)
-		return std::make_pair(nullptr, 0.0f);
+		return Hit();
 	float t = f * edge02.dot(q);
-	if (!Math::Float_Eq(t, 0.0f)) {
-		return std::make_pair(dynamic_cast<const Intersectable*>(this), t); // There is an intersection
+	if (t > 0.0001f && !Math::Float_Eq(t, 0.0f)) {
+		return Hit(true, material, get_normal(Vector3()), t); // There is an intersection
 	}
 	else // The ray is contained in the triangle
-		return std::make_pair(nullptr, 0.0f);
+		return Hit();
 }
 
 

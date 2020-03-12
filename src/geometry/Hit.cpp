@@ -1,14 +1,10 @@
 #include "Hit.h"
 
-Hit::Hit()
-{
-
-}
-
-Hit::Hit(Intersectable* i, float t, Material* m)
-	: intersectable(i),
-	  t(t),
-	  material(m)
+Hit::Hit(bool hit, Material* m, Vector3 n, float t)
+	: hit(hit),
+	  material(m),
+	  normal(n),
+	  t(t)
 {
 
 }

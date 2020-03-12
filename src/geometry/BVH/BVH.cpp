@@ -61,7 +61,7 @@ int box_z_compare(const void* a, const void* b) {
 
 BVH::BVH(std::vector<Intersectable*> intersectables, int num_elem)
 {
-	int axis = static_cast<int>(Math::Randf()*3);
+	int axis = static_cast<int>(Math::Randf()*3.0f);
 
 	switch(axis) {
 	case 0:
@@ -76,19 +76,22 @@ BVH::BVH(std::vector<Intersectable*> intersectables, int num_elem)
 	}
 
 	if (num_elem == 1) {
-		left = right = intersectables[0];
+		left = intersectables[0];
+		right = intersectables[0];
 	}
 	else if (num_elem == 2) {
 		left = intersectables[0];
 		right = intersectables[1];
 	}
 	else {
-		left = new BVH(intersectables, num_elem/2);
+		size_t half_size = intersectables.size() / 2;
+		auto half = intersectables.begin() + half_size;
 
-		auto first = intersectables.begin() + num_elem/2;
-		auto last = intersectables.end();
-		std::vector<Intersectable*> inter(first, last);
-		right = new BVH(inter, num_elem - num_elem/2);
+		std::vector<Intersectable*> left_half(intersectables.begin(), half);
+		left = new BVH(left_half, static_cast<int>(left_half.size()));
+
+		std::vector<Intersectable*> right_half(half, intersectables.end());
+		right = new BVH(right_half, static_cast<int>(right_half.size()));
 	}
 
 	AxisAlignedBoundingBox box_left = left->get_bounding_box();
@@ -111,29 +114,26 @@ BVH::~BVH()
 	if(r) delete r;
 }
 
-std::pair<const Intersectable*, float> BVH::get_intersection(Ray ray) const
+Hit BVH::get_intersection(Ray ray) const
 {
-	if(bounding_box.hit(ray, FLT_MIN, FLT_MAX)) {
-		std::pair<const Intersectable*, float> hit_left = left->get_intersection(ray);
-		if(hit_left.first) {
+	if(bounding_box.hit(ray, 0.01f, FLT_MAX)) {
+		if(left == right) {
+			return left->get_intersection(ray);
+		}
+		Hit hit_left = left->get_intersection(ray);
+		Hit hit_right = right->get_intersection(ray);
+		if(hit_left.is_hit() && hit_right.is_hit()) {
+			if(hit_left.get_t() <= hit_right.get_t()) {
+				return hit_left;
+			}
+			return hit_right;
+		}
+		else if (hit_left.is_hit()) {
 			return hit_left;
 		}
-		std::pair<const Intersectable*, float> hit_right = right->get_intersection(ray);
-		if (hit_right.first) {
+		else if (hit_right.is_hit()) {
 			return hit_right;
 		}
 	}
-	return std::make_pair(nullptr, 0.0f);
-}
-
-
-Vector3 BVH::get_normal(Vector3 point) const
-{
-	return Vector3(); // BVHs don't have normals
-}
-
-
-AxisAlignedBoundingBox BVH::get_bounding_box() const
-{
-	return bounding_box;
+	return Hit();
 }

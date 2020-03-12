@@ -35,13 +35,6 @@ bool AxisAlignedBoundingBox::hit(Ray ray, float tmin, float tmax) const
 
 AxisAlignedBoundingBox AxisAlignedBoundingBox::surrounding_box(AxisAlignedBoundingBox box0, AxisAlignedBoundingBox box1)
 {
-	Vector3 min_corner(fminf(box0.get_min_corner().get_x(), box1.get_min_corner().get_x()),
-				fminf(box0.get_min_corner().get_y(), box1.get_min_corner().get_y()),
-				fminf(box0.get_min_corner().get_z(), box1.get_min_corner().get_z()));
-
-	Vector3 max_corner(fmaxf(box0.get_max_corner().get_x(), box1.get_max_corner().get_x()),
-				fmaxf(box0.get_max_corner().get_y(), box1.get_max_corner().get_y()),
-				fmaxf(box0.get_max_corner().get_z(), box1.get_max_corner().get_z()));
-
-	return AxisAlignedBoundingBox(min_corner, max_corner);
+	return AxisAlignedBoundingBox(box0.get_min_corner().min(box1.get_min_corner()),
+								  box0.get_max_corner().max(box1.get_max_corner()));
 }
