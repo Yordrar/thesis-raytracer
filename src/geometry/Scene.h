@@ -18,13 +18,13 @@ public:
 
 	inline std::vector<Intersectable*> get_entities() const {return intersectables;}
 
+	inline Camera get_camera() const {return camera;}
 	inline void set_camera(Camera cam) {camera = cam;}
 
 	inline void add_intersectable(Intersectable* e) {intersectables.push_back(e);}
 	Intersectable* get_intersectable(int index) const;
 	void remove_intersectable(Intersectable* e);
-
-	Framebuffer render(int n_samples) const;
+	inline std::vector<Intersectable*> get_intersectables() const {return intersectables;}
 
 private:
 	std::vector<Intersectable*> intersectables;

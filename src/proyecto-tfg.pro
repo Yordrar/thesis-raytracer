@@ -39,6 +39,8 @@ SOURCES += \
     math/Quaternion.cpp \
     math/Ray.cpp \
     math/Vector3.cpp \
+    renderer/CPURenderer.cpp \
+    renderer/EditModeRenderer.cpp \
     view/MainWindow.cpp
 
 HEADERS += \
@@ -64,6 +66,8 @@ HEADERS += \
     math/Quaternion.h \
     math/Ray.h \
     math/Vector3.h \
+    renderer/CPURenderer.h \
+    renderer/EditModeRenderer.h \
     view/MainWindow.h
 
 FORMS += \
@@ -78,3 +82,5 @@ QMAKE_CXXFLAGS += -march=native -fopenmp
 QMAKE_LFLAGS += -fopenmp
 INCLUDEPATH += "../deps/opencl/include" "../deps/assimp/include"
 LIBS += -static -L"../deps/opencl/lib" -L"../deps/assimp/lib" -lOpenCL -lassimp -lIrrXML -lzlibstatic
+
+DISTFILES +=

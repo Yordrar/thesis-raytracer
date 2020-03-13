@@ -2,6 +2,9 @@
 
 #include <geometry/mesh/Triangle.h>
 
+#include <chrono>
+#include <iostream>
+
 Mesh::Mesh(std::vector<Triangle>& triangles)
 {
 	this->triangles = triangles;

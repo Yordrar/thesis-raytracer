@@ -116,7 +116,7 @@ BVH::~BVH()
 
 Hit BVH::get_intersection(Ray ray) const
 {
-	if(bounding_box.hit(ray, 0.01f, FLT_MAX)) {
+	if(bounding_box.hit(ray, 0.001f, FLT_MAX)) {
 		if(left == right) {
 			return left->get_intersection(ray);
 		}

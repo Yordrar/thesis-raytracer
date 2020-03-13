@@ -18,7 +18,8 @@ public:
 	inline int get_width() const {return width;}
 	inline int get_height() const {return height;}
 
-	Vector3 get_color(float x, float y, const BVH intersectables) const;
+	Vector3 get_color(float x, float y, const BVH& intersectables) const;
+	Vector3 get_color_edit_mode(float x, float y, const BVH& intersectables) const;
 
 private:
 	Vector3 position, direction;
@@ -27,6 +28,6 @@ private:
 	Vector3 upper_left_corner;
 
 
-	Vector3 shoot_ray(Ray r, const BVH intersectables, int depth) const ;
+	Vector3 shoot_ray(Ray r, const BVH& intersectables, int depth) const ;
 };
 

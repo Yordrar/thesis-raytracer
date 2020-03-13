@@ -45,7 +45,7 @@ Hit Triangle::get_intersection(Ray ray) const
 	if (v < 0.0f || u + v > 1.0f)
 		return Hit();
 	float t = f * edge02.dot(q);
-	if (t > 0.0001f && !Math::Float_Eq(t, 0.0f)) {
+	if (t > 0.001f && !Math::Float_Eq(t, 0.0f)) {
 		return Hit(true, material, get_normal(Vector3()), t); // There is an intersection
 	}
 	else // The ray is contained in the triangle

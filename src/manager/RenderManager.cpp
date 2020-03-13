@@ -12,6 +12,9 @@
 #include <material/Metal.h>
 #include <material/Dielectric.h>
 
+#include <renderer/CPURenderer.h>
+#include <renderer/EditModeRenderer.h>
+
 RenderManager* RenderManager::instance = nullptr;
 
 RenderManager::RenderManager()
@@ -59,5 +62,6 @@ Framebuffer RenderManager::render(int width, int height, int n_samples)
 	m.set_material(new Lambertian());
 	escena.add_intersectable(&m);
 
-	return escena.render(n_samples);
+	return EditModeRenderer::render(escena);
+	//return CPURenderer::render(escena, n_samples);
 }
