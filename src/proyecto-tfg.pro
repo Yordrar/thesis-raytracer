@@ -41,7 +41,8 @@ SOURCES += \
     math/Vector3.cpp \
     renderer/CPURenderer.cpp \
     renderer/EditModeRenderer.cpp \
-    view/MainWindow.cpp
+    view/MainWindow.cpp \
+    view/Viewport.cpp
 
 HEADERS += \
     geometry/BVH/AxisAlignedBoundingBox.h \
@@ -68,7 +69,8 @@ HEADERS += \
     math/Vector3.h \
     renderer/CPURenderer.h \
     renderer/EditModeRenderer.h \
-    view/MainWindow.h
+    view/MainWindow.h \
+    view/Viewport.h
 
 FORMS += \
     view/MainWindow.ui

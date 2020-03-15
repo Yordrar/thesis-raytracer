@@ -7,13 +7,10 @@
 Mesh MeshLoader::load_from_file(std::string file_path)
 {
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(file_path, aiProcess_CalcTangentSpace |
-											 aiProcess_Triangulate |
-											 aiProcess_JoinIdenticalVertices |
-											 aiProcess_GenNormals |
+	const aiScene* scene = importer.ReadFile(file_path, aiProcess_Triangulate |
 											 aiProcess_ValidateDataStructure |
-											 aiProcess_ImproveCacheLocality |
-											 aiProcess_SortByPType);
+											 aiProcess_ImproveCacheLocality  |
+											 aiProcess_FlipWindingOrder);
 	std::vector<Triangle> triangles;
 	if(scene && scene->HasMeshes()) {
 		aiMesh* mesh = scene->mMeshes[0];

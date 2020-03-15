@@ -21,4 +21,6 @@ public:
 	inline static float Randf() {return rand() / (RAND_MAX + 1.0f);}
 	inline static float Rad2Deg(float radians) {return radians * (180.0f/PI);}
 	inline static float Deg2Rad(float degrees) {return degrees * (PI/180.0f);}
+	inline static float Fast_Min(float a, float b) {return a < b ? a : b;}
+	inline static float Fast_Max(float a, float b) {return a > b ? a : b;}
 };

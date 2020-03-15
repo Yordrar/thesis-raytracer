@@ -5,19 +5,19 @@
 #include <chrono>
 #include <iostream>
 
-Mesh::Mesh(std::vector<Triangle>& triangles)
+Mesh::Mesh(std::vector<Triangle> triangles)
 {
 	this->triangles = triangles;
 	std::vector<Intersectable*> tris;
 	for(Triangle& t : this->triangles) {
 		tris.push_back(&t);
 	}
-	tri_hierarchy = new BVH(tris, static_cast<int>(tris.size()));
+	tri_hierarchy = new BVH(tris);
 }
 
 Mesh::~Mesh()
 {
-
+	delete tri_hierarchy;
 }
 
 Hit Mesh::get_intersection(Ray ray) const

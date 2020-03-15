@@ -9,10 +9,12 @@ class BVH : public Intersectable
 {
 public:
 	BVH();
-	BVH(std::vector<Intersectable*> intersectables, int num_elem);
+	BVH(std::vector<Intersectable*> intersectables);
 	~BVH() override;
 
 	Hit get_intersection(Ray ray) const override;
+
+	int count() const;
 
 private:
 	Intersectable* left;

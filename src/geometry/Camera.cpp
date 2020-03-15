@@ -33,8 +33,8 @@ Vector3 Camera::get_color_edit_mode(float x, float y, const BVH& intersectables)
 	float v = y / float(height);
 	Ray r(position, upper_left_corner + Vector3(u*plane_width, -v*plane_height, 0));
 	Hit intersection = intersectables.get_intersection(r);
-	if(intersection.is_hit()) {
-		return Vector3(Math::Map(r.get_direction().dot(intersection.get_normal()), -1.0f, 1.0f, 0.5f, 0.0f));
+	if(intersection.is_hit() && intersection.get_normal().dot(r.get_direction()) <= 0.0f) {
+		return Vector3(Math::Map(r.get_direction().dot(intersection.get_normal()), -1.0f, 0.0f, 0.5f, 0.0f));
 	}
 	return Vector3(DEFAULT_EDIT_MODE_BGND_COLOR);
 }

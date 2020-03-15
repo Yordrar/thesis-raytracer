@@ -13,7 +13,7 @@
 class Mesh : public Entity, public Intersectable, public Scatterer
 {
 public:
-	Mesh(std::vector<Triangle>& triangles);
+	Mesh(std::vector<Triangle> triangles);
 	~Mesh() override;
 
 	// TODO: override the Entity interface to calculate the position as

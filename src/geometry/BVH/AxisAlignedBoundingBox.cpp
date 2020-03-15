@@ -25,9 +25,9 @@ bool AxisAlignedBoundingBox::hit(Ray ray, float tmin, float tmax) const
 		float t1 = (max_corner[i] - ray_origin[i]) * invD;
 		if(invD < 0.0f)
 			std::swap(t0, t1);
-		tmin = t0 > tmin ? t0 : tmin;
-		tmax = t1 < tmax ? t1 : tmax;
-		if (tmax <= tmin)
+		tmin = Math::Fast_Max(t0, tmin);
+		tmax = Math::Fast_Min(t1, tmax);
+		if (tmax < tmin)
 			return false;
 	}
 	return true;

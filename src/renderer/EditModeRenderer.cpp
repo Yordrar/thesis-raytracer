@@ -14,7 +14,7 @@ Framebuffer EditModeRenderer::render(const Scene& scene)
 
 	Framebuffer framebuffer(width, height);
 
-	BVH hierarchy(intersectables, static_cast<int>(intersectables.size()));
+	BVH hierarchy(intersectables);
 
 	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 	#pragma omp parallel for collapse(2) schedule(dynamic) shared(framebuffer)
@@ -30,6 +30,8 @@ Framebuffer EditModeRenderer::render(const Scene& scene)
 	std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 	std::cout << "Scene rendered in " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms ";
 	std::cout << "(" << omp_get_max_threads() << " threads)" << std::endl;
+
+	Vector3 color = camera.get_color_edit_mode(307, 459, hierarchy);
 
 	return framebuffer;
 }

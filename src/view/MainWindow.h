@@ -2,6 +2,8 @@
 
 #include <QMainWindow>
 
+#include <view/Viewport.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -19,5 +21,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+	Viewport* viewport;
 };
 

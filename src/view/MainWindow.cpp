@@ -14,10 +14,14 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+	viewport = new Viewport(this);
+	viewport->setText("");
+	viewport->setMouseTracking(true);
 }
 
 MainWindow::~MainWindow()
 {
+	delete viewport;
     delete ui;
 }
 
@@ -30,7 +34,7 @@ void MainWindow::on_render_button_clicked()
 	int height = ui->centralwidget->findChild<QSpinBox*>("height")->value();
 	int n_samples = ui->centralwidget->findChild<QSpinBox*>("samples")->value();
 
-	QLabel* label = ui->centralwidget->findChild<QLabel*>("image");
+	QLabel* label = viewport;//ui->centralwidget->findChild<QLabel*>("image");
 	label->setGeometry(label->geometry().x(), label->geometry().y(), width, height);
 	Framebuffer frame = RenderManager::get_manager()->render(width,
 															 height,
