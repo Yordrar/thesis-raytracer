@@ -81,6 +81,11 @@ TEST(Vector3, MultWithScalar) {
     EXPECT_EQ(v2.get_x(), 5);
     EXPECT_EQ(v2.get_y(), 10);
     EXPECT_EQ(v2.get_z(), 15);
+
+	Vector3 v3 = 5 * v1;
+	EXPECT_EQ(v3.get_x(), 25);
+	EXPECT_EQ(v3.get_y(), 50);
+	EXPECT_EQ(v3.get_z(), 75);
 }
 
 TEST(Vector3, DivWithScalar) {
@@ -94,6 +99,12 @@ TEST(Vector3, DivWithScalar) {
     EXPECT_EQ(v2.get_x(), static_cast<float>(1/5.0));
     EXPECT_EQ(v2.get_y(), static_cast<float>(2/5.0));
     EXPECT_EQ(v2.get_z(), static_cast<float>(3/5.0));
+
+
+	Vector3 v3 = 5.0 / v1;
+	EXPECT_EQ(v3.get_x(), static_cast<float>(5.0f/v1.get_x()));
+	EXPECT_EQ(v3.get_y(), static_cast<float>(5.0f/v1.get_y()));
+	EXPECT_EQ(v3.get_z(), static_cast<float>(5.0f/v1.get_z()));
 }
 
 TEST(Vector3, ConvertToUnitVector) {
@@ -114,14 +125,23 @@ TEST(Vector3, AngleBetweenOtherVector) {
 
 TEST(Vector3, Equality) {
     Vector3 v1(1, 2, 3), v2(4, 5, 6), v3(1, 2, 3);
-    ASSERT_TRUE(v1 == v3);
-    ASSERT_FALSE(v1 == v2);
-    ASSERT_FALSE(v3 == v2);
+	EXPECT_TRUE(v1 == v3);
+	EXPECT_FALSE(v1 == v2);
+	EXPECT_FALSE(v3 == v2);
 }
 
 TEST(Vector3, Inequality) {
 	Vector3 v1(1, 2, 3), v2(4, 5, 6), v3(1, 2, 3);
-	ASSERT_FALSE(v1 != v3);
-	ASSERT_TRUE(v1 != v2);
-	ASSERT_TRUE(v3 != v2);
+	EXPECT_FALSE(v1 != v3);
+	EXPECT_TRUE(v1 != v2);
+	EXPECT_TRUE(v3 != v2);
+}
+
+TEST(Vector3, Indexing) {
+	Vector3 v1(1, 2, 3);
+	EXPECT_EQ(v1[0], 1);
+	EXPECT_EQ(v1[1], 2);
+	EXPECT_EQ(v1[2], 3);
+	EXPECT_EQ(v1[3], 0);
+	EXPECT_EQ(v1[-1], 0);
 }

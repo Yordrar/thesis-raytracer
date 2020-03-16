@@ -22,11 +22,11 @@ Hit Sphere::get_intersection(Ray r) const
 	float b = oc.dot(r.get_direction());
 	float c = oc.dot(oc) - radius*radius;
 	float discriminant = b*b - a*c;
-	if (discriminant > 0) {
+	if (discriminant > 0.0f) {
 		float t1 = -b + sqrtf(discriminant) / a;
 		float t2 = -b - sqrtf(discriminant) / a;
 		if(t1 > T_MIN && t2 > T_MIN) {
-			float t = fminf(t1, t2);
+			float t = Math::Fast_Min(t1, t2);
 			return Hit(true, material, get_normal(r.get_point(t)), t);
 		}
 		if (t2 < FLT_MAX && t2 > T_MIN) {
@@ -42,5 +42,5 @@ Hit Sphere::get_intersection(Ray r) const
 
 Vector3 Sphere::get_normal(Vector3 point) const
 {
-	return (point - radius).unit();
+	return (point - position).unit();
 }

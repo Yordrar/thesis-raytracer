@@ -31,7 +31,5 @@ Framebuffer EditModeRenderer::render(const Scene& scene)
 	std::cout << "Scene rendered in " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms ";
 	std::cout << "(" << omp_get_max_threads() << " threads)" << std::endl;
 
-	Vector3 color = camera.get_color_edit_mode(307, 459, hierarchy);
-
 	return framebuffer;
 }

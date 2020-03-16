@@ -27,7 +27,6 @@ private:
 	float vfov, plane_width, plane_height;
 	Vector3 upper_left_corner;
 
-
 	Vector3 shoot_ray(Ray r, const BVH& intersectables, int depth) const ;
 };
 

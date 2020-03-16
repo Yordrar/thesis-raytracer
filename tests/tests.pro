@@ -10,11 +10,17 @@ INCLUDEPATH += ../deps/gtest/include ../src
 LIBS += -L../deps/gtest/lib -static -lgtest -lgtest_main
 
 SOURCES += \
+        ../src/geometry/BVH/AxisAlignedBoundingBox.cpp \
+        ../src/geometry/BVH/BVH.cpp \
         ../src/geometry/Camera.cpp \
         ../src/geometry/Entity.cpp \
+        ../src/geometry/Hit.cpp \
         ../src/geometry/Intersectable.cpp \
+        ../src/geometry/Scatterer.cpp \
         ../src/geometry/Scene.cpp \
         ../src/geometry/Sphere.cpp \
+        ../src/geometry/mesh/Mesh.cpp \
+        ../src/geometry/mesh/Triangle.cpp \
         ../src/image/Framebuffer.cpp \
         ../src/material/Dielectric.cpp \
         ../src/material/Lambertian.cpp \
@@ -28,15 +34,23 @@ SOURCES += \
         geometry/Scene_test.cpp \
         geometry/Sphere_test.cpp \
         math/Math_test.cpp \
+        math/Quaternion_test.cpp \
         math/Ray_test.cpp \
         math/Vector3_test.cpp
 
 HEADERS += \
+    ../src/geometry/BVH/AxisAlignedBoundingBox.h \
+    ../src/geometry/BVH/BVH.h \
     ../src/geometry/Camera.h \
     ../src/geometry/Entity.h \
+    ../src/geometry/Hit.h \
     ../src/geometry/Intersectable.h \
+    ../src/geometry/Scatterer.h \
     ../src/geometry/Scene.h \
     ../src/geometry/Sphere.h \
+    ../src/geometry/mesh/Mesh.h \
+    ../src/geometry/mesh/MeshLoader.h \
+    ../src/geometry/mesh/Triangle.h \
     ../src/image/Framebuffer.h \
     ../src/material/Dielectric.h \
     ../src/material/Lambertian.h \

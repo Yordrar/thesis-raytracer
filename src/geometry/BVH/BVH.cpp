@@ -113,10 +113,8 @@ Hit BVH::get_intersection(Ray ray) const
 		}
 
 		Hit hit_right = right->get_intersection(ray);
-		if(hit_right.is_hit()) {
-			if(hit_right.get_t() < hit_left.get_t()) {
-				return hit_right;
-			}
+		if(hit_right.is_hit() && hit_right.get_t() < hit_left.get_t()) {
+			return hit_right;
 		}
 		return hit_left;
 	}
@@ -125,9 +123,9 @@ Hit BVH::get_intersection(Ray ray) const
 
 int BVH::count() const
 {
-	if(left == right) return 1;
 	BVH* l = dynamic_cast<BVH*>(left);
 	BVH* r = dynamic_cast<BVH*>(right);
 	if(l && r) return l->count() + r->count();
-	else if (!l && !r) return 2;
+	else if (!l && !r && l != r) return 2;
+	return 1;
 }

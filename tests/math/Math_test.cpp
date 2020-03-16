@@ -34,7 +34,7 @@ TEST(Math, Map) {
 }
 
 TEST(Math, Randf) {
-	for(int i = 0; i < 10; i++) {
+	for(int i = 0; i < 100; i++) {
 		float rnd = Math::Randf();
 		EXPECT_GE(rnd, 0.0f);
 		EXPECT_LT(rnd, 1.0f);
@@ -59,4 +59,22 @@ TEST(Math, Rad2Deg) {
 	EXPECT_TRUE(Math::Float_Eq(Math::Rad2Deg(2*Math::PI), 360));
 	EXPECT_TRUE(Math::Float_Eq(Math::Rad2Deg(Math::PI/4.0f), 45));
 	EXPECT_TRUE(Math::Float_Eq(Math::Rad2Deg(3*Math::PI/4.0f), 135));
+}
+
+TEST(Math, FastMin) {
+	EXPECT_EQ(Math::Fast_Min(0.0f, 0.0f), 0.0f);
+	EXPECT_EQ(Math::Fast_Min(0.0f, 1.0f), 0.0f);
+	EXPECT_EQ(Math::Fast_Min(1.0f, 0.0f), 0.0f);
+	EXPECT_EQ(Math::Fast_Min(0.0f, FLT_MAX), 0.0f);
+	EXPECT_EQ(Math::Fast_Min(0.0f, FLT_MIN), 0.0f);
+	EXPECT_EQ(Math::Fast_Min(FLT_MAX, FLT_MIN), FLT_MIN);
+}
+
+TEST(Math, FastMax) {
+	EXPECT_EQ(Math::Fast_Max(0.0f, 0.0f), 0.0f);
+	EXPECT_EQ(Math::Fast_Max(0.0f, 1.0f), 1.0f);
+	EXPECT_EQ(Math::Fast_Max(1.0f, 0.0f), 1.0f);
+	EXPECT_EQ(Math::Fast_Max(0.0f, FLT_MAX), FLT_MAX);
+	EXPECT_EQ(Math::Fast_Max(0.0f, FLT_MIN), FLT_MIN);
+	EXPECT_EQ(Math::Fast_Max(FLT_MAX, FLT_MIN), FLT_MAX);
 }

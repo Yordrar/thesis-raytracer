@@ -21,8 +21,8 @@ public:
 	inline float get_magnitude() const {return sqrtf(x*x + y*y + z*z);}
 	inline float get_squared_magnitude() const {return x*x + y*y + z*z;}
 
-	inline Vector3 min(Vector3 other) const {return Vector3(fminf(x, other.x), fminf(y, other.y), fminf(z, other.z));}
-	inline Vector3 max(Vector3 other) const {return Vector3(fmaxf(x, other.x), fmaxf(y, other.y), fmaxf(z, other.z));}
+	inline Vector3 min(Vector3 other) const {return Vector3(Math::Fast_Min(x, other.x), Math::Fast_Min(y, other.y), Math::Fast_Min(z, other.z));}
+	inline Vector3 max(Vector3 other) const {return Vector3(Math::Fast_Max(x, other.x), Math::Fast_Max(y, other.y), Math::Fast_Max(z, other.z));}
 
 	Vector3 unit() const;
 	inline float dot(const Vector3 other) const {return x*other.x + y*other.y + z*other.z;}
@@ -69,5 +69,5 @@ inline Vector3 operator*(const float& val, const Vector3& vec) {
 }
 
 inline Vector3 operator/(const float& val, const Vector3& vec) {
-	return vec/val;
+	return Vector3(val/vec.get_x(), val/vec.get_y(), val/vec.get_z());
 }

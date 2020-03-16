@@ -30,8 +30,12 @@ public:
 	Quaternion get_inverse() const;
 
 	// Applies the rotation represented by this quaternion
-	// to a point (a pure quaternion)
-	Quaternion apply(Vector3 point) const;
+	// to a point or vector (a pure quaternion)
+	Vector3 apply(Vector3 point) const;
+
+	// Applies the rotation represented by this quaternion
+	// to another quaternion
+	inline Quaternion apply(Quaternion other) const {return *this * other * get_inverse();}
 
 	// Interpolates this quaternion with another one
 	// using spherical interpolation

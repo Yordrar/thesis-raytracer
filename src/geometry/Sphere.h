@@ -17,8 +17,7 @@ public:
 	// Intersectable interface
 	Hit get_intersection(Ray ray) const override;
 
-	// Scatterer interface
-	Vector3 get_normal(Vector3 point) const override;
+	Vector3 get_normal(Vector3 point) const;
 
 private:
 	float radius;

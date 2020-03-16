@@ -33,8 +33,3 @@ AxisAlignedBoundingBox Mesh::get_bounding_box() const
 {
 	return tri_hierarchy->get_bounding_box();
 }
-
-Vector3 Mesh::get_normal(Vector3 point) const
-{
-	return Vector3(); // Meshes don't have normals
-}

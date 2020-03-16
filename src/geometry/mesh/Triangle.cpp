@@ -19,11 +19,6 @@ Triangle::~Triangle()
 
 }
 
-Vector3 Triangle::get_normal(Vector3 point) const
-{
-	return normal;
-}
-
 Hit Triangle::get_intersection(Ray ray) const
 {
 	// Möller-Trumbore algorithm
@@ -44,7 +39,7 @@ Hit Triangle::get_intersection(Ray ray) const
 		return Hit();
 	float t = invDet * edge02.dot(qvec);
 	if (t > 0.001f) {
-		return Hit(true, material, normal, t); // There is an intersection
+		return Hit(true, nullptr, normal, t); // There is an intersection
 	}
 	else // The ray is contained in the triangle
 		return Hit();

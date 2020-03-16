@@ -17,7 +17,7 @@ TEST(Scene, Constructors) {
 	}
 }
 
-TEST(Scene, AddEntity) {
+TEST(Scene, AddIntersectable) {
 	Sphere sph1(Vector3(), 3);
 	Scene s1{&sph1, &sph1, &sph1, &sph1};
 	EXPECT_EQ(s1.get_entities().size(), 4);
@@ -26,7 +26,7 @@ TEST(Scene, AddEntity) {
 	EXPECT_EQ(s1.get_entities().size(), 5);
 }
 
-TEST(Scene, GetEntity) {
+TEST(Scene, GetIntersectable) {
 	Sphere sph1(Vector3(), 3);
 	Scene s1{&sph1, &sph1, &sph1, &sph1};
 	EXPECT_EQ(s1.get_intersectable(0), &sph1);
@@ -34,7 +34,7 @@ TEST(Scene, GetEntity) {
 	EXPECT_EQ(s1.get_intersectable(-1), nullptr);
 }
 
-TEST(Scene, RemoveEntity) {
+TEST(Scene, RemoveIntersectable) {
 	Sphere sph1(Vector3(), 3);
 	Scene s1{&sph1, &sph1, &sph1, &sph1};
 	EXPECT_EQ(s1.get_entities().size(), 4);

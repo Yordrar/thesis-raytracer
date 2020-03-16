@@ -35,18 +35,18 @@ Quaternion Quaternion::get_inverse() const
 	return Quaternion(-imaginary/squared_magnitude, w/squared_magnitude);
 }
 
-Quaternion Quaternion::apply(Vector3 point) const
+Vector3 Quaternion::apply(Vector3 point) const
 {
 	Quaternion p(0, point);
-	return *this * p * get_inverse();
+	return (*this * p * get_inverse()).get_imaginary();
 }
 
 Quaternion Quaternion::slerp(Quaternion other, float t) const
 {
 	float cos_angle = this->unit().get_imaginary().dot(other.unit().get_imaginary());
-	float angle = acos(cos_angle);
-	float sin_angle = sin(angle);
-	return (*this)*(sin((1-t)*angle)/sin_angle) + other*(sin(t*angle)/sin_angle);
+	float angle = acosf(cos_angle);
+	float sin_angle = sinf(angle);
+	return (*this)*(sinf((1-t)*angle)/sin_angle) + other*(sinf(t*angle)/sin_angle);
 }
 
 Quaternion Quaternion::operator*(Quaternion other) const

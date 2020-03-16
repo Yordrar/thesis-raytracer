@@ -23,9 +23,6 @@ public:
 	Hit get_intersection(Ray ray) const override;
 	AxisAlignedBoundingBox get_bounding_box() const override;
 
-	// Scatterer interface
-	Vector3 get_normal(Vector3 point) const override;
-
 private:
 	// The representation is a simple Indexed Triangle List
 	// The vertices are stored without repetition (some triangles may share vertices)
