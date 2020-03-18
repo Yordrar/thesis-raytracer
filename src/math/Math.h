@@ -9,7 +9,7 @@ public:
 	Math() = delete;
 	~Math() = delete;
 
-	static constexpr float PI = 3.14159265358979323846f;
+	static constexpr float PI = 3.141592653589793115997963468544185161f;
 
 	inline static bool Float_Eq(float a, float b) {return fabsf(a-b) <= FLT_EPSILON;}
 	inline static int Clamp(int value, int min_value, int max_value) {return static_cast<int>(Clampf(value, min_value, max_value));}
@@ -19,8 +19,8 @@ public:
 	}
 	// Returns a number in the range [0, 1)
 	inline static float Randf() {return rand() / (RAND_MAX + 1.0f);}
-	inline static float Rad2Deg(float radians) {return radians * (180.0f/PI);}
-	inline static float Deg2Rad(float degrees) {return degrees * (PI/180.0f);}
+	inline static float Rad2Deg(float radians) {return radians * 180.0f/PI;}
+	inline static float Deg2Rad(float degrees) {return degrees * PI/180.0f;}
 	inline static float Fast_Min(float a, float b) {return a < b ? a : b;}
 	inline static float Fast_Max(float a, float b) {return a > b ? a : b;}
 };

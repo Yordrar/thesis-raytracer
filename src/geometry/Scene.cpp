@@ -19,7 +19,7 @@ Scene::Scene(std::initializer_list<Intersectable*> entitites)
 	}
 }
 
-Scene::Scene(Camera c)
+Scene::Scene(Camera* c)
 {
 	camera = c;
 }

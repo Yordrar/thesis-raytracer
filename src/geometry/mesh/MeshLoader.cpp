@@ -4,7 +4,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-Mesh MeshLoader::load_from_file(std::string file_path)
+Mesh* MeshLoader::load_from_file(std::string file_path)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(file_path, aiProcess_Triangulate |
@@ -33,5 +33,5 @@ Mesh MeshLoader::load_from_file(std::string file_path)
 			}
 		}
 	}
-	return Mesh(triangles);
+	return new Mesh(triangles);
 }

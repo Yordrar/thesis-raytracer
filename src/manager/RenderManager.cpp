@@ -19,7 +19,13 @@ RenderManager* RenderManager::instance = nullptr;
 
 RenderManager::RenderManager()
 {
+	cam = new Camera();
+	cam->translate(0, 0, 4);
+	escena.set_camera(cam);
 
+	Mesh* m = MeshLoader::load_from_file("C:\\Users\\juana\\Desktop\\suzanne.obj");
+	m->set_material(new Lambertian());
+	escena.add_intersectable(m);
 }
 
 RenderManager::~RenderManager()
@@ -54,14 +60,22 @@ Framebuffer RenderManager::render(int width, int height, int n_samples)
 
 	Scene escena{&s1, &s2, &s3, &s4};*/
 
-	Scene escena;
-	Camera c(Vector3(0, 0, 4), Vector3(0, 0, -1), width, height, 45);
-	escena.set_camera(c);
-
-	Mesh m = MeshLoader::load_from_file("C:\\Users\\juana\\Desktop\\suzanne.obj");
-	m.set_material(new Lambertian());
-	escena.add_intersectable(&m);
+	cam->set_width_and_height(width, height);
 
 	return EditModeRenderer::render(escena);
 	//return CPURenderer::render(escena, n_samples);
+}
+
+void RenderManager::move_camera(float delta_x, float delta_y, float delta_z)
+{
+	cam->translate(delta_x, delta_y, delta_z);
+}
+
+void RenderManager::rotate_camera(float x0, float y0, float x1, float y1)
+{
+	Quaternion rotation_pitch = Quaternion::create_rotation(-(y1-y0), cam->get_right());
+	Quaternion rotation_yaw = Quaternion::create_rotation(-(x1-x0), Vector3(0, 1, 0));
+	Quaternion rotation_combined = rotation_yaw*rotation_pitch;
+	cam->rotate(rotation_combined);
+	escena.set_camera(cam);
 }

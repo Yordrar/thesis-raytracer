@@ -6,11 +6,11 @@
 
 Framebuffer CPURenderer::render(const Scene& scene, int n_samples)
 {
-	Camera camera = scene.get_camera();
+	Camera* camera = scene.get_camera();
 	auto intersectables = scene.get_intersectables();
 
-	int width = camera.get_width();
-	int height = camera.get_height();
+	int width = camera->get_width();
+	int height = camera->get_height();
 
 	Framebuffer framebuffer(width, height);
 
@@ -22,7 +22,7 @@ Framebuffer CPURenderer::render(const Scene& scene, int n_samples)
 		for(int i = 0; i < width; i++) {
 			Vector3 color;
 			for(int n = 0; n < n_samples; n++) {
-				color += camera.get_color(float(i+Math::Randf()), float(j+Math::Randf()), hierarchy);
+				color += camera->get_color(float(i+Math::Randf()), float(j+Math::Randf()), hierarchy);
 			}
 			color /= n_samples;
 			color = Vector3(sqrtf(color.get_x()), sqrtf(color.get_y()), sqrtf(color.get_z()));

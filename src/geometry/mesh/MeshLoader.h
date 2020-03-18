@@ -11,6 +11,6 @@ private:
 	~MeshLoader();
 
 public:
-	static Mesh load_from_file(std::string file_path);
+	static Mesh* load_from_file(std::string file_path);
 };
 

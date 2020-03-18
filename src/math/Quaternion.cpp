@@ -37,8 +37,8 @@ Quaternion Quaternion::get_inverse() const
 
 Vector3 Quaternion::apply(Vector3 point) const
 {
-	Quaternion p(0, point);
-	return (*this * p * get_inverse()).get_imaginary();
+	Quaternion p(0.0f, point);
+	return (*this * p * get_conjugate()).get_imaginary();
 }
 
 Quaternion Quaternion::slerp(Quaternion other, float t) const
@@ -49,10 +49,19 @@ Quaternion Quaternion::slerp(Quaternion other, float t) const
 	return (*this)*(sinf((1-t)*angle)/sin_angle) + other*(sinf(t*angle)/sin_angle);
 }
 
+Quaternion Quaternion::create_rotation(float angle, Vector3 axis)
+{
+	float angle_rad = Math::Deg2Rad(angle);
+	Vector3 v = axis.unit();
+	float w = cosf(angle_rad/2.0f);
+	v *= sinf(angle_rad/2.0f);
+	return Quaternion(w, v);
+}
+
 Quaternion Quaternion::operator*(Quaternion other) const
 {
 	Vector3 this_imaginary(x, y, z);
 	Vector3 other_imaginary = other.get_imaginary();
-	return Quaternion(w*other_imaginary + other.w*this_imaginary + this_imaginary.cross(other_imaginary),
-					  w*other.w - this_imaginary.dot(other_imaginary));
+	return Quaternion(w*other.w - this_imaginary.dot(other_imaginary),
+					  w*other_imaginary + other.w*this_imaginary + this_imaginary.cross(other_imaginary));
 }

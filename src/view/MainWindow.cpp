@@ -17,6 +17,12 @@ MainWindow::MainWindow(QWidget *parent)
 	viewport = new Viewport(this);
 	viewport->setText("");
 	viewport->setMouseTracking(true);
+	viewport->setGeometry(viewport->geometry().x(),
+						  viewport->geometry().y()+ui->menubar->height(),
+						  0,
+						  0);
+	connect(viewport, &Viewport::render, this, &MainWindow::on_render_button_clicked);
+	on_render_button_clicked();
 }
 
 MainWindow::~MainWindow()
@@ -34,11 +40,11 @@ void MainWindow::on_render_button_clicked()
 	int height = ui->centralwidget->findChild<QSpinBox*>("height")->value();
 	int n_samples = ui->centralwidget->findChild<QSpinBox*>("samples")->value();
 
-	QLabel* label = viewport;//ui->centralwidget->findChild<QLabel*>("image");
-	label->setGeometry(label->geometry().x(), label->geometry().y(), width, height);
-	Framebuffer frame = RenderManager::get_manager()->render(width,
-															 height,
-															 n_samples);
+	viewport->setGeometry(viewport->geometry().x(),
+						  viewport->geometry().y(),
+						  width,
+						  height);
+	Framebuffer frame = RenderManager::get_manager()->render(width, height, n_samples);
 	QImage image(width, height, QImage::Format_RGB888);
 	for (int j = 0; j < height; j++) {
 		for (int i = 0; i < width; i++) {
@@ -48,5 +54,5 @@ void MainWindow::on_render_button_clicked()
 											 static_cast<int>(color.get_z())));
 		}
 	}
-	label->setPixmap(QPixmap::fromImage(image));
+	viewport->setPixmap(QPixmap::fromImage(image));
 }

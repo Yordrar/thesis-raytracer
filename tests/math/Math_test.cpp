@@ -46,9 +46,19 @@ TEST(Math, Deg2Rad) {
 	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(90), Math::PI/2.0f));
 	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(180), Math::PI));
 	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(270), 3*Math::PI/2.0f));
+	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(315), 3*Math::PI/2.0f + Math::PI/4.0f));
 	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(360), 2*Math::PI));
 	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(45), Math::PI/4.0f));
 	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(135), 3*Math::PI/4.0f));
+
+
+	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(-90), -Math::PI/2.0f));
+	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(-180), -Math::PI));
+	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(-270), -3*Math::PI/2.0f));
+	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(-315), -3*Math::PI/2.0f - Math::PI/4.0f));
+	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(-360), -2*Math::PI));
+	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(-45), -Math::PI/4.0f));
+	EXPECT_TRUE(Math::Float_Eq(Math::Deg2Rad(-135), -3*Math::PI/4.0f));
 }
 
 TEST(Math, Rad2Deg) {

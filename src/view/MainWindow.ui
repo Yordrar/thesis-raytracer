@@ -32,25 +32,6 @@
    <string>TFG</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="image">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>400</width>
-      <height>200</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QSpinBox" name="width">
     <property name="geometry">
      <rect>
@@ -226,7 +207,32 @@
      <height>20</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionNew_Scene"/>
+    <addaction name="actionOpen_Scene"/>
+    <addaction name="separator"/>
+    <addaction name="actionAdd_from_File"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
+  <action name="actionNew_Scene">
+   <property name="text">
+    <string>New Scene</string>
+   </property>
+  </action>
+  <action name="actionOpen_Scene">
+   <property name="text">
+    <string>Open File</string>
+   </property>
+  </action>
+  <action name="actionAdd_from_File">
+   <property name="text">
+    <string>Add from File</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
