@@ -25,8 +25,8 @@ SOURCES += \
     geometry/Scatterer.cpp \
     geometry/Scene.cpp \
     geometry/Sphere.cpp \
-    geometry/mesh/MeshLoader.cpp \
     geometry/mesh/Mesh.cpp \
+    geometry/mesh/MeshImporter.cpp \
     geometry/mesh/Triangle.cpp \
     image/Framebuffer.cpp \
     main.cpp \
@@ -55,7 +55,7 @@ HEADERS += \
     geometry/Scene.h \
     geometry/Sphere.h \
     geometry/mesh/Mesh.h \
-    geometry/mesh/MeshLoader.h \
+    geometry/mesh/MeshImporter.h \
     geometry/mesh/Triangle.h \
     image/Framebuffer.h \
     manager/RenderManager.h \

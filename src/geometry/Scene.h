@@ -13,7 +13,7 @@ class Scene
 {
 public:
 	Scene();
-	Scene(std::initializer_list<Intersectable*> intersectables);
+	Scene(const std::initializer_list<Intersectable*>& intersectables);
 	Scene(Camera* c);
 
 	inline std::vector<Intersectable*> get_entities() const {return intersectables;}

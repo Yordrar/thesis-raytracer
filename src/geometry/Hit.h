@@ -16,7 +16,7 @@ public:
 
 	inline void set_t(float new_t) {t = new_t;}
 	inline void set_material(Material* m) {material = m;}
-	inline void set_normal(Vector3 n) {normal = n;}
+	inline void set_normal(const Vector3& n) {normal = n;}
 
 private:
 	bool hit;

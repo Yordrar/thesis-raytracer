@@ -1,6 +1,6 @@
 #include "Triangle.h"
 
-Triangle::Triangle(Vector3 v0, Vector3 v1, Vector3 v2)
+Triangle::Triangle(const Vector3& v0, const Vector3& v1, const Vector3& v2)
 	: v0(v0),
 	  v1(v1),
 	  v2(v2)
@@ -19,7 +19,7 @@ Triangle::~Triangle()
 
 }
 
-Hit Triangle::get_intersection(Ray ray) const
+Hit Triangle::get_intersection(const Ray& ray) const
 {
 	// Möller-Trumbore algorithm
 	Vector3 pvec, tvec, qvec;

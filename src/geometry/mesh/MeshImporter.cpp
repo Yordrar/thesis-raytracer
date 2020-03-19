@@ -1,10 +1,10 @@
-#include "MeshLoader.h"
+#include "MeshImporter.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-Mesh* MeshLoader::load_from_file(std::string file_path)
+Mesh* MeshImporter::import_from_file(std::string file_path)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(file_path, aiProcess_Triangulate |

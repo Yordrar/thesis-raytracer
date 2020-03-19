@@ -11,11 +11,11 @@
 class Triangle : public Intersectable
 {
 public:
-	Triangle(Vector3 v0, Vector3 v1, Vector3 v2);
+	Triangle(const Vector3& v0, const Vector3& v1, const Vector3& v2);
 	~Triangle() override;
 
 	// Intersectable interface
-	Hit get_intersection(Ray ray) const override;
+	Hit get_intersection(const Ray& ray) const override;
 	AxisAlignedBoundingBox get_bounding_box() const override;
 
 private:

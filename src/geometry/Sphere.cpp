@@ -1,6 +1,6 @@
 #include "Sphere.h"
 
-Sphere::Sphere(Vector3 _position, float radius)
+Sphere::Sphere(const Vector3& _position, float radius)
 	: Entity(_position),
 	  Intersectable(),
 	  radius(radius)
@@ -15,7 +15,7 @@ Sphere::~Sphere()
 }
 
 #define T_MIN 0.001f
-Hit Sphere::get_intersection(Ray r) const
+Hit Sphere::get_intersection(const Ray& r) const
 {
 	Vector3 oc = r.get_origin() - position;
 	float a = r.get_direction().dot(r.get_direction());
@@ -40,7 +40,7 @@ Hit Sphere::get_intersection(Ray r) const
 }
 
 
-Vector3 Sphere::get_normal(Vector3 point) const
+Vector3 Sphere::get_normal(const Vector3& point) const
 {
 	return (point - position).unit();
 }

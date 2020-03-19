@@ -67,7 +67,7 @@ void Camera::translate(float delta_x, float delta_y, float delta_z)
 	Entity::translate(delta);
 }
 
-void Camera::translate(Vector3 delta)
+void Camera::translate(const Vector3& delta)
 {
 	Vector3 new_delta;
 	new_delta += right*delta.get_x();
@@ -89,7 +89,7 @@ void Camera::rotate(float euler_x, float euler_y, float euler_z)
 	upper_left_corner = -right*half_width + up*half_height + orientation.get_imaginary();
 }
 
-void Camera::rotate(Quaternion rotation)
+void Camera::rotate(const Quaternion& rotation)
 {
 	Entity::rotate(rotation);
 	up = rotation.apply(up);
@@ -99,7 +99,7 @@ void Camera::rotate(Quaternion rotation)
 }
 
 #define MAX_DEPTH 10
-Vector3 Camera::shoot_ray(Ray r, const BVH& intersectables, int depth) const
+Vector3 Camera::shoot_ray(const Ray& r, const BVH& intersectables, int depth) const
 {
 	Vector3 color;
 	Hit intersection = intersectables.get_intersection(r);

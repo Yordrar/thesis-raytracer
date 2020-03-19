@@ -1,6 +1,6 @@
 #include "Dielectric.h"
 
-Dielectric::Dielectric(Vector3 _albedo, float refraction_index)
+Dielectric::Dielectric(const Vector3& _albedo, float refraction_index)
 	: Material(_albedo)
 {
 	this->refraction_index = refraction_index;
@@ -17,7 +17,7 @@ Dielectric::~Dielectric()
 
 }
 
-float Dielectric::get_discriminant(Ray ray, Vector3 normal, float ni_over_nt) {
+float Dielectric::get_discriminant(const Ray& ray, const Vector3& normal, float ni_over_nt) {
 	float dot_r_n = ray.get_direction().dot(normal);
 	float discriminant = 1.0f - ni_over_nt*ni_over_nt * (1.0f-dot_r_n*dot_r_n);
 	return discriminant;
@@ -30,10 +30,11 @@ float Dielectric::schlick(float cosine)
 	return r0 + (1.0f - r0) * powf(1.0f - cosine, 5);
 }
 
-Ray Dielectric::scatter(Ray ray, float t, Vector3 normal)
+Ray Dielectric::scatter(const Ray& ray, float t, const Vector3& normal)
 {
 	float ni_over_nt = 0;
 	float schlick_cosine;
+	Vector3 normal_scatter = normal;
 	// If the cosine of the ray and the normal is < 0
 	// we are scattering from outside the object
 	if(ray.get_direction().dot(normal) <= 0) {
@@ -45,7 +46,7 @@ Ray Dielectric::scatter(Ray ray, float t, Vector3 normal)
 		// the normal needs to be flipped for snell's law to hold
 		ni_over_nt = refraction_index;
 		schlick_cosine = refraction_index * ray.get_direction().dot(normal);
-		normal = -normal;
+		normal_scatter = -normal_scatter;
 	}
 
 	// The discriminant tells us if there is total internal reflection

@@ -6,7 +6,6 @@ class Quaternion
 {
 public:
 	Quaternion(float x = 0, float y = 0, float z = 1, float w = 0);
-	Quaternion(Vector3 imaginary = Vector3(0, 0, 1), float real = 0);
 	Quaternion(float real = 0, Vector3 imaginary = Vector3(0, 0, 1));
 
 	inline float get_x() const {return x;}

@@ -3,7 +3,6 @@
 #include <fstream>
 #include <iostream>
 #include <chrono>
-#include <omp.h>
 
 #include <math/Vector3.h>
 
@@ -12,7 +11,7 @@ Scene::Scene()
 
 }
 
-Scene::Scene(std::initializer_list<Intersectable*> entitites)
+Scene::Scene(const std::initializer_list<Intersectable*>& entitites)
 {
 	for(auto e : entitites) {
 		this->intersectables.push_back(e);
