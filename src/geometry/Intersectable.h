@@ -13,7 +13,7 @@ protected:
 	AxisAlignedBoundingBox bounding_box;
 
 public:
-	virtual Hit get_intersection(Ray ray) const = 0;
+	virtual Hit get_intersection(const Ray& ray) const = 0;
 	virtual AxisAlignedBoundingBox get_bounding_box() const {return bounding_box;}
 };
 

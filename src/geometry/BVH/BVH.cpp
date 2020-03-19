@@ -100,7 +100,7 @@ BVH::~BVH()
 	if(r) delete r;
 }
 
-Hit BVH::get_intersection(Ray ray) const
+Hit BVH::get_intersection(const Ray& ray) const
 {
 	if(bounding_box.hit(ray, FLT_MIN, FLT_MAX)) {
 		if(left == right) {

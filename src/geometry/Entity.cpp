@@ -12,7 +12,7 @@ void Entity::translate(float delta_x, float delta_y, float delta_z)
 	position += Vector3(delta_x, delta_y, delta_z);
 }
 
-void Entity::translate(Vector3 delta)
+void Entity::translate(const Vector3& delta)
 {
 	position += delta;
 }
@@ -26,7 +26,7 @@ void Entity::rotate(float euler_x, float euler_y, float euler_z)
 	orientation = q.apply(orientation);
 }
 
-void Entity::rotate(Quaternion rotation)
+void Entity::rotate(const Quaternion& rotation)
 {
 	orientation = rotation.apply(orientation);
 }

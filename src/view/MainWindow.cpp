@@ -3,6 +3,7 @@
 #include <QPixmap>
 #include <QLabel>
 #include <QSpinBox>
+#include <QGridLayout>
 
 #include <omp.h>
 
@@ -14,14 +15,20 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+
+	QLayout* layout = ui->centralwidget->findChild<QLayout*>("preview_layout");
 	viewport = new Viewport(this);
+	layout->addWidget(viewport);
 	viewport->setText("");
 	viewport->setMouseTracking(true);
+	viewport->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	viewport->setGeometry(viewport->geometry().x(),
 						  viewport->geometry().y()+ui->menubar->height(),
-						  0,
-						  0);
+						  800,
+						  600);
 	connect(viewport, &Viewport::render, this, &MainWindow::on_render_button_clicked);
+	viewport->updateGeometry();
+
 	on_render_button_clicked();
 }
 
@@ -31,19 +38,15 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::on_render_button_clicked()
 {
 	omp_set_num_threads(ui->centralwidget->findChild<QSpinBox*>("threads")->value());
 
-	int width = ui->centralwidget->findChild<QSpinBox*>("width")->value();
-	int height = ui->centralwidget->findChild<QSpinBox*>("height")->value();
+	QLayout* layout = ui->centralwidget->findChild<QLayout*>("preview_layout");
+	int width = viewport->geometry().width();//ui->centralwidget->findChild<QSpinBox*>("width")->value();
+	int height = viewport->geometry().height();//ui->centralwidget->findChild<QSpinBox*>("height")->value();
 	int n_samples = ui->centralwidget->findChild<QSpinBox*>("samples")->value();
 
-	viewport->setGeometry(viewport->geometry().x(),
-						  viewport->geometry().y(),
-						  width,
-						  height);
 	Framebuffer frame = RenderManager::get_manager()->render(width, height, n_samples);
 	QImage image(width, height, QImage::Format_RGB888);
 	for (int j = 0; j < height; j++) {

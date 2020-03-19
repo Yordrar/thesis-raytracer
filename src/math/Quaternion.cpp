@@ -10,15 +10,6 @@ Quaternion::Quaternion(float x, float y, float z, float w)
 
 }
 
-Quaternion::Quaternion(Vector3 imaginary, float real)
-	: x(imaginary.get_x()),
-	  y(imaginary.get_y()),
-	  z(imaginary.get_z()),
-	  w(real)
-{
-
-}
-
 Quaternion::Quaternion(float real, Vector3 imaginary)
 	: x(imaginary.get_x()),
 	  y(imaginary.get_y()),
@@ -32,7 +23,7 @@ Quaternion Quaternion::get_inverse() const
 {
 	Vector3 imaginary = get_imaginary();
 	float squared_magnitude = get_squared_magnitude();
-	return Quaternion(-imaginary/squared_magnitude, w/squared_magnitude);
+	return Quaternion(w/squared_magnitude, -imaginary/squared_magnitude);
 }
 
 Vector3 Quaternion::apply(Vector3 point) const

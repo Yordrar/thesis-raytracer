@@ -42,6 +42,8 @@ void Viewport::mouseMoveEvent(QMouseEvent *ev)
 		last_point_pressed = ev->pos();
 		emit render();
 	}
+	else
+		QLabel::mouseMoveEvent(ev);
 }
 
 void Viewport::keyPressEvent(QKeyEvent* ev)

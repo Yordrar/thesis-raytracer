@@ -6,7 +6,7 @@
 #include <geometry/Scene.h>
 #include <geometry/Sphere.h>
 #include <geometry/mesh/Mesh.h>
-#include <geometry/mesh/MeshLoader.h>
+#include <geometry/mesh/MeshImporter.h>
 
 #include <material/Lambertian.h>
 #include <material/Metal.h>
@@ -23,7 +23,7 @@ RenderManager::RenderManager()
 	cam->translate(0, 0, 4);
 	escena.set_camera(cam);
 
-	Mesh* m = MeshLoader::load_from_file("C:\\Users\\juana\\Desktop\\suzanne.obj");
+	Mesh* m = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\suzanne.obj");
 	m->set_material(new Lambertian());
 	escena.add_intersectable(m);
 }

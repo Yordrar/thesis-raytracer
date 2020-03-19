@@ -20,7 +20,7 @@ public:
 	// mean of the vertices' positions
 
 	// Intersectable interface
-	Hit get_intersection(Ray ray) const override;
+	Hit get_intersection(const Ray& ray) const override;
 	AxisAlignedBoundingBox get_bounding_box() const override;
 
 private:

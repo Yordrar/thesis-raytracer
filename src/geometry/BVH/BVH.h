@@ -12,7 +12,7 @@ public:
 	BVH(std::vector<Intersectable*> intersectables);
 	~BVH() override;
 
-	Hit get_intersection(Ray ray) const override;
+	Hit get_intersection(const Ray& ray) const override;
 
 	int count() const;
 

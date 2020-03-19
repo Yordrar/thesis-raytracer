@@ -20,7 +20,7 @@ Mesh::~Mesh()
 	delete tri_hierarchy;
 }
 
-Hit Mesh::get_intersection(Ray ray) const
+Hit Mesh::get_intersection(const Ray& ray) const
 {
 	Hit hit = tri_hierarchy->get_intersection(ray);
 	if(hit.is_hit()) {

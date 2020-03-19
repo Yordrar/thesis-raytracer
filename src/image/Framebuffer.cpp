@@ -27,7 +27,7 @@ Vector3 Framebuffer::get_pixel_color(int x, int y)
 	return buffer[y][x];
 }
 
-void Framebuffer::set_pixel_color(int x, int y, Vector3 color)
+void Framebuffer::set_pixel_color(int x, int y, const Vector3& color)
 {
 	if(x < width && x >= 0 && y < height && y >= 0) {
 		buffer[y][x] = color;

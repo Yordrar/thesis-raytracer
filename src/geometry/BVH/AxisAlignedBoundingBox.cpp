@@ -14,7 +14,7 @@ AxisAlignedBoundingBox::AxisAlignedBoundingBox(Vector3 min, Vector3 max)
 
 }
 
-bool AxisAlignedBoundingBox::hit(Ray ray, float tmin, float tmax) const
+bool AxisAlignedBoundingBox::hit(const Ray& ray, float tmin, float tmax) const
 {
 #if 1
 	// Andrew Kesler's AABB intersection code

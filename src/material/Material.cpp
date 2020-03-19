@@ -1,6 +1,6 @@
 #include "Material.h"
 
-Material::Material(Vector3 albedo)
+Material::Material(const Vector3& albedo)
 {
 	this->albedo = albedo;
 }
