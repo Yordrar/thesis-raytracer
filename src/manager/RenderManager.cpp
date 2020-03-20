@@ -41,6 +41,12 @@ RenderManager* RenderManager::get_manager()
 	return instance;
 }
 
+Framebuffer RenderManager::render_preview(int width, int height)
+{
+	cam->set_width_and_height(width, height);
+	return EditModeRenderer::render(escena);
+}
+
 Framebuffer RenderManager::render(int width, int height, int n_samples)
 {
 	/*Sphere s1(Vector3(0, 0, -1.0f), 0.5f);
@@ -62,8 +68,7 @@ Framebuffer RenderManager::render(int width, int height, int n_samples)
 
 	cam->set_width_and_height(width, height);
 
-	return EditModeRenderer::render(escena);
-	//return CPURenderer::render(escena, n_samples);
+	return CPURenderer::render(escena, n_samples);
 }
 
 void RenderManager::move_camera(float delta_x, float delta_y, float delta_z)

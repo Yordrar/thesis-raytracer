@@ -16,35 +16,54 @@ MainWindow::MainWindow(QWidget *parent)
 {
 	ui->setupUi(this);
 
-	QLayout* layout = ui->centralwidget->findChild<QLayout*>("preview_layout");
+	QLayout* preview = ui->centralwidget->findChild<QLayout*>("preview_layout");
 	viewport = new Viewport(this);
-	layout->addWidget(viewport);
+	preview->addWidget(viewport);
 	viewport->setText("");
 	viewport->setMouseTracking(true);
 	viewport->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	viewport->setGeometry(viewport->geometry().x(),
-						  viewport->geometry().y()+ui->menubar->height(),
-						  800,
-						  600);
-	connect(viewport, &Viewport::render, this, &MainWindow::on_render_button_clicked);
-	viewport->updateGeometry();
+	connect(viewport, &Viewport::render, this, &MainWindow::render_preview);
 
-	on_render_button_clicked();
+	render_preview();
 }
 
 MainWindow::~MainWindow()
 {
 	delete viewport;
-    delete ui;
+	delete ui;
+}
+
+void MainWindow::resizeEvent(QResizeEvent* event)
+{
+	render_preview();
+}
+
+void MainWindow::render_preview()
+{
+	omp_set_num_threads(ui->centralwidget->findChild<QSpinBox*>("threads")->value());
+
+	int width = viewport->geometry().width();
+	int height = viewport->geometry().height();
+
+	Framebuffer frame = RenderManager::get_manager()->render_preview(width, height);
+	QImage image(width, height, QImage::Format_RGB888);
+	for (int j = 0; j < height; j++) {
+		for (int i = 0; i < width; i++) {
+			Vector3 color = frame.get_pixel_color(i, j);
+			image.setPixelColor(i, j, QColor(static_cast<int>(color.get_x()),
+											 static_cast<int>(color.get_y()),
+											 static_cast<int>(color.get_z())));
+		}
+	}
+	viewport->setPixmap(QPixmap::fromImage(image));
 }
 
 void MainWindow::on_render_button_clicked()
 {
 	omp_set_num_threads(ui->centralwidget->findChild<QSpinBox*>("threads")->value());
 
-	QLayout* layout = ui->centralwidget->findChild<QLayout*>("preview_layout");
-	int width = viewport->geometry().width();//ui->centralwidget->findChild<QSpinBox*>("width")->value();
-	int height = viewport->geometry().height();//ui->centralwidget->findChild<QSpinBox*>("height")->value();
+	int width = ui->centralwidget->findChild<QSpinBox*>("width")->value();
+	int height = ui->centralwidget->findChild<QSpinBox*>("height")->value();
 	int n_samples = ui->centralwidget->findChild<QSpinBox*>("samples")->value();
 
 	Framebuffer frame = RenderManager::get_manager()->render(width, height, n_samples);
@@ -57,5 +76,5 @@ void MainWindow::on_render_button_clicked()
 											 static_cast<int>(color.get_z())));
 		}
 	}
-	viewport->setPixmap(QPixmap::fromImage(image));
+	ui->centralwidget->findChild<QLabel*>("render_label")->setPixmap(QPixmap::fromImage(image));
 }

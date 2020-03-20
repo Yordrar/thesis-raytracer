@@ -9,6 +9,8 @@ Camera::Camera(int width, int height, float vertical_fov)
 	  height(height),
 	  vfov(vertical_fov)
 {
+	up = Vector3(0, 1, 0);
+	right = Vector3(1, 0, 0);
 	recalculate_parameters();
 }
 
@@ -126,9 +128,6 @@ void Camera::recalculate_parameters()
 
 	plane_width = half_width * 2.0f;
 	plane_height = half_height * 2.0f;
-
-	up = Vector3(0, 1, 0);
-	right = Vector3(1, 0, 0);
 
 	upper_left_corner = -right*half_width + up*half_height + orientation.get_imaginary();
 }

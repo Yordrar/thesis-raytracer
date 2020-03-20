@@ -16,7 +16,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+	void resizeEvent(QResizeEvent* event);
+
 private slots:
+	void render_preview();
 	void on_render_button_clicked();
 
 private:
