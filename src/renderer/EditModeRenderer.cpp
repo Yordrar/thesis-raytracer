@@ -20,7 +20,7 @@ Framebuffer EditModeRenderer::render(const Scene& scene)
 	#pragma omp parallel for collapse(2) schedule(dynamic) shared(framebuffer)
 	for(int j = 0; j < height; j++) {
 		for(int i = 0; i < width; i++) {
-			Vector3 color = camera->get_color_preview_mode(i, j, hierarchy);
+			Vector3 color = camera->get_color_preview(i, j, hierarchy);
 			color = Vector3(sqrtf(color.get_x()), sqrtf(color.get_y()), sqrtf(color.get_z()));
 			framebuffer.set_pixel_color(i, j, Vector3(color.get_x()*255.99f,
 													color.get_y()*255.99f,

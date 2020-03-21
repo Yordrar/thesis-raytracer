@@ -5,8 +5,7 @@
 class Scatterer
 {
 protected:
-	Scatterer();
-	Scatterer(Material* m);
+	Scatterer(Material* m = nullptr);
 	virtual ~Scatterer() = 0;
 
 	Material* material;

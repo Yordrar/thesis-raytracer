@@ -19,12 +19,14 @@ SOURCES += \
     geometry/BVH/AxisAlignedBoundingBox.cpp \
     geometry/BVH/BVH.cpp \
     geometry/Camera.cpp \
+    geometry/Emitter.cpp \
     geometry/Entity.cpp \
     geometry/Hit.cpp \
     geometry/Intersectable.cpp \
     geometry/Scatterer.cpp \
     geometry/Scene.cpp \
     geometry/Sphere.cpp \
+    geometry/light/PointLight.cpp \
     geometry/mesh/Mesh.cpp \
     geometry/mesh/MeshImporter.cpp \
     geometry/mesh/Triangle.cpp \
@@ -48,12 +50,14 @@ HEADERS += \
     geometry/BVH/AxisAlignedBoundingBox.h \
     geometry/BVH/BVH.h \
     geometry/Camera.h \
+    geometry/Emitter.h \
     geometry/Entity.h \
     geometry/Hit.h \
     geometry/Intersectable.h \
     geometry/Scatterer.h \
     geometry/Scene.h \
     geometry/Sphere.h \
+    geometry/light/PointLight.h \
     geometry/mesh/Mesh.h \
     geometry/mesh/MeshImporter.h \
     geometry/mesh/Triangle.h \

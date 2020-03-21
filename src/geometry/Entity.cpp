@@ -7,6 +7,11 @@ Entity::Entity(Vector3 position, Quaternion rotation)
 
 }
 
+Entity::~Entity()
+{
+
+}
+
 void Entity::translate(float delta_x, float delta_y, float delta_z)
 {
 	position += Vector3(delta_x, delta_y, delta_z);
@@ -29,9 +34,4 @@ void Entity::rotate(float euler_x, float euler_y, float euler_z)
 void Entity::rotate(const Quaternion& rotation)
 {
 	orientation = rotation.apply(orientation);
-}
-
-Entity::~Entity()
-{
-
 }

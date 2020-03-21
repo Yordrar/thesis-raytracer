@@ -8,11 +8,11 @@
 
 TEST(Scene, Constructors) {
 	Scene s1;
-	EXPECT_EQ(s1.get_entities().size(), 0);
+	EXPECT_EQ(s1.get_intersectables().size(), 0);
 
 	Sphere sph1(Vector3(), 3);
 	Scene s2{&sph1, &sph1, &sph1, &sph1};
-	for(auto e : s2.get_entities()) {
+	for(auto e : s2.get_intersectables()) {
 		EXPECT_EQ(dynamic_cast<Entity*>(e)->get_position(), Vector3());
 	}
 }
@@ -20,10 +20,10 @@ TEST(Scene, Constructors) {
 TEST(Scene, AddIntersectable) {
 	Sphere sph1(Vector3(), 3);
 	Scene s1{&sph1, &sph1, &sph1, &sph1};
-	EXPECT_EQ(s1.get_entities().size(), 4);
+	EXPECT_EQ(s1.get_intersectables().size(), 4);
 
 	s1.add_intersectable(&sph1);
-	EXPECT_EQ(s1.get_entities().size(), 5);
+	EXPECT_EQ(s1.get_intersectables().size(), 5);
 }
 
 TEST(Scene, GetIntersectable) {
@@ -37,8 +37,8 @@ TEST(Scene, GetIntersectable) {
 TEST(Scene, RemoveIntersectable) {
 	Sphere sph1(Vector3(), 3);
 	Scene s1{&sph1, &sph1, &sph1, &sph1};
-	EXPECT_EQ(s1.get_entities().size(), 4);
+	EXPECT_EQ(s1.get_intersectables().size(), 4);
 
 	s1.remove_intersectable(&sph1);
-	EXPECT_EQ(s1.get_entities().size(), 3);
+	EXPECT_EQ(s1.get_intersectables().size(), 3);
 }

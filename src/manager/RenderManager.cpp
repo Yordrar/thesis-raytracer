@@ -7,6 +7,7 @@
 #include <geometry/Sphere.h>
 #include <geometry/mesh/Mesh.h>
 #include <geometry/mesh/MeshImporter.h>
+#include <geometry/light/PointLight.h>
 
 #include <material/Lambertian.h>
 #include <material/Metal.h>
@@ -26,6 +27,20 @@ RenderManager::RenderManager()
 	Mesh* m = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\suzanne.obj");
 	m->set_material(new Lambertian());
 	escena.add_intersectable(m);
+
+	PointLight* l1 = new PointLight(Vector3(128, 64, 32), 2);
+	PointLight* l2 = new PointLight(Vector3(32, 64, 128), 2);
+	PointLight* l3 = new PointLight(Vector3(255, 255, 255), 1);
+	l1->set_position(Vector3(2, 0, 1));
+	l2->set_position(Vector3(-2, 0, 1));
+	l3->set_position(Vector3(0, 1, 2));
+	escena.add_emitter(l1);
+	escena.add_emitter(l2);
+	//escena.add_emitter(l3);
+
+	Sphere* s = new Sphere(Vector3(0, -101, -1), 100);
+	s->set_material(new Lambertian());
+	escena.add_intersectable(s);
 }
 
 RenderManager::~RenderManager()

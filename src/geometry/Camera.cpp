@@ -39,23 +39,24 @@ void Camera::set_width_and_height(int new_width, int new_height)
 	}
 }
 
-Vector3 Camera::get_color(float x, float y, const BVH& intersectables) const
+Vector3 Camera::get_color(float x, float y, const BVH& intersectables, const std::vector<Emitter*>& emitters) const
 {
 	float u = x / float(width);
 	float v = y / float(height);
 	Ray r = get_ray(u, v);
-	return shoot_ray(r, intersectables, 0);
+	return get_color_recursive(r, intersectables, emitters, 0).clamp(0, 1);
 }
 
 #define DEFAULT_EDIT_MODE_BGND_COLOR 0.1f
-Vector3 Camera::get_color_preview_mode(float x, float y, const BVH& intersectables) const
+Vector3 Camera::get_color_preview(float x, float y, const BVH& intersectables) const
 {
 	float u = x / float(width);
 	float v = y / float(height);
 	Ray r = get_ray(u, v);
 	Hit intersection = intersectables.get_intersection(r);
-	if(intersection.is_hit() && intersection.get_normal().dot(r.get_direction()) <= 0.0f) {
-		return Vector3(Math::Map(r.get_direction().dot(intersection.get_normal()), -1.0f, 0.0f, 0.5f, 0.0f));
+	float intersection_normal_dot_ray = intersection.get_normal().dot(r.get_direction());
+	if(intersection.is_hit() && intersection_normal_dot_ray <= 0.0f) {
+		return Vector3(Math::Map(intersection_normal_dot_ray, -1.0f, 0.0f, 0.5f, 0.0f));
 	}
 	return Vector3(DEFAULT_EDIT_MODE_BGND_COLOR);
 }
@@ -101,7 +102,7 @@ void Camera::rotate(const Quaternion& rotation)
 }
 
 #define MAX_DEPTH 10
-Vector3 Camera::shoot_ray(const Ray& r, const BVH& intersectables, int depth) const
+Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth) const
 {
 	Vector3 color;
 	Hit intersection = intersectables.get_intersection(r);
@@ -109,16 +110,32 @@ Vector3 Camera::shoot_ray(const Ray& r, const BVH& intersectables, int depth) co
 		float t = intersection.get_t();
 		Material* material = intersection.get_material();
 		Ray new_ray = material->scatter(r, t, intersection.get_normal());
+		Vector3 emitted_color = get_shadow_ray_color(new_ray.get_origin(), intersectables, emitters);
 		if(depth < MAX_DEPTH)
-			color = material->get_albedo() / 255.0f * shoot_ray(new_ray, intersectables, depth+1);
+			color = emitted_color + material->get_albedo() * get_color_recursive(new_ray, intersectables, emitters, depth+1);
 		else
-			color = Vector3();
-	}
-	else {
-		float t = 0.5f*(r.get_direction().get_y() + 1.0f);
-		color = (1.0f-t)*Vector3(1.0f, 1.0f, 1.0f) + t*Vector3(0.5f, 0.7f, 1.0f);
+			color = emitted_color;
 	}
 	return color;
+}
+
+#define SHADOW_RAYS 1
+Vector3 Camera::get_shadow_ray_color(Vector3 origin, const BVH& intersectables, const std::vector<Emitter*>& emitters) const
+{
+	Vector3 color;
+	for(Emitter* e : emitters) {
+		for(int i = 0; i < SHADOW_RAYS; i++) {
+			Vector3 shadow_ray_dir = dynamic_cast<Entity*>(e)->get_position() - origin + Vector3::random_in_unit_sphere();
+			float shadow_ray_dir_magnitude = shadow_ray_dir.get_magnitude();
+			Ray shadow_ray(origin, shadow_ray_dir);
+			Hit intersection = intersectables.get_intersection(shadow_ray);
+			if(!intersection.is_hit() ||
+			   (intersection.is_hit() && intersection.get_t() > shadow_ray_dir_magnitude)) {
+				color += e->get_emission_color(origin);
+			}
+		}
+	}
+	return color/(SHADOW_RAYS*emitters.size());
 }
 
 void Camera::recalculate_parameters()

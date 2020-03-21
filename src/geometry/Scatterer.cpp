@@ -1,10 +1,5 @@
 #include "Scatterer.h"
 
-Scatterer::Scatterer()
-{
-	material = nullptr;
-}
-
 Scatterer::Scatterer(Material* m)
 {
 	material = m;

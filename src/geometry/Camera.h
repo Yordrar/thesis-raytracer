@@ -4,6 +4,7 @@
 #include <math/Ray.h>
 #include <geometry/Entity.h>
 #include <geometry/Intersectable.h>
+#include <geometry/Emitter.h>
 #include <geometry/BVH/BVH.h>
 #include <geometry/Sphere.h>
 
@@ -23,8 +24,8 @@ public:
 	inline Vector3 get_up() const {return up;}
 	inline Vector3 get_right() const {return right;}
 
-	Vector3 get_color(float x, float y, const BVH& intersectables) const;
-	Vector3 get_color_preview_mode(float x, float y, const BVH& intersectables) const;
+	Vector3 get_color(float x, float y, const BVH& intersectables, const std::vector<Emitter*>& emitters) const;
+	Vector3 get_color_preview(float x, float y, const BVH& intersectables) const;
 
 	void translate(float delta_x, float delta_y, float delta_z);
 	void translate(const Vector3& delta);
@@ -37,7 +38,8 @@ private:
 	Vector3 upper_left_corner;
 	Vector3 up, right;
 
-	Vector3 shoot_ray(const Ray& r, const BVH& intersectables, int depth) const;
+	Vector3 get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth) const;
+	Vector3 get_shadow_ray_color(Vector3 origin, const BVH& intersectables, const std::vector<Emitter*>& emitters) const;
 	void recalculate_parameters();
 	inline Ray get_ray(float u, float v) const {return Ray(position, upper_left_corner + u*right*plane_width + -v*up*plane_height);}
 };

@@ -31,6 +31,12 @@ public:
 														x*other.y - y*other.x);}
 	inline float angle(const Vector3& other) const {return acosf(this->unit().dot(other.unit()));}
 
+	inline Vector3 clamp(float min, float max) const {
+		return Vector3(Math::Fast_Max(min, Math::Fast_Min(x, max)),
+					   Math::Fast_Max(min, Math::Fast_Min(y, max)),
+					   Math::Fast_Max(min, Math::Fast_Min(z, max)));
+	}
+
 	inline Vector3 operator+(const Vector3& other) const {return Vector3(x+other.x, y+other.y, z+other.z);}
 	inline Vector3 operator-(const Vector3& other) const {return Vector3(x-other.x, y-other.y, z-other.z);}
 	inline Vector3 operator-() const {return Vector3(-x, -y, -z);}
