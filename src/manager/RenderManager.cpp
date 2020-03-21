@@ -59,6 +59,7 @@ RenderManager* RenderManager::get_manager()
 Framebuffer RenderManager::render_preview(int width, int height)
 {
 	cam->set_width_and_height(width, height);
+
 	return EditModeRenderer::render(escena);
 }
 

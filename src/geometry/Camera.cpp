@@ -119,7 +119,7 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 	return color;
 }
 
-#define SHADOW_RAYS 1
+#define SHADOW_RAYS 5
 Vector3 Camera::get_shadow_ray_color(Vector3 origin, const BVH& intersectables, const std::vector<Emitter*>& emitters) const
 {
 	Vector3 color;

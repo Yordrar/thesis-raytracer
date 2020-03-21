@@ -17,19 +17,32 @@ Mesh* MeshImporter::import_from_file(std::string file_path)
 		for(unsigned int i = 0; i < mesh->mNumFaces; i++) {
 			aiFace face = mesh->mFaces[i];
 			for(unsigned int j = 0; j < face.mNumIndices / 3; j++) {
-				Vector3 v0, v1, v2;
-				v0.set_x(mesh->mVertices[face.mIndices[j*3]].x);
-				v0.set_y(mesh->mVertices[face.mIndices[j*3]].y);
-				v0.set_z(mesh->mVertices[face.mIndices[j*3]].z);
+				auto index0 = face.mIndices[j*3];
+				auto index1 = face.mIndices[j*3 + 1];
+				auto index2 = face.mIndices[j*3 + 2];
 
-				v1.set_x(mesh->mVertices[face.mIndices[j*3 + 1]].x);
-				v1.set_y(mesh->mVertices[face.mIndices[j*3 + 1]].y);
-				v1.set_z(mesh->mVertices[face.mIndices[j*3 + 1]].z);
+				auto vertex0 = mesh->mVertices[index0];
+				Vector3 v0(vertex0.x, vertex0.y, vertex0.z);
 
-				v2.set_x(mesh->mVertices[face.mIndices[j*3 + 2]].x);
-				v2.set_y(mesh->mVertices[face.mIndices[j*3 + 2]].y);
-				v2.set_z(mesh->mVertices[face.mIndices[j*3 + 2]].z);
-				triangles.push_back(Triangle(v0, v1, v2));
+				auto vertex1 = mesh->mVertices[index1];
+				Vector3 v1(vertex1.x, vertex1.y, vertex1.z);
+
+				auto vertex2 = mesh->mVertices[index2];
+				Vector3 v2(vertex2.x, vertex2.y, vertex2.z);
+
+
+				auto normal0 = mesh->mNormals[index0];
+				Vector3 n0(normal0.x, normal0.y, normal0.z);
+
+				auto normal1 = mesh->mNormals[index1];
+				Vector3 n1(normal1.x, normal1.y, normal1.z);
+
+				auto normal2 = mesh->mNormals[index2];
+				Vector3 n2(normal2.x, normal2.y, normal2.z);
+
+				Triangle t(v0, v1, v2);
+				t.set_normals(n0, n1, n2);
+				triangles.push_back(t);
 			}
 		}
 	}
