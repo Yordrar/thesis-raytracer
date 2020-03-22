@@ -27,8 +27,8 @@ public:
 	Vector3 get_color(float x, float y, const BVH& intersectables, const std::vector<Emitter*>& emitters) const;
 	Vector3 get_color_preview(float x, float y, const BVH& intersectables) const;
 
-	void translate(float delta_x, float delta_y, float delta_z);
-	void translate(const Vector3& delta);
+	void translate_global(float delta_x, float delta_y, float delta_z);
+	void translate_global(const Vector3& delta);
 	void rotate(float euler_x, float euler_y, float euler_z);
 	void rotate(const Quaternion& rotation);
 

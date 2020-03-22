@@ -1,11 +1,14 @@
 #include "Scatterer.h"
 
-Scatterer::Scatterer(Material* m)
+Scatterer::Scatterer(Material* m, Image* i)
+	: material(m),
+	  texture_map(i)
 {
-	material = m;
+
 }
 
 Scatterer::~Scatterer()
 {
 	if(material) delete material;
+	if(texture_map) delete texture_map;
 }

@@ -8,7 +8,7 @@
 #include <geometry/Emitter.h>
 #include <geometry/Camera.h>
 
-#include <image/Framebuffer.h>
+#include <image/Image.h>
 
 class Scene
 {

@@ -49,27 +49,27 @@ void Viewport::mouseMoveEvent(QMouseEvent *ev)
 void Viewport::keyPressEvent(QKeyEvent* ev)
 {
 	if(ev->key() == Qt::Key_W) {
-		RenderManager::get_manager()->move_camera(0, 0, -0.5f);
+		RenderManager::get_manager()->move_camera(0, 0, -0.25f);
 		emit render();
 	}
 	if(ev->key() == Qt::Key_A) {
-		RenderManager::get_manager()->move_camera(-0.5f, 0, 0);
+		RenderManager::get_manager()->move_camera(-0.25f, 0, 0);
 		emit render();
 	}
 	else if(ev->key() == Qt::Key_S) {
-		RenderManager::get_manager()->move_camera(0, 0, 0.5f);
+		RenderManager::get_manager()->move_camera(0, 0, 0.25f);
 		emit render();
 	}
 	else if(ev->key() == Qt::Key_D) {
-		RenderManager::get_manager()->move_camera(0.5f, 0, 0);
+		RenderManager::get_manager()->move_camera(0.25f, 0, 0);
 		emit render();
 	}
 	else if(ev->key() == Qt::Key_Q) {
-		RenderManager::get_manager()->move_camera(0, 0.5f, 0);
+		RenderManager::get_manager()->move_camera(0, 0.25f, 0);
 		emit render();
 	}
 	else if(ev->key() == Qt::Key_E) {
-		RenderManager::get_manager()->move_camera(0, -0.5f, 0);
+		RenderManager::get_manager()->move_camera(0, -0.25f, 0);
 		emit render();
 	}
 	else

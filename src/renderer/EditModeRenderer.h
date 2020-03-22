@@ -2,7 +2,7 @@
 
 #include <geometry/Scene.h>
 
-#include <image/Framebuffer.h>
+#include <image/Image.h>
 
 class EditModeRenderer
 {
@@ -10,6 +10,6 @@ public:
 	EditModeRenderer() = delete;
 	~EditModeRenderer() = delete;
 
-	static Framebuffer render(const Scene& scene);
+	static Image render(const Scene& scene);
 };
 

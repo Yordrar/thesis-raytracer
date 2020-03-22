@@ -5,9 +5,11 @@ Triangle::Triangle(const Vector3& v0, const Vector3& v1, const Vector3& v2)
 	  v1(v1),
 	  v2(v2)
 {
+	hasUV = false;
+
 	edge01 = v1 - v0;
 	edge02 = v2 - v0;
-	normal_flat = edge02.cross(edge01).unit();
+	normal_flat = edge01.cross(edge02).unit();
 
 	Vector3 min_corner = v0.min(v1).min(v2);
 	Vector3 max_corner = v0.max(v1).max(v2);
@@ -39,12 +41,15 @@ Hit Triangle::get_intersection(const Ray& ray) const
 		return Hit();
 	float t = invDet * edge02.dot(qvec);
 	if (t > 0.001f) {
-		return Hit(true, nullptr, get_normal_smooth(u, v, 1.0f-u-v), t); // There is an intersection
+		 // There is an intersection
+		if(hasUV) {
+			return Hit(true, nullptr, normal_flat, t, (u*uv_v1 + v*uv_v2 + (1-u-v)*uv_v0));
+		}
+		return Hit(true, nullptr, normal_flat, t);
 	}
 	else // The ray is contained in the triangle
 		return Hit();
 }
-
 
 AxisAlignedBoundingBox Triangle::get_bounding_box() const
 {

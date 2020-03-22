@@ -25,6 +25,9 @@ Hit Mesh::get_intersection(const Ray& ray) const
 	Hit hit = tri_hierarchy->get_intersection(ray);
 	if(hit.is_hit()) {
 		hit.set_material(material);
+		if(texture_map) {
+			hit.set_texture(texture_map);
+		}
 	}
 	return hit;
 }

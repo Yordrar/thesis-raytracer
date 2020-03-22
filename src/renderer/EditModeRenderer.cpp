@@ -4,7 +4,7 @@
 #include <iostream>
 #include <omp.h>
 
-Framebuffer EditModeRenderer::render(const Scene& scene)
+Image EditModeRenderer::render(const Scene& scene)
 {
 	Camera* camera = scene.get_camera();
 	auto intersectables = scene.get_intersectables();
@@ -12,7 +12,7 @@ Framebuffer EditModeRenderer::render(const Scene& scene)
 	int width = camera->get_width();
 	int height = camera->get_height();
 
-	Framebuffer framebuffer(width, height);
+	Image framebuffer(width, height);
 
 	BVH hierarchy(intersectables);
 
@@ -22,9 +22,7 @@ Framebuffer EditModeRenderer::render(const Scene& scene)
 		for(int i = 0; i < width; i++) {
 			Vector3 color = camera->get_color_preview(i, j, hierarchy);
 			color = Vector3(sqrtf(color.get_x()), sqrtf(color.get_y()), sqrtf(color.get_z()));
-			framebuffer.set_pixel_color(i, j, Vector3(color.get_x()*255.99f,
-													color.get_y()*255.99f,
-													color.get_z()*255.99f));
+			framebuffer.set_pixel_color(i, j, Vector3(color.get_x(), color.get_y(), color.get_z()));
 		}
 	}
 	std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();

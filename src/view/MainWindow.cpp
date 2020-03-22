@@ -8,7 +8,7 @@
 #include <omp.h>
 
 #include <manager/RenderManager.h>
-#include <image/Framebuffer.h>
+#include <image/Image.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -45,11 +45,11 @@ void MainWindow::render_preview()
 	int width = viewport->geometry().width();
 	int height = viewport->geometry().height();
 
-	Framebuffer frame = RenderManager::get_manager()->render_preview(width, height);
+	Image frame = RenderManager::get_manager()->render_preview(width, height);
 	QImage image(width, height, QImage::Format_RGB888);
 	for (int j = 0; j < height; j++) {
 		for (int i = 0; i < width; i++) {
-			Vector3 color = frame.get_pixel_color(i, j);
+			Vector3 color = frame.get_pixel_color(i, j) * 255.99f;
 			image.setPixelColor(i, j, QColor(static_cast<int>(color.get_x()),
 											 static_cast<int>(color.get_y()),
 											 static_cast<int>(color.get_z())));
@@ -66,11 +66,11 @@ void MainWindow::on_render_button_clicked()
 	int height = ui->centralwidget->findChild<QSpinBox*>("height")->value();
 	int n_samples = ui->centralwidget->findChild<QSpinBox*>("samples")->value();
 
-	Framebuffer frame = RenderManager::get_manager()->render(width, height, n_samples);
+	Image frame = RenderManager::get_manager()->render(width, height, n_samples);
 	QImage image(width, height, QImage::Format_RGB888);
 	for (int j = 0; j < height; j++) {
 		for (int i = 0; i < width; i++) {
-			Vector3 color = frame.get_pixel_color(i, j);
+			Vector3 color = frame.get_pixel_color(i, j) * 255.99f;
 			image.setPixelColor(i, j, QColor(static_cast<int>(color.get_x()),
 											 static_cast<int>(color.get_y()),
 											 static_cast<int>(color.get_z())));

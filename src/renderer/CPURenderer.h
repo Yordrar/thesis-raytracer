@@ -1,6 +1,6 @@
 #pragma once
 
-#include <image/Framebuffer.h>
+#include <image/Image.h>
 
 #include <geometry/Scene.h>
 
@@ -10,6 +10,6 @@ public:
 	CPURenderer() = delete;
 	~CPURenderer() = delete;
 
-	static Framebuffer render(const Scene& scene, int n_samples);
+	static Image render(const Scene& scene, int n_samples);
 };
 

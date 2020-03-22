@@ -27,10 +27,11 @@ SOURCES += \
     geometry/Scene.cpp \
     geometry/Sphere.cpp \
     geometry/light/PointLight.cpp \
+    geometry/map/TextureMap.cpp \
     geometry/mesh/Mesh.cpp \
     geometry/mesh/MeshImporter.cpp \
     geometry/mesh/Triangle.cpp \
-    image/Framebuffer.cpp \
+    image/Image.cpp \
     main.cpp \
     manager/RenderManager.cpp \
     material/Dielectric.cpp \
@@ -58,10 +59,11 @@ HEADERS += \
     geometry/Scene.h \
     geometry/Sphere.h \
     geometry/light/PointLight.h \
+    geometry/map/TextureMap.h \
     geometry/mesh/Mesh.h \
     geometry/mesh/MeshImporter.h \
     geometry/mesh/Triangle.h \
-    image/Framebuffer.h \
+    image/Image.h \
     manager/RenderManager.h \
     material/Dielectric.h \
     material/Lambertian.h \
@@ -86,7 +88,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 QMAKE_CXXFLAGS += -march=native -fopenmp
 QMAKE_LFLAGS += -fopenmp
-INCLUDEPATH += "../deps/opencl/include" "../deps/assimp/include"
+INCLUDEPATH += "../deps/opencl/include" "../deps/assimp/include" "../deps/stb"
 LIBS += -static -L"../deps/opencl/lib" -L"../deps/assimp/lib" -lOpenCL -lassimp -lIrrXML -lzlibstatic
 
 DISTFILES +=

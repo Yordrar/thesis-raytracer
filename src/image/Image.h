@@ -1,12 +1,15 @@
 #pragma once
 
+#include <string>
+
 #include <math/Vector3.h>
 
-class Framebuffer
+class Image
 {
 public:
-	Framebuffer(int width, int height);
-	~Framebuffer();
+	Image(int width, int height);
+	Image(std::string file_path);
+	~Image();
 
 	Vector3 get_pixel_color(int x, int y);
 	void set_pixel_color(int x, int y, const Vector3& color);

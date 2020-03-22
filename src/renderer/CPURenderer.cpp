@@ -4,7 +4,7 @@
 #include <iostream>
 #include <omp.h>
 
-Framebuffer CPURenderer::render(const Scene& scene, int n_samples)
+Image CPURenderer::render(const Scene& scene, int n_samples)
 {
 	Camera* camera = scene.get_camera();
 	auto intersectables = scene.get_intersectables();
@@ -12,7 +12,7 @@ Framebuffer CPURenderer::render(const Scene& scene, int n_samples)
 	int width = camera->get_width();
 	int height = camera->get_height();
 
-	Framebuffer framebuffer(width, height);
+	Image framebuffer(width, height);
 
 	BVH hierarchy(intersectables);
 	auto emitters = scene.get_emitters();
@@ -27,9 +27,7 @@ Framebuffer CPURenderer::render(const Scene& scene, int n_samples)
 			}
 			color /= n_samples;
 			color = Vector3(sqrtf(color.get_x()), sqrtf(color.get_y()), sqrtf(color.get_z()));
-			framebuffer.set_pixel_color(i, j, Vector3(color.get_x(),
-													color.get_y(),
-													color.get_z()) * 255.99f);
+			framebuffer.set_pixel_color(i, j, Vector3(color.get_x(), color.get_y(), color.get_z()));
 		}
 	}
 	std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();

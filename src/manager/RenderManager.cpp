@@ -5,6 +5,7 @@
 #include <geometry/Camera.h>
 #include <geometry/Scene.h>
 #include <geometry/Sphere.h>
+#include <geometry/Scatterer.h>
 #include <geometry/mesh/Mesh.h>
 #include <geometry/mesh/MeshImporter.h>
 #include <geometry/light/PointLight.h>
@@ -21,26 +22,27 @@ RenderManager* RenderManager::instance = nullptr;
 RenderManager::RenderManager()
 {
 	cam = new Camera();
-	cam->translate(0, 0, 4);
+	cam->translate_global(0, 0, 4);
 	escena.set_camera(cam);
 
-	Mesh* m = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\suzanne.obj");
+	Mesh* m = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\cat.obj");
 	m->set_material(new Lambertian());
+	m->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\cat.png"));
 	escena.add_intersectable(m);
 
 	PointLight* l1 = new PointLight(Vector3(128, 64, 32), 2);
 	PointLight* l2 = new PointLight(Vector3(32, 64, 128), 2);
-	PointLight* l3 = new PointLight(Vector3(255, 255, 255), 1);
+	PointLight* l3 = new PointLight(Vector3(255, 255, 255), 5);
 	l1->set_position(Vector3(2, 0, 1));
 	l2->set_position(Vector3(-2, 0, 1));
 	l3->set_position(Vector3(0, 1, 2));
-	escena.add_emitter(l1);
-	escena.add_emitter(l2);
+	//escena.add_emitter(l1);
+	//escena.add_emitter(l2);
 	//escena.add_emitter(l3);
 
 	Sphere* s = new Sphere(Vector3(0, -101, -1), 100);
 	s->set_material(new Lambertian());
-	escena.add_intersectable(s);
+	//escena.add_intersectable(s);
 }
 
 RenderManager::~RenderManager()
@@ -56,14 +58,14 @@ RenderManager* RenderManager::get_manager()
 	return instance;
 }
 
-Framebuffer RenderManager::render_preview(int width, int height)
+Image RenderManager::render_preview(int width, int height)
 {
 	cam->set_width_and_height(width, height);
 
 	return EditModeRenderer::render(escena);
 }
 
-Framebuffer RenderManager::render(int width, int height, int n_samples)
+Image RenderManager::render(int width, int height, int n_samples)
 {
 	/*Sphere s1(Vector3(0, 0, -1.0f), 0.5f);
 	s1.set_material(new Lambertian(Vector3(10, 60, 255)));
@@ -84,12 +86,12 @@ Framebuffer RenderManager::render(int width, int height, int n_samples)
 
 	cam->set_width_and_height(width, height);
 
-	return CPURenderer::render(escena, n_samples);
+	return CPURenderer::render(escena, n_samples);//*dynamic_cast<Scatterer*>(escena.get_intersectable(0))->get_texture_map();
 }
 
 void RenderManager::move_camera(float delta_x, float delta_y, float delta_z)
 {
-	cam->translate(delta_x, delta_y, delta_z);
+	cam->translate_global(delta_x, delta_y, delta_z);
 }
 
 void RenderManager::rotate_camera(float x0, float y0, float x1, float y1)
