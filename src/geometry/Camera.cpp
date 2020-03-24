@@ -109,23 +109,31 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 	if(intersection.is_hit()) {
 		float t = intersection.get_t();
 		Material* material = intersection.get_material();
-		Ray new_ray = material->scatter(r, t, intersection.get_normal());
-		Vector3 emitted_color = get_shadow_ray_color(new_ray.get_origin(), intersectables, emitters);
-		Vector3 texture_map_color(1);
-		if(intersection.get_texture()) {
+		Vector3 normal;
+		Vector3 material_color;
+		if(!Math::Float_Eq(intersection.get_uv().get_x(), -1) && !Math::Float_Eq(intersection.get_uv().get_y(), -1)) {
 			Vector3 uv = intersection.get_uv();
-			Image* texture_map = intersection.get_texture();
-			texture_map_color = texture_map->get_pixel_color(static_cast<int>(uv.get_x() * texture_map->get_width()),
-															 static_cast<int>((1.0f-uv.get_y()) * texture_map->get_height()));
+			normal = material->get_normal(uv);
+			if(Math::Float_Eq(normal.get_squared_magnitude(), 0)) {
+				normal = intersection.get_normal();
+			}
+			material_color = material->get_color(uv);
 		}
+		else {
+			normal = intersection.get_normal();
+			material_color = material->get_albedo();
+		}
+		Ray new_ray = material->scatter(r, t, normal);
+		Vector3 emitters_color = get_shadow_ray_color(new_ray.get_origin(), intersectables, emitters);
 		if(depth < MAX_DEPTH)
-			color = emitted_color + material->get_albedo() * texture_map_color * get_color_recursive(new_ray, intersectables, emitters, depth+1);
+			color = emitters_color * material_color * get_color_recursive(new_ray, intersectables, emitters, depth+1);
 		else
-			color = emitted_color;
+			color = emitters_color * material_color;
 	} else {
-		Vector3 unit_direction = r.get_direction().unit();
+		/*Vector3 unit_direction = r.get_direction().unit();
 		float t = 0.5f*(unit_direction.get_y() + 1.0f);
-		return (1.0f-t)*Vector3(1.0f, 1.0f, 1.0f) + t*Vector3(0.5f, 0.7f, 1.0f);
+		return (1.0f-t)*Vector3(1.0f, 1.0f, 1.0f) + t*Vector3(0.5f, 0.7f, 1.0f);*/
+		return Vector3(1);
 	}
 	return color;
 }
@@ -136,12 +144,11 @@ Vector3 Camera::get_shadow_ray_color(Vector3 origin, const BVH& intersectables, 
 	Vector3 color(0);
 	for(Emitter* e : emitters) {
 		for(int i = 0; i < SHADOW_RAYS; i++) {
-			Vector3 shadow_ray_dir = dynamic_cast<Entity*>(e)->get_position() - origin + Vector3::random_in_unit_sphere();
-			float shadow_ray_dir_magnitude = shadow_ray_dir.get_magnitude();
-			Ray shadow_ray(origin, shadow_ray_dir);
+			Ray shadow_ray = e->get_shadow_ray(origin);
+			float distance_to_emitter = e->get_distance(origin);
 			Hit intersection = intersectables.get_intersection(shadow_ray);
 			if(!intersection.is_hit() ||
-			   (intersection.is_hit() && intersection.get_t() > shadow_ray_dir_magnitude)) {
+			   (intersection.is_hit() && intersection.get_t() > distance_to_emitter)) {
 				color += e->get_emission_color(origin);
 			}
 		}

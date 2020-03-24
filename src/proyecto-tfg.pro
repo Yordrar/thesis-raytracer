@@ -26,8 +26,8 @@ SOURCES += \
     geometry/Scatterer.cpp \
     geometry/Scene.cpp \
     geometry/Sphere.cpp \
+    geometry/light/AmbientLight.cpp \
     geometry/light/PointLight.cpp \
-    geometry/map/TextureMap.cpp \
     geometry/mesh/Mesh.cpp \
     geometry/mesh/MeshImporter.cpp \
     geometry/mesh/Triangle.cpp \
@@ -58,8 +58,8 @@ HEADERS += \
     geometry/Scatterer.h \
     geometry/Scene.h \
     geometry/Sphere.h \
+    geometry/light/AmbientLight.h \
     geometry/light/PointLight.h \
-    geometry/map/TextureMap.h \
     geometry/mesh/Mesh.h \
     geometry/mesh/MeshImporter.h \
     geometry/mesh/Triangle.h \

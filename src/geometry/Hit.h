@@ -7,7 +7,11 @@
 class Hit
 {
 public:
-	Hit(bool hit = false, Material* m = nullptr, Vector3 normal = Vector3(), float t = 0.0f, Vector3 uv = Vector3(-1), Image* texture = nullptr);
+	Hit(bool hit = false,
+		Material* m = nullptr,
+		Vector3 normal = Vector3(),
+		float t = 0.0f,
+		Vector3 uv = Vector3(-1));
 
 	inline bool is_hit() const {return hit;}
 
@@ -22,15 +26,11 @@ public:
 	inline Vector3 get_uv() const {return uv;}
 	inline void set_uv(const Vector3& value) {uv = value;}
 
-	inline Image* get_texture() const {return texture;}
-	inline void set_texture(Image* value) {texture = value;}
-
 private:
 	bool hit;
 	Material* material;
 	Vector3 normal;
 	float t;
 	Vector3 uv;
-	Image* texture;
 };
 

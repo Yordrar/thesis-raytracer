@@ -16,7 +16,6 @@ public:
 
 	// Intersectable interface
 	Hit get_intersection(const Ray& ray) const override;
-
 	Vector3 get_normal(const Vector3& point) const;
 
 private:

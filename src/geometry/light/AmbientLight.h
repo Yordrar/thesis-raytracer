@@ -2,14 +2,13 @@
 
 #include <math/Vector3.h>
 
-#include <geometry/Entity.h>
 #include <geometry/Emitter.h>
 
-class PointLight : public Entity, public Emitter
+class AmbientLight : public Emitter
 {
 public:
-	PointLight(Vector3 albedo = Vector3(255, 255, 255), float intensity = 1);
-	~PointLight() override;
+	AmbientLight(Vector3 albedo = Vector3(255, 255, 255), Vector3 direction = Vector3(-1));
+	~AmbientLight() override;
 
 	// Emitter interface
 	Vector3 get_emission_color(Vector3 position) const override;
@@ -17,6 +16,6 @@ public:
 	float get_distance(Vector3 position) const override;
 
 private:
-	float intensity;
+	Vector3 direction;
 };
 

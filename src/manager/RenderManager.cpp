@@ -9,6 +9,7 @@
 #include <geometry/mesh/Mesh.h>
 #include <geometry/mesh/MeshImporter.h>
 #include <geometry/light/PointLight.h>
+#include <geometry/light/AmbientLight.h>
 
 #include <material/Lambertian.h>
 #include <material/Metal.h>
@@ -25,24 +26,30 @@ RenderManager::RenderManager()
 	cam->translate_global(0, 0, 4);
 	escena.set_camera(cam);
 
-	Mesh* m = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\cat.obj");
-	m->set_material(new Lambertian());
-	m->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\cat.png"));
+	Mesh* m = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\cow.obj");
+	m->set_material(new Lambertian(Vector3(255)));
+	m->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\cow_texture.png"));
+	//m->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\s76weapon_normal.png"));
 	escena.add_intersectable(m);
 
-	PointLight* l1 = new PointLight(Vector3(128, 64, 32), 2);
-	PointLight* l2 = new PointLight(Vector3(32, 64, 128), 2);
+	PointLight* l1 = new PointLight(Vector3(128, 64, 32), 4);
+	PointLight* l2 = new PointLight(Vector3(32, 64, 128), 4);
 	PointLight* l3 = new PointLight(Vector3(255, 255, 255), 5);
+	AmbientLight* l4 = new AmbientLight(Vector3(255));
 	l1->set_position(Vector3(2, 0, 1));
 	l2->set_position(Vector3(-2, 0, 1));
 	l3->set_position(Vector3(0, 1, 2));
 	//escena.add_emitter(l1);
 	//escena.add_emitter(l2);
 	//escena.add_emitter(l3);
+	escena.add_emitter(l4);
 
 	Sphere* s = new Sphere(Vector3(0, -101, -1), 100);
 	s->set_material(new Lambertian());
-	//escena.add_intersectable(s);
+	Sphere* s1 = new Sphere(Vector3(0, 0, -1.0f), 0.5f);
+	s1->set_material(new Metal(Vector3(255), 0));
+	escena.add_intersectable(s);
+	//escena.add_intersectable(s1);
 }
 
 RenderManager::~RenderManager()
