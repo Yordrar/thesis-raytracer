@@ -30,7 +30,7 @@ RenderManager::RenderManager()
 	m->set_material(new Lambertian(Vector3(255)));
 	m->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\cow_texture.png"));
 	//m->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\s76weapon_normal.png"));
-	escena.add_intersectable(m);
+	//escena.add_intersectable(m);
 
 	PointLight* l1 = new PointLight(Vector3(128, 64, 32), 4);
 	PointLight* l2 = new PointLight(Vector3(32, 64, 128), 4);
@@ -47,9 +47,10 @@ RenderManager::RenderManager()
 	Sphere* s = new Sphere(Vector3(0, -101, -1), 100);
 	s->set_material(new Lambertian());
 	Sphere* s1 = new Sphere(Vector3(0, 0, -1.0f), 0.5f);
-	s1->set_material(new Metal(Vector3(255), 0));
+	s1->set_material(new Lambertian(Vector3(255)));
+	s1->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\cow_texture.png"));
 	escena.add_intersectable(s);
-	//escena.add_intersectable(s1);
+	escena.add_intersectable(s1);
 }
 
 RenderManager::~RenderManager()
