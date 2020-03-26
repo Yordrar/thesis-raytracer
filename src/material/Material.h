@@ -28,6 +28,8 @@ public:
 	}
 
 	virtual Ray scatter(const Ray& ray, float t, const Vector3& normal) = 0;
+	virtual Vector3 get_emission_color(const Ray& ray, float t, const Vector3& normal);
+
 	virtual Vector3 get_color(const Vector3& uv);
 	virtual Vector3 get_normal(const Vector3& uv);
 

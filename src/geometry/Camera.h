@@ -39,7 +39,7 @@ private:
 	Vector3 up, right;
 
 	Vector3 get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth) const;
-	Vector3 get_shadow_ray_color(Vector3 origin, const BVH& intersectables, const std::vector<Emitter*>& emitters) const;
+	Vector3 get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& intersectables, const std::vector<Emitter*>& emitters) const;
 	void recalculate_parameters();
 	inline Ray get_ray(float u, float v) const {return Ray(position, upper_left_corner + u*right*plane_width + -v*up*plane_height);}
 };

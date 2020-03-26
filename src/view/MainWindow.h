@@ -3,6 +3,7 @@
 #include <QMainWindow>
 
 #include <view/Viewport.h>
+#include <view/Inspector.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,5 +26,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
 	Viewport* viewport;
+	Inspector* inspector;
 };
 

@@ -3,7 +3,7 @@
 #include <QPixmap>
 #include <QLabel>
 #include <QSpinBox>
-#include <QGridLayout>
+#include <QScrollArea>
 
 #include <omp.h>
 
@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+	inspector = new Inspector();
+	ui->centralwidget->findChild<QScrollArea*>("inspector")->setWidget(inspector);
 
 	QLayout* preview = ui->centralwidget->findChild<QLayout*>("preview_layout");
 	viewport = new Viewport(this);
@@ -29,7 +31,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-	delete viewport;
 	delete ui;
 }
 
@@ -42,8 +43,8 @@ void MainWindow::render_preview()
 {
 	omp_set_num_threads(ui->centralwidget->findChild<QSpinBox*>("threads")->value());
 
-	int width = viewport->geometry().width();
-	int height = viewport->geometry().height();
+	int width = viewport->geometry().width()-1;
+	int height = viewport->geometry().height()-1;
 
 	Image frame = RenderManager::get_manager()->render_preview(width, height);
 	QImage image(width, height, QImage::Format_RGB888);

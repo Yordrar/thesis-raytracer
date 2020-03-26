@@ -113,8 +113,10 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 		Vector3 material_color;
 		if(!Math::Float_Eq(intersection.get_uv().get_x(), -1) && !Math::Float_Eq(intersection.get_uv().get_y(), -1)) {
 			Vector3 uv = intersection.get_uv();
-			normal = material->get_normal(uv);
-			if(Math::Float_Eq(normal.get_squared_magnitude(), 0)) {
+			if(material->get_normal_map()) {
+				normal = material->get_normal(uv);
+			}
+			else {
 				normal = intersection.get_normal();
 			}
 			material_color = material->get_color(uv);
@@ -124,22 +126,24 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 			material_color = material->get_albedo();
 		}
 		Ray new_ray = material->scatter(r, t, normal);
-		Vector3 emitters_color = get_shadow_ray_color(new_ray.get_origin(), intersectables, emitters);
-		if(depth < MAX_DEPTH)
-			color = emitters_color * material_color * get_color_recursive(new_ray, intersectables, emitters, depth+1);
-		else
-			color = emitters_color * material_color;
+		Vector3 emission = material->get_emission_color(r, t, normal);
+		Vector3 emitters_color = get_shadow_ray_color(new_ray.get_origin(), normal, intersectables, emitters);
+		if(depth < MAX_DEPTH && new_ray.get_direction().get_squared_magnitude() != 0.0f) {
+			color = emission + material_color * (emitters_color + get_color_recursive(new_ray, intersectables, emitters, depth+1));
+		}
+		else {
+			color = emission + material_color * emitters_color;
+		}
 	} else {
 		/*Vector3 unit_direction = r.get_direction().unit();
 		float t = 0.5f*(unit_direction.get_y() + 1.0f);
 		return (1.0f-t)*Vector3(1.0f, 1.0f, 1.0f) + t*Vector3(0.5f, 0.7f, 1.0f);*/
-		return Vector3(1);
 	}
 	return color;
 }
 
-#define SHADOW_RAYS 1
-Vector3 Camera::get_shadow_ray_color(Vector3 origin, const BVH& intersectables, const std::vector<Emitter*>& emitters) const
+#define SHADOW_RAYS 10
+Vector3 Camera::get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& intersectables, const std::vector<Emitter*>& emitters) const
 {
 	Vector3 color(0);
 	for(Emitter* e : emitters) {
@@ -149,7 +153,7 @@ Vector3 Camera::get_shadow_ray_color(Vector3 origin, const BVH& intersectables, 
 			Hit intersection = intersectables.get_intersection(shadow_ray);
 			if(!intersection.is_hit() ||
 			   (intersection.is_hit() && intersection.get_t() > distance_to_emitter)) {
-				color += e->get_emission_color(origin);
+				color += e->get_emission_color(origin, normal);
 			}
 		}
 	}

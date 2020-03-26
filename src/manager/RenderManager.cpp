@@ -9,11 +9,12 @@
 #include <geometry/mesh/Mesh.h>
 #include <geometry/mesh/MeshImporter.h>
 #include <geometry/light/PointLight.h>
-#include <geometry/light/AmbientLight.h>
+#include <geometry/light/DirectionalLight.h>
 
 #include <material/Lambertian.h>
 #include <material/Metal.h>
 #include <material/Dielectric.h>
+#include <material/Emissive.h>
 
 #include <renderer/CPURenderer.h>
 #include <renderer/EditModeRenderer.h>
@@ -35,7 +36,7 @@ RenderManager::RenderManager()
 	PointLight* l1 = new PointLight(Vector3(128, 64, 32), 4);
 	PointLight* l2 = new PointLight(Vector3(32, 64, 128), 4);
 	PointLight* l3 = new PointLight(Vector3(255, 255, 255), 5);
-	AmbientLight* l4 = new AmbientLight(Vector3(255));
+	DirectionalLight* l4 = new DirectionalLight(Vector3(255));
 	l1->set_position(Vector3(2, 0, 1));
 	l2->set_position(Vector3(-2, 0, 1));
 	l3->set_position(Vector3(0, 1, 2));
@@ -45,12 +46,16 @@ RenderManager::RenderManager()
 	escena.add_emitter(l4);
 
 	Sphere* s = new Sphere(Vector3(0, -101, -1), 100);
-	s->set_material(new Lambertian());
+	s->set_material(new Lambertian(Vector3(200, 0, 0)));
 	Sphere* s1 = new Sphere(Vector3(0, 0, -1.0f), 0.5f);
 	s1->set_material(new Lambertian(Vector3(255)));
-	s1->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\cow_texture.png"));
+	s1->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\brick_diffuse.bmp"));
+	//s1->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\brick_normal.bmp"));
+	Sphere* s2 = new Sphere(Vector3(1.0f, 0, -1.0f), 0.5f);
+	s2->set_material(new Emissive(Vector3(255), 4));
 	escena.add_intersectable(s);
 	escena.add_intersectable(s1);
+	escena.add_intersectable(s2);
 }
 
 RenderManager::~RenderManager()

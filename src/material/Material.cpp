@@ -10,6 +10,11 @@ Material::Material(float r, float g, float b)
 	albedo = Vector3(r, g, b)/255.99f;
 }
 
+Vector3 Material::get_emission_color(const Ray& ray, float t, const Vector3& normal)
+{
+	return Vector3();
+}
+
 Material::~Material()
 {
 	if(texture_map) delete texture_map;

@@ -12,7 +12,7 @@ public:
 	~PointLight() override;
 
 	// Emitter interface
-	Vector3 get_emission_color(Vector3 position) const override;
+	Vector3 get_emission_color(Vector3 position, Vector3 normal) const override;
 	Ray get_shadow_ray(Vector3 position) const override;
 	float get_distance(Vector3 position) const override;
 

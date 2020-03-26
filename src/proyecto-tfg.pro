@@ -26,7 +26,7 @@ SOURCES += \
     geometry/Scatterer.cpp \
     geometry/Scene.cpp \
     geometry/Sphere.cpp \
-    geometry/light/AmbientLight.cpp \
+    geometry/light/DirectionalLight.cpp \
     geometry/light/PointLight.cpp \
     geometry/mesh/Mesh.cpp \
     geometry/mesh/MeshImporter.cpp \
@@ -35,6 +35,7 @@ SOURCES += \
     main.cpp \
     manager/RenderManager.cpp \
     material/Dielectric.cpp \
+    material/Emissive.cpp \
     material/Lambertian.cpp \
     material/Material.cpp \
     material/Metal.cpp \
@@ -44,6 +45,7 @@ SOURCES += \
     math/Vector3.cpp \
     renderer/CPURenderer.cpp \
     renderer/EditModeRenderer.cpp \
+    view/Inspector.cpp \
     view/MainWindow.cpp \
     view/Viewport.cpp
 
@@ -58,7 +60,7 @@ HEADERS += \
     geometry/Scatterer.h \
     geometry/Scene.h \
     geometry/Sphere.h \
-    geometry/light/AmbientLight.h \
+    geometry/light/DirectionalLight.h \
     geometry/light/PointLight.h \
     geometry/mesh/Mesh.h \
     geometry/mesh/MeshImporter.h \
@@ -66,6 +68,7 @@ HEADERS += \
     image/Image.h \
     manager/RenderManager.h \
     material/Dielectric.h \
+    material/Emissive.h \
     material/Lambertian.h \
     material/Material.h \
     material/Metal.h \
@@ -75,10 +78,12 @@ HEADERS += \
     math/Vector3.h \
     renderer/CPURenderer.h \
     renderer/EditModeRenderer.h \
+    view/Inspector.h \
     view/MainWindow.h \
     view/Viewport.h
 
 FORMS += \
+    view/Inspector.ui \
     view/MainWindow.ui
 
 # Default rules for deployment.
@@ -89,6 +94,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 QMAKE_CXXFLAGS += -march=native -fopenmp
 QMAKE_LFLAGS += -fopenmp
 INCLUDEPATH += "../deps/opencl/include" "../deps/assimp/include" "../deps/stb"
-LIBS += -static -L"../deps/opencl/lib" -L"../deps/assimp/lib" -lOpenCL -lassimp -lIrrXML -lzlibstatic
+LIBS += -static -L"../deps/opencl/lib" -L"../deps/assimp/lib" -lassimp -lIrrXML -lzlibstatic
 
 DISTFILES +=
