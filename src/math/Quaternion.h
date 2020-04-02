@@ -46,6 +46,29 @@ public:
 
 	static Quaternion create_rotation(float angle, Vector3 axis);
 
+	Vector3 euler_angles() {
+		Vector3 euler_angles;
+
+		// pitch (x-axis rotation)
+		float sinr_cosp = 2 * (w * x + y * z);
+		float cosr_cosp = 1 - 2 * (x * x + y * y);
+		euler_angles.set_x(std::atan2(sinr_cosp, cosr_cosp));
+
+		// yaw (y-axis rotation)
+		float siny = 2 * (w * y - z * x);
+		if (std::abs(siny) >= 1)
+			euler_angles.set_y(static_cast<float>(std::copysign(M_PI / 2, siny))); // use 90 degrees if out of range
+		else
+			euler_angles.set_y(std::asin(siny));
+
+		// roll (z-axis rotation)
+		float siny_cosp = 2 * (w * z + x * y);
+		float cosy_cosp = 1 - 2 * (y * y + z * z);
+		euler_angles.set_z(std::atan2(siny_cosp, cosy_cosp));
+
+		return euler_angles;
+	}
+
 	inline Quaternion operator+(Quaternion other) const {
 		return Quaternion(x+other.x, y+other.y, z+other.z, w+other.w);
 	}

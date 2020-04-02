@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 	viewport->setMouseTracking(true);
 	viewport->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	connect(viewport, &Viewport::render, this, &MainWindow::render_preview);
+	connect(viewport, &Viewport::entity_selected_changed, inspector, &Inspector::reload);
 
 	render_preview();
 }

@@ -6,7 +6,7 @@ CONFIG -= qt
 QMAKE_CXXFLAGS += -march=native -fopenmp
 QMAKE_LFLAGS += -fopenmp
 
-INCLUDEPATH += ../deps/gtest/include ../src
+INCLUDEPATH += ../deps/gtest/include ../deps/stb ../src
 LIBS += -L../deps/gtest/lib -static -lgtest -lgtest_main
 
 SOURCES += \
@@ -21,7 +21,7 @@ SOURCES += \
         ../src/geometry/Sphere.cpp \
         ../src/geometry/mesh/Mesh.cpp \
         ../src/geometry/mesh/Triangle.cpp \
-        ../src/image/Framebuffer.cpp \
+        ../src/image/Image.cpp \
         ../src/material/Dielectric.cpp \
         ../src/material/Lambertian.cpp \
         ../src/material/Material.cpp \
@@ -51,7 +51,7 @@ HEADERS += \
     ../src/geometry/mesh/Mesh.h \
     ../src/geometry/mesh/MeshLoader.h \
     ../src/geometry/mesh/Triangle.h \
-    ../src/image/Framebuffer.h \
+    ../src/image/Image.h \
     ../src/material/Dielectric.h \
     ../src/material/Lambertian.h \
     ../src/material/Material.h \

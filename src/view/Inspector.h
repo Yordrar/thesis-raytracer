@@ -2,6 +2,8 @@
 
 #include <QWidget>
 
+#include <geometry/Entity.h>
+
 namespace Ui {
 class Inspector;
 }
@@ -13,6 +15,9 @@ class Inspector : public QWidget
 public:
 	explicit Inspector(QWidget *parent = nullptr);
 	~Inspector();
+
+public slots:
+	void reload(Entity* entity);
 
 private:
 	Ui::Inspector *ui;

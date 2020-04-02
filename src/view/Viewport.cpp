@@ -24,6 +24,11 @@ void Viewport::mousePressEvent(QMouseEvent* ev)
 {
 	if(ev->button() == Qt::MouseButton::RightButton)
 		last_point_pressed = ev->pos();
+	else if(ev->button() == Qt::MouseButton::LeftButton) {
+		Entity* entity_selected = RenderManager::get_manager()->get_selection(static_cast<int>(ev->localPos().x()),
+																	  static_cast<int>(ev->localPos().y()));
+		emit entity_selected_changed(entity_selected);
+	}
 }
 
 void Viewport::mouseReleaseEvent(QMouseEvent* ev)

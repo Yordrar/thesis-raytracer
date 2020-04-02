@@ -13,6 +13,7 @@ public:
 	~BVH() override;
 
 	Hit get_intersection(const Ray& ray) const override;
+	Entity* get_intersectable(const Ray& ray) const;
 
 	int count() const;
 

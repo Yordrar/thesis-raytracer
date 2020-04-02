@@ -121,6 +121,32 @@ Hit BVH::get_intersection(const Ray& ray) const
 	return Hit();
 }
 
+Entity* BVH::get_intersectable(const Ray& ray) const
+{
+	if(bounding_box.hit(ray, FLT_MIN, FLT_MAX)) {
+		Entity* left_entity = dynamic_cast<Entity*>(left);
+		Entity* right_entity = dynamic_cast<Entity*>(right);
+		Hit hit_left = left->get_intersection(ray);
+		Hit hit_right = right->get_intersection(ray);
+
+		if(hit_left.is_hit() && (hit_left.get_t() <= hit_right.get_t() || !hit_right.is_hit())) {
+			if(left_entity) {
+				return left_entity;
+			}
+			return dynamic_cast<BVH*>(left)->get_intersectable(ray);
+		}
+
+		if(hit_right.is_hit() && (hit_right.get_t() <= hit_left.get_t() || !hit_left.is_hit())) {
+			if(right_entity) {
+				return right_entity;
+			}
+			return dynamic_cast<BVH*>(right)->get_intersectable(ray);
+		}
+		return nullptr;
+	}
+	return nullptr;
+}
+
 int BVH::count() const
 {
 	BVH* l = dynamic_cast<BVH*>(left);

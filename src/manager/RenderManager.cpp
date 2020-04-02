@@ -115,3 +115,9 @@ void RenderManager::rotate_camera(float x0, float y0, float x1, float y1)
 	cam->rotate(rotation_combined);
 	escena.set_camera(cam);
 }
+
+Entity* RenderManager::get_selection(int x, int y)
+{
+	BVH hierarchy(escena.get_intersectables());
+	return cam->get_object(x, y, hierarchy);
+}

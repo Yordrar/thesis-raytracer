@@ -61,6 +61,14 @@ Vector3 Camera::get_color_preview(float x, float y, const BVH& intersectables) c
 	return Vector3(DEFAULT_EDIT_MODE_BGND_COLOR);
 }
 
+Entity* Camera::get_object(float x, float y, const BVH& intersectables) const
+{
+	float u = x / float(width);
+	float v = y / float(height);
+	Ray r = get_ray(u, v);
+	return dynamic_cast<Entity*>(intersectables.get_intersectable(r));
+}
+
 void Camera::translate_global(float delta_x, float delta_y, float delta_z)
 {
 	Vector3 delta;
@@ -142,7 +150,7 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 	return color;
 }
 
-#define SHADOW_RAYS 10
+#define SHADOW_RAYS 1
 Vector3 Camera::get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& intersectables, const std::vector<Emitter*>& emitters) const
 {
 	Vector3 color(0);

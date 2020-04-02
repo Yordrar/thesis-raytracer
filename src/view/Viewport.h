@@ -2,6 +2,8 @@
 
 #include <QLabel>
 
+#include <geometry/Entity.h>
+
 class Viewport : public QLabel
 {
 	Q_OBJECT
@@ -17,6 +19,7 @@ public:
 
 signals:
 	void render();
+	void entity_selected_changed(Entity* entity);
 
 private:
 	QPoint last_point_pressed;
