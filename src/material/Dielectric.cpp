@@ -37,9 +37,9 @@ Ray Dielectric::scatter(const Ray& ray, float t, const Vector3& normal)
 	Vector3 normal_scatter = normal;
 	// If the cosine of the ray and the normal is < 0
 	// we are scattering from outside the object
-	if(ray.get_direction().dot(normal) <= 0) {
+	if(ray.get_direction().dot(normal_scatter) <= 0) {
 		ni_over_nt = 1.0f / refraction_index;
-		schlick_cosine = -ray.get_direction().dot(normal);
+		schlick_cosine = -ray.get_direction().dot(normal_scatter);
 	}
 	else {
 		// In this case we are scattering from inside the object
@@ -52,7 +52,7 @@ Ray Dielectric::scatter(const Ray& ray, float t, const Vector3& normal)
 	// The discriminant tells us if there is total internal reflection
 	// which is when there is no real solution to snell's law
 	// (it's because there is a sqrt in the calculation of the new ray)
-	float discriminant = get_discriminant(ray, normal, ni_over_nt);
+	float discriminant = get_discriminant(ray, normal_scatter, ni_over_nt);
 	float reflect_prob;
 	if(discriminant > 0) {
 		reflect_prob = schlick(schlick_cosine);
@@ -65,11 +65,11 @@ Ray Dielectric::scatter(const Ray& ray, float t, const Vector3& normal)
 	// If we reflect, we do it like a metal material with no roughness
 	// If not, we calculate the scattered ray and return it
 	if(Math::Randf() < reflect_prob) {
-		Vector3 new_direction = ray.get_direction() - 2*ray.get_direction().dot(normal)*normal;
+		Vector3 new_direction = ray.get_direction() - 2*ray.get_direction().dot(normal_scatter)*normal_scatter;
 		return Ray(ray.get_point(t), new_direction);
 	}
 	else {
-		Vector3 new_direction = ni_over_nt*(ray.get_direction() - ray.get_direction().dot(normal)*normal) - normal * sqrtf(discriminant);
+		Vector3 new_direction = ni_over_nt*(ray.get_direction() - ray.get_direction().dot(normal_scatter)*normal_scatter) - normal_scatter * sqrtf(discriminant);
 		return Ray(ray.get_point(t), new_direction);
 	}
 }

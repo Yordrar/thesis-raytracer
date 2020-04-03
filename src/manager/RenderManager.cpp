@@ -15,6 +15,7 @@
 #include <material/Metal.h>
 #include <material/Dielectric.h>
 #include <material/Emissive.h>
+#include <material/RefractiveLambertian.h>
 
 #include <renderer/CPURenderer.h>
 #include <renderer/EditModeRenderer.h>
@@ -45,14 +46,14 @@ RenderManager::RenderManager()
 	//escena.add_emitter(l3);
 	escena.add_emitter(l4);
 
-	Sphere* s = new Sphere(Vector3(0, -101, -1), 100);
-	s->set_material(new Lambertian(Vector3(200, 0, 0)));
+	Sphere* s = new Sphere(Vector3(0, -100.5f, -1), 100);
+	s->set_material(new Lambertian(Vector3(128)));
 	Sphere* s1 = new Sphere(Vector3(0, 0, -1.0f), 0.5f);
-	s1->set_material(new Lambertian(Vector3(255)));
-	s1->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\brick_diffuse.bmp"));
+	s1->set_material(new RefractiveLambertian(Vector3(128)));
+	//s1->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\brick_diffuse.bmp"));
 	//s1->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\brick_normal.bmp"));
 	Sphere* s2 = new Sphere(Vector3(1.0f, 0, -1.0f), 0.5f);
-	s2->set_material(new Emissive(Vector3(255), 4));
+	s2->set_material(new Dielectric(Vector3(255), 1.5f));
 	escena.add_intersectable(s);
 	escena.add_intersectable(s1);
 	escena.add_intersectable(s2);

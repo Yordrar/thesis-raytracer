@@ -39,6 +39,7 @@ SOURCES += \
     material/Lambertian.cpp \
     material/Material.cpp \
     material/Metal.cpp \
+    material/RefractiveLambertian.cpp \
     math/Math.cpp \
     math/Quaternion.cpp \
     math/Ray.cpp \
@@ -72,6 +73,7 @@ HEADERS += \
     material/Lambertian.h \
     material/Material.h \
     material/Metal.h \
+    material/RefractiveLambertian.h \
     math/Math.h \
     math/Quaternion.h \
     math/Ray.h \

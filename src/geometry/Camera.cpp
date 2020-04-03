@@ -140,7 +140,7 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 			color = emission + material_color * (emitters_color + get_color_recursive(new_ray, intersectables, emitters, depth+1));
 		}
 		else {
-			color = emission + material_color * emitters_color;
+			color = emission + material_color;
 		}
 	} else {
 		/*Vector3 unit_direction = r.get_direction().unit();
@@ -153,7 +153,7 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 #define SHADOW_RAYS 1
 Vector3 Camera::get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& intersectables, const std::vector<Emitter*>& emitters) const
 {
-	Vector3 color(0);
+	Vector3 color;
 	for(Emitter* e : emitters) {
 		for(int i = 0; i < SHADOW_RAYS; i++) {
 			Ray shadow_ray = e->get_shadow_ray(origin);
