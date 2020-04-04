@@ -11,6 +11,7 @@ Camera::Camera(int width, int height, float vertical_fov)
 {
 	up = Vector3(0, 1, 0);
 	right = Vector3(1, 0, 0);
+	aperture = 0;
 	recalculate_parameters();
 }
 
@@ -76,6 +77,7 @@ void Camera::translate_global(float delta_x, float delta_y, float delta_z)
 	delta += up*delta_y;
 	delta += -orientation.get_imaginary()*delta_z;
 	Entity::translate_global(delta);
+	recalculate_parameters();
 }
 
 void Camera::translate_global(const Vector3& delta)
@@ -85,6 +87,7 @@ void Camera::translate_global(const Vector3& delta)
 	new_delta += up*delta.get_y();
 	new_delta += -orientation.get_imaginary()*delta.get_z();
 	Entity::translate_global(new_delta);
+	recalculate_parameters();
 }
 
 void Camera::rotate(float euler_x, float euler_y, float euler_z)
@@ -97,7 +100,7 @@ void Camera::rotate(float euler_x, float euler_y, float euler_z)
 	up = q.apply(up);
 	right = q.apply(right);
 
-	upper_left_corner = -right*half_width + up*half_height + orientation.get_imaginary();
+	recalculate_parameters();
 }
 
 void Camera::rotate(const Quaternion& rotation)
@@ -106,7 +109,7 @@ void Camera::rotate(const Quaternion& rotation)
 	up = rotation.apply(up);
 	right = rotation.apply(right);
 
-	upper_left_corner = -right*half_width + up*half_height + orientation.get_imaginary();
+	recalculate_parameters();
 }
 
 #define MAX_DEPTH 10
@@ -137,7 +140,7 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 		Vector3 emission = material->get_emission_color(r, t, normal);
 		Vector3 emitters_color = get_shadow_ray_color(new_ray.get_origin(), normal, intersectables, emitters);
 		if(depth < MAX_DEPTH && new_ray.get_direction().get_squared_magnitude() != 0.0f) {
-			color = emission + material_color * (emitters_color + get_color_recursive(new_ray, intersectables, emitters, depth+1));
+			color = emission + material_color * (0.5f*emitters_color + 0.5f*get_color_recursive(new_ray, intersectables, emitters, depth+1));
 		}
 		else {
 			color = emission + material_color;
@@ -170,11 +173,14 @@ Vector3 Camera::get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& 
 
 void Camera::recalculate_parameters()
 {
+	float focus_dist = (position - orientation.get_imaginary()).get_magnitude();
+
 	half_height = tanf(Math::Deg2Rad(vfov)/2);
 	half_width = static_cast<float>(width)/static_cast<float>(height) * half_height;
 
-	plane_width = half_width * 2.0f;
-	plane_height = half_height * 2.0f;
+	plane_width = half_width * 2.0f * focus_dist;
+	plane_height = half_height * 2.0f * focus_dist;
 
 	upper_left_corner = -right*half_width + up*half_height + orientation.get_imaginary();
+	upper_left_corner *= focus_dist;
 }

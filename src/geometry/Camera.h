@@ -34,15 +34,25 @@ public:
 	void rotate(float euler_x, float euler_y, float euler_z);
 	void rotate(const Quaternion& rotation);
 
+	inline float get_aperture() const {return aperture;}
+	inline void set_aperture(float value) {aperture = value;}
+
 private:
 	int width, height;
 	float vfov, plane_width, plane_height, half_width, half_height;
 	Vector3 upper_left_corner;
-	Vector3 up, right;
+	float aperture, focus_dist;
 
 	Vector3 get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth) const;
 	Vector3 get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& intersectables, const std::vector<Emitter*>& emitters) const;
 	void recalculate_parameters();
-	inline Ray get_ray(float u, float v) const {return Ray(position, upper_left_corner + u*right*plane_width + -v*up*plane_height);}
+	inline Ray get_ray(float u, float v) const {
+		Vector3 p(2, 2, 0);
+		while(p.get_squared_magnitude() > 1)
+			p = Vector3(Math::Randf()*2-1, Math::Randf()*2-1, 0);
+		p *= aperture;
+		Vector3 offset = right * p.get_x() + up * p.get_y();
+		return Ray(position + offset, upper_left_corner + u*right*plane_width - v*up*plane_height - offset);
+	}
 };
 

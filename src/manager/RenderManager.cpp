@@ -25,7 +25,7 @@ RenderManager* RenderManager::instance = nullptr;
 RenderManager::RenderManager()
 {
 	cam = new Camera();
-	cam->translate_global(0, 0, 4);
+	cam->translate_global(0, 0, 3);
 	escena.set_camera(cam);
 
 	Mesh* m = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\cow.obj");
