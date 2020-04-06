@@ -5,6 +5,8 @@
 #include <chrono>
 #include <iostream>
 
+#include <material/Lambertian.h>
+
 Mesh::Mesh(std::vector<Triangle> triangles)
 {
 	this->triangles = triangles;
@@ -13,6 +15,7 @@ Mesh::Mesh(std::vector<Triangle> triangles)
 		tris.push_back(&t);
 	}
 	tri_hierarchy = new BVH(tris);
+	material = new Lambertian(Vector3(128));
 }
 
 Mesh::~Mesh()

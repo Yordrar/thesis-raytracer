@@ -28,9 +28,14 @@ RenderManager::RenderManager()
 	cam->translate_global(0, 0, 3);
 	escena.set_camera(cam);
 
-	Mesh* m = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\cow.obj");
-	m->set_material(new Lambertian(Vector3(255)));
-	m->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\cow_texture.png"));
+	auto meshes = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\test.obj");
+	std::vector<Intersectable*> intersectables;
+	for(Mesh* m : meshes) {
+		intersectables.push_back(dynamic_cast<Intersectable*>(m));
+	}
+	escena.set_intersectables(intersectables);
+	//m->set_material(new Lambertian(Vector3(255)));
+	//m->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\cow_texture.png"));
 	//m->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\s76weapon_normal.png"));
 	//escena.add_intersectable(m);
 
@@ -54,9 +59,9 @@ RenderManager::RenderManager()
 	//s1->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\brick_normal.bmp"));
 	Sphere* s2 = new Sphere(Vector3(1.0f, 0, -1.0f), 0.5f);
 	s2->set_material(new Dielectric(Vector3(255), 1.5f));
-	escena.add_intersectable(s);
-	escena.add_intersectable(s1);
-	escena.add_intersectable(s2);
+	//escena.add_intersectable(s);
+	//escena.add_intersectable(s1);
+	//escena.add_intersectable(s2);
 }
 
 RenderManager::~RenderManager()
@@ -100,7 +105,7 @@ Image RenderManager::render(int width, int height, int n_samples)
 
 	cam->set_width_and_height(width, height);
 
-	return CPURenderer::render(escena, n_samples);//*dynamic_cast<Scatterer*>(escena.get_intersectable(0))->get_texture_map();
+	return CPURenderer::render(escena, n_samples);
 }
 
 void RenderManager::move_camera(float delta_x, float delta_y, float delta_z)

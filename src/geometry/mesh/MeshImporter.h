@@ -11,6 +11,6 @@ private:
 	~MeshImporter();
 
 public:
-	static Mesh* import_from_file(std::string file_path);
+	static std::vector<Mesh*> import_from_file(std::string file_path);
 };
 

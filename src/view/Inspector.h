@@ -21,5 +21,6 @@ public slots:
 
 private:
 	Ui::Inspector *ui;
+	Entity* entity_selected = nullptr;
 };
 

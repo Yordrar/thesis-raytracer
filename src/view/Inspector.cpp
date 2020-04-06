@@ -15,6 +15,7 @@ Inspector::~Inspector()
 
 void Inspector::reload(Entity* entity)
 {
+	entity_selected = entity;
 	if(entity == nullptr) {
 		ui->position_x->setText("");
 		ui->position_y->setText("");

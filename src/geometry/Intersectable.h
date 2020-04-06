@@ -8,7 +8,7 @@ class Intersectable
 {
 protected:
 	Intersectable();
-	virtual ~Intersectable() = 0;
+	virtual ~Intersectable();
 
 	AxisAlignedBoundingBox bounding_box;
 
