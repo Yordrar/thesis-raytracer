@@ -14,6 +14,10 @@ public:
 	Triangle(const Vector3& v0, const Vector3& v1, const Vector3& v2);
 	~Triangle() override;
 
+	inline Vector3 get_vertex0() const {return v0;}
+	inline Vector3 get_vertex1() const {return v1;}
+	inline Vector3 get_vertex2() const {return v2;}
+
 	inline void set_vertices(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2) {
 		v0 = vertex0;
 		v1 = vertex1;

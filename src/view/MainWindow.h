@@ -27,5 +27,6 @@ private:
     Ui::MainWindow *ui;
 	Viewport* viewport;
 	Inspector* inspector;
+	QTimer* timer;
 };
 

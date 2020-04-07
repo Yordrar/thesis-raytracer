@@ -13,6 +13,7 @@ Mesh::Mesh(std::vector<Triangle> triangles)
 	std::vector<Intersectable*> tris;
 	for(Triangle& t : this->triangles) {
 		tris.push_back(&t);
+		position += ((t.get_vertex0() + t.get_vertex1() + t.get_vertex2()) / 3) / this->triangles.size();
 	}
 	tri_hierarchy = new BVH(tris);
 	material = new Lambertian(Vector3(128));

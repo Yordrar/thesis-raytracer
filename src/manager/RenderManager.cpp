@@ -53,8 +53,8 @@ RenderManager::RenderManager()
 
 	Sphere* s = new Sphere(Vector3(0, -100.5f, -1), 100);
 	s->set_material(new Lambertian(Vector3(128)));
-	Sphere* s1 = new Sphere(Vector3(0, 0, -1.0f), 0.5f);
-	s1->set_material(new RefractiveLambertian(Vector3(128)));
+	Sphere* s1 = new Sphere(Vector3(0, 2, 0), 0.5f);
+	s1->set_material(new Emissive(Vector3(255)));
 	//s1->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\brick_diffuse.bmp"));
 	//s1->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\brick_normal.bmp"));
 	Sphere* s2 = new Sphere(Vector3(1.0f, 0, -1.0f), 0.5f);
@@ -108,9 +108,26 @@ Image RenderManager::render(int width, int height, int n_samples)
 	return CPURenderer::render(escena, n_samples);
 }
 
-void RenderManager::move_camera(float delta_x, float delta_y, float delta_z)
+void RenderManager::move_camera(MOVE_DIRECTION direction)
 {
-	cam->translate_global(delta_x, delta_y, delta_z);
+	if(direction == MOVE_DIRECTION::FRONT) {
+		cam->translate_global(0, 0, -move_velocity);
+	}
+	else if(direction == MOVE_DIRECTION::LEFT) {
+		cam->translate_global(-move_velocity, 0, 0);
+	}
+	else if(direction == MOVE_DIRECTION::BACK) {
+		cam->translate_global(0, 0, move_velocity);
+	}
+	else if(direction == MOVE_DIRECTION::RIGHT) {
+		cam->translate_global(move_velocity, 0, 0);
+	}
+	else if(direction == MOVE_DIRECTION::UP) {
+		cam->translate_global(0, move_velocity, 0);
+	}
+	else if(direction == MOVE_DIRECTION::DOWN) {
+		cam->translate_global(0, -move_velocity, 0);
+	}
 }
 
 void RenderManager::rotate_camera(float x0, float y0, float x1, float y1)
@@ -120,6 +137,37 @@ void RenderManager::rotate_camera(float x0, float y0, float x1, float y1)
 	Quaternion rotation_combined = rotation_yaw*rotation_pitch;
 	cam->rotate(rotation_combined);
 	escena.set_camera(cam);
+}
+
+QImage RenderManager::image_to_qimage(Image* img) const {
+	if(img == nullptr) {
+		QImage qimg(1, 1, QImage::Format_RGB888);
+		qimg.fill(0);
+		return qimg;
+	}
+
+	QImage qimg(img->get_width(), img->get_height(), QImage::Format_RGB888);
+	for(int j = 0; j < qimg.height(); j++) {
+		for(int i = 0; i < qimg.width(); i++) {
+			Vector3 color = img->get_pixel_color(i, j) * 255.99f;
+			qimg.setPixelColor(i, j, QColor(static_cast<int>(color.get_x()),
+											static_cast<int>(color.get_y()),
+											static_cast<int>(color.get_z())));
+		}
+	}
+	return qimg;
+}
+
+QImage RenderManager::get_texture_map() const
+{
+	Image* img = dynamic_cast<Scatterer*>(entity_selected)->get_material()->get_texture_map();
+	return image_to_qimage(img);
+}
+
+QImage RenderManager::get_normal_map() const
+{
+	Image* img = dynamic_cast<Scatterer*>(entity_selected)->get_material()->get_normal_map();
+	return image_to_qimage(img);
 }
 
 Entity* RenderManager::get_selection(int x, int y)

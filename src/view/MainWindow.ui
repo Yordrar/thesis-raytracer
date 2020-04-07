@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>1000</width>
     <height>600</height>
    </rect>
   </property>
@@ -30,6 +30,9 @@
   </property>
   <property name="windowTitle">
    <string>TFG</string>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
@@ -110,9 +113,15 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>250</width>
+              <width>270</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="verticalScrollBarPolicy">
+             <enum>Qt::ScrollBarAsNeeded</enum>
+            </property>
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOff</enum>
             </property>
             <property name="widgetResizable">
              <bool>true</bool>
@@ -120,15 +129,16 @@
             <property name="alignment">
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
             </property>
-            <widget class="QWidget" name="scrollAreaWidgetContents">
+            <widget class="QWidget" name="inspector_contents">
              <property name="geometry">
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>248</width>
+               <width>268</width>
                <height>549</height>
               </rect>
              </property>
+             <layout class="QVBoxLayout" name="verticalLayout"/>
             </widget>
            </widget>
           </item>
@@ -378,7 +388,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1000</width>
      <height>20</height>
     </rect>
    </property>

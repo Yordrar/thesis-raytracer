@@ -4,6 +4,8 @@
 
 #include <geometry/Entity.h>
 
+#include <image/Image.h>
+
 namespace Ui {
 class Inspector;
 }
@@ -19,8 +21,13 @@ public:
 public slots:
 	void reload(Entity* entity);
 
+private slots:
+	void on_open_texture_clicked();
+
+	void on_open_normal_clicked();
+
 private:
 	Ui::Inspector *ui;
-	Entity* entity_selected = nullptr;
+	unsigned int map_preview_size;
 };
 

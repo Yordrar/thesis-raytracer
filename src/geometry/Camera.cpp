@@ -140,7 +140,7 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 		Vector3 emission = material->get_emission_color(r, t, normal);
 		Vector3 emitters_color = get_shadow_ray_color(new_ray.get_origin(), normal, intersectables, emitters);
 		if(depth < MAX_DEPTH && new_ray.get_direction().get_squared_magnitude() != 0.0f) {
-			color = emission + material_color * (0.5f*emitters_color + 0.5f*get_color_recursive(new_ray, intersectables, emitters, depth+1));
+			color = emission + material_color * (emitters_color + get_color_recursive(new_ray, intersectables, emitters, depth+1));
 		}
 		else {
 			color = emission + material_color;
