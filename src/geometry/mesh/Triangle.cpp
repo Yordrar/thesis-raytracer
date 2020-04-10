@@ -43,9 +43,9 @@ Hit Triangle::get_intersection(const Ray& ray) const
 	if (t > 0.001f) {
 		 // There is an intersection
 		if(hasUV) {
-			return Hit(true, nullptr, normal_flat, t, (u*uv_v1 + v*uv_v2 + (1-u-v)*uv_v0));
+			return Hit(true, nullptr, get_normal_smooth(u, v, 1-u-v), t, (u*uv_v1 + v*uv_v2 + (1-u-v)*uv_v0));
 		}
-		return Hit(true, nullptr, normal_flat, t);
+		return Hit(true, nullptr, get_normal_smooth(u, v, 1-u-v), t);
 	}
 	else // The ray is contained in the triangle
 		return Hit();

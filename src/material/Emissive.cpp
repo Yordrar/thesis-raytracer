@@ -1,7 +1,7 @@
 #include "Emissive.h"
 
-Emissive::Emissive(const Vector3& albedo, float intensity)
-	: Material(albedo)
+Emissive::Emissive(const Vector3& _albedo, float intensity)
+	: Material(_albedo)
 {
 	this->intensity = intensity;
 }

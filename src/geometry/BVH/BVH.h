@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include <geometry/Entity.h>
 #include <geometry/Intersectable.h>
 #include <geometry/BVH/AxisAlignedBoundingBox.h>
 

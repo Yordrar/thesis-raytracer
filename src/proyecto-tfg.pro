@@ -34,6 +34,7 @@ SOURCES += \
     image/Image.cpp \
     main.cpp \
     manager/RenderManager.cpp \
+    material/BlinnPhong.cpp \
     material/Dielectric.cpp \
     material/Emissive.cpp \
     material/Lambertian.cpp \
@@ -68,6 +69,7 @@ HEADERS += \
     geometry/mesh/Triangle.h \
     image/Image.h \
     manager/RenderManager.h \
+    material/BlinnPhong.h \
     material/Dielectric.h \
     material/Emissive.h \
     material/Lambertian.h \

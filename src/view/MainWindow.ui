@@ -62,7 +62,7 @@
          </sizepolicy>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="preview_tab">
          <property name="sizePolicy">
@@ -325,7 +325,7 @@
                <number>100</number>
               </property>
               <property name="maximum">
-               <number>600</number>
+               <number>10000</number>
               </property>
               <property name="singleStep">
                <number>100</number>
@@ -347,7 +347,7 @@
                <number>100</number>
               </property>
               <property name="maximum">
-               <number>600</number>
+               <number>10000</number>
               </property>
               <property name="singleStep">
                <number>100</number>

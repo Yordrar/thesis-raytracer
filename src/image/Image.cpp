@@ -56,3 +56,25 @@ void Image::set_pixel_color(int x, int y, const Vector3& color)
 		buffer[y][x] = color;
 	}
 }
+
+Image* Image::get_copy() const
+{
+	Image* copy = new Image(width, height);
+	for(int j = 0; j < height; j++) {
+		for(int i = 0; i < width; i++) {
+			copy->set_pixel_color(i, j, buffer[j][i]);
+		}
+	}
+	return copy;
+}
+
+Vector3 Image::get_mean() const
+{
+	Vector3 color;
+	for(int j = 0; j < height; j++) {
+		for(int i = 0; i < width; i++) {
+			color += buffer[j][i];
+		}
+	}
+	return color/(width*height);
+}

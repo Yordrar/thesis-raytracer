@@ -17,6 +17,10 @@ public:
 	inline int get_width() {return width;}
 	inline int get_height() {return height;}
 
+	Image* get_copy() const;
+
+	Vector3 get_mean() const;
+
 private:
 	Vector3** buffer;
 	int width, height;

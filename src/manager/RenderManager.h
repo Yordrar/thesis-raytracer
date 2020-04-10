@@ -40,7 +40,15 @@ public:
 		dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_normal_map(new Image(filename.toUtf8().constData()));
 	}
 
-
+	enum class MATERIAL_TYPE {
+		LAMBERTIAN,
+		BLINNPHONG,
+		METAL,
+		DIELECTRIC,
+		EMISSIVE,
+		REFRACTIVE_LAMBERTIAN,
+	};
+	void set_material(MATERIAL_TYPE m) const;
 
 	Entity* get_selection(int x, int y);
 

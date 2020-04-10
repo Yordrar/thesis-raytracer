@@ -215,6 +215,11 @@
    </item>
    <item>
     <property name="text">
+     <string>BlinnPhong</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
      <string>Metal</string>
     </property>
    </item>

@@ -20,7 +20,7 @@ Vector3 PointLight::get_emission_color(Vector3 _position, Vector3 normal) const
 Ray PointLight::get_shadow_ray(Vector3 _position) const
 {
 	Vector3 shadow_ray_dir = this->position - _position;
-	Ray shadow_ray(_position, shadow_ray_dir);
+	return Ray(_position, shadow_ray_dir);
 }
 
 float PointLight::get_distance(Vector3 _position) const

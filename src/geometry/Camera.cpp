@@ -2,6 +2,8 @@
 
 #include <geometry/Scatterer.h>
 #include <iostream>
+#include <material/Dielectric.h>
+#include <material/Metal.h>
 
 Camera::Camera(int width, int height, float vertical_fov)
 	: Entity(Vector3(), Quaternion(0, Vector3(0, 0, -1))),
@@ -130,7 +132,11 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 			else {
 				normal = intersection.get_normal();
 			}
-			material_color = material->get_color(uv);
+			std::vector<Vector3> light_vectors;
+			for(Emitter* e : emitters) {
+				light_vectors.push_back(e->get_shadow_ray(r.get_point(intersection.get_t())).get_direction().unit());
+			}
+			material_color = material->get_color(uv, normal, light_vectors, -r.get_direction().unit());
 		}
 		else {
 			normal = intersection.get_normal();
@@ -138,7 +144,9 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 		}
 		Ray new_ray = material->scatter(r, t, normal);
 		Vector3 emission = material->get_emission_color(r, t, normal);
-		Vector3 emitters_color = get_shadow_ray_color(new_ray.get_origin(), normal, intersectables, emitters);
+		Vector3 emitters_color;
+		if(material->is_affected_by_shadow_rays())
+			emitters_color = get_shadow_ray_color(new_ray.get_origin(), normal, intersectables, emitters);
 		if(depth < MAX_DEPTH && new_ray.get_direction().get_squared_magnitude() != 0.0f) {
 			color = emission + material_color * (emitters_color + get_color_recursive(new_ray, intersectables, emitters, depth+1));
 		}

@@ -18,7 +18,7 @@ Image CPURenderer::render(const Scene& scene, int n_samples)
 	auto emitters = scene.get_emitters();
 
 	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-	#pragma omp parallel for collapse(2) schedule(dynamic) shared(framebuffer)
+	#pragma omp parallel for collapse(2) schedule(static, width*height/omp_get_max_threads()) shared(framebuffer)
 	for(int j = 0; j < height; j++) {
 		for(int i = 0; i < width; i++) {
 			Vector3 color;

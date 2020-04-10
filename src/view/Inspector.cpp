@@ -74,3 +74,23 @@ void Inspector::on_open_normal_clicked()
 	ui->normal_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(map_preview_size, map_preview_size)));
 	RenderManager::get_manager()->set_normal_map(filename);
 }
+
+void Inspector::on_comboBox_currentIndexChanged(int index)
+{
+	if(!RenderManager::get_manager()->is_there_entity_selected()) return;
+
+	switch(index) {
+	case 0:
+		RenderManager::get_manager()->set_material(RenderManager::MATERIAL_TYPE::LAMBERTIAN);
+		break;
+	case 1:
+		RenderManager::get_manager()->set_material(RenderManager::MATERIAL_TYPE::BLINNPHONG);
+		break;
+	case 2:
+		RenderManager::get_manager()->set_material(RenderManager::MATERIAL_TYPE::METAL);
+		break;
+	case 3:
+		RenderManager::get_manager()->set_material(RenderManager::MATERIAL_TYPE::DIELECTRIC);
+		break;
+	}
+}

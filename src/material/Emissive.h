@@ -12,6 +12,8 @@ public:
 	Ray scatter(const Ray& ray, float t, const Vector3& normal) override;
 	Vector3 get_emission_color(const Ray& ray, float t, const Vector3& normal) override;
 
+	inline bool is_affected_by_shadow_rays() const override {return false;}
+
 private:
 	float intensity;
 };

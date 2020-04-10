@@ -1,15 +1,17 @@
 #include "Dielectric.h"
 
 Dielectric::Dielectric(const Vector3& _albedo, float refraction_index)
-	: Material(_albedo)
+	: Material(_albedo),
+	  refraction_index(refraction_index)
 {
-	this->refraction_index = refraction_index;
+
 }
 
 Dielectric::Dielectric(float r, float g, float b, float refraction_index)
-	: Material(r, g, b)
+	: Material(r, g, b),
+	  refraction_index(refraction_index)
 {
-	this->refraction_index = refraction_index;
+
 }
 
 Dielectric::~Dielectric()

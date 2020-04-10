@@ -16,6 +16,7 @@
 #include <material/Dielectric.h>
 #include <material/Emissive.h>
 #include <material/RefractiveLambertian.h>
+#include <material/BlinnPhong.h>
 
 #include <renderer/CPURenderer.h>
 #include <renderer/EditModeRenderer.h>
@@ -25,10 +26,10 @@ RenderManager* RenderManager::instance = nullptr;
 RenderManager::RenderManager()
 {
 	cam = new Camera();
-	cam->translate_global(0, 0, 3);
+	cam->translate_global(0, 0, 0);
 	escena.set_camera(cam);
 
-	auto meshes = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\test.obj");
+	auto meshes = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\manzana.obj");
 	std::vector<Intersectable*> intersectables;
 	for(Mesh* m : meshes) {
 		intersectables.push_back(dynamic_cast<Intersectable*>(m));
@@ -39,13 +40,13 @@ RenderManager::RenderManager()
 	//m->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\s76weapon_normal.png"));
 	//escena.add_intersectable(m);
 
-	PointLight* l1 = new PointLight(Vector3(128, 64, 32), 4);
-	PointLight* l2 = new PointLight(Vector3(32, 64, 128), 4);
-	PointLight* l3 = new PointLight(Vector3(255, 255, 255), 5);
+	PointLight* l1 = new PointLight(Vector3(128, 64, 32), 80);
+	PointLight* l2 = new PointLight(Vector3(32, 64, 128), 80);
+	PointLight* l3 = new PointLight(Vector3(255, 255, 255), 80);
 	DirectionalLight* l4 = new DirectionalLight(Vector3(255));
-	l1->set_position(Vector3(2, 0, 1));
-	l2->set_position(Vector3(-2, 0, 1));
-	l3->set_position(Vector3(0, 1, 2));
+	l1->set_position(Vector3(-2, 1, -2));
+	l2->set_position(Vector3(-2, 1, -8));
+	l3->set_position(Vector3(-2, 1, -14));
 	//escena.add_emitter(l1);
 	//escena.add_emitter(l2);
 	//escena.add_emitter(l3);
@@ -86,23 +87,6 @@ Image RenderManager::render_preview(int width, int height)
 
 Image RenderManager::render(int width, int height, int n_samples)
 {
-	/*Sphere s1(Vector3(0, 0, -1.0f), 0.5f);
-	s1.set_material(new Lambertian(Vector3(10, 60, 255)));
-
-	Sphere s2(Vector3(0, -100-s1.get_radius(), -1), 100);
-
-	Sphere s3(Vector3(1.0f, 0, -1.0f), 0.5f);
-	s3.set_material(new Metal(Vector3(128, 128, 128)));
-
-	Sphere s4(Vector3(-1.0f, 0, -1.0f), 0.5f);
-	s4.set_material(new Dielectric(Vector3(255, 255, 255), 1.5f));
-
-	Sphere s5(Vector3(-1.0f, 0, -1.0f), -0.45f);
-	s5.set_material(new Dielectric(Vector3(255, 255, 255), 1.5f));
-	escena.add_intersectable(&s5);
-
-	Scene escena{&s1, &s2, &s3, &s4};*/
-
 	cam->set_width_and_height(width, height);
 
 	return CPURenderer::render(escena, n_samples);
@@ -168,6 +152,30 @@ QImage RenderManager::get_normal_map() const
 {
 	Image* img = dynamic_cast<Scatterer*>(entity_selected)->get_material()->get_normal_map();
 	return image_to_qimage(img);
+}
+
+void RenderManager::set_material(RenderManager::MATERIAL_TYPE m) const
+{
+	switch(m) {
+	case RenderManager::MATERIAL_TYPE::LAMBERTIAN:
+		dynamic_cast<Scatterer*>(entity_selected)->set_material(new Lambertian(Vector3(128)));
+		break;
+	case RenderManager::MATERIAL_TYPE::BLINNPHONG:
+		dynamic_cast<Scatterer*>(entity_selected)->set_material(new BlinnPhong());
+		break;
+	case RenderManager::MATERIAL_TYPE::METAL:
+		dynamic_cast<Scatterer*>(entity_selected)->set_material(new Metal(Vector3(200)));
+		break;
+	case RenderManager::MATERIAL_TYPE::DIELECTRIC:
+		dynamic_cast<Scatterer*>(entity_selected)->set_material(new Dielectric(Vector3(255), 1.5f));
+		break;
+	case RenderManager::MATERIAL_TYPE::EMISSIVE:
+		dynamic_cast<Scatterer*>(entity_selected)->set_material(new Emissive(Vector3(255), 5));
+		break;
+	case RenderManager::MATERIAL_TYPE::REFRACTIVE_LAMBERTIAN:
+		dynamic_cast<Scatterer*>(entity_selected)->set_material(new RefractiveLambertian(Vector3(128)));
+		break;
+	}
 }
 
 Entity* RenderManager::get_selection(int x, int y)
