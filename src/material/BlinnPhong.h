@@ -7,8 +7,8 @@
 class BlinnPhong : public Material
 {
 public:
-	BlinnPhong(const Vector3& albedo = Vector3(128, 128, 128), float shininess = 500.0f);
-	BlinnPhong(float r, float g, float b, float shininess = 500.0f);
+	BlinnPhong(const Vector3& albedo = Vector3(128, 128, 128), float shininess = 50.0f);
+	BlinnPhong(float r, float g, float b, float shininess = 50.0f);
 	~BlinnPhong() override;
 
 	Ray scatter(const Ray& ray, float t, const Vector3& normal) override;

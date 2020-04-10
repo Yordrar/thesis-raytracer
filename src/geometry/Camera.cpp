@@ -126,8 +126,11 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 		Vector3 material_color;
 		if(!Math::Float_Eq(intersection.get_uv().get_x(), -1) && !Math::Float_Eq(intersection.get_uv().get_y(), -1)) {
 			Vector3 uv = intersection.get_uv();
-			if(material->get_normal_map()) {
+			if(material->get_normal_map() && intersection.get_tangent().get_squared_magnitude() != 0.0f) {
 				normal = material->get_normal(uv);
+				normal.set_x(Math::Map(normal.get_x(), 0, 1, -1, 1));
+				normal.set_y(Math::Map(normal.get_y(), 0, 1, -1, 1));
+				normal = normal.get_x() * intersection.get_tangent() + normal.get_y() * intersection.get_bitangent() + normal.get_z() * intersection.get_normal();
 			}
 			else {
 				normal = intersection.get_normal();

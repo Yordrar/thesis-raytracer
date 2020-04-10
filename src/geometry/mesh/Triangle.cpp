@@ -21,6 +21,42 @@ Triangle::~Triangle()
 
 }
 
+Vector3 create_not_collinear(Vector3 w) {
+	Vector3 t = w;
+	float t_x = fabsf(t.get_x());
+	float t_y = fabsf(t.get_y());
+	float t_z = fabsf(t.get_z());
+	if(t_x <= t_y && t_x <= t_z) {
+		t.set_x(1);
+	}
+	else if(t_y <= t_x && t_y <= t_z) {
+		t.set_y(1);
+	}
+	else if(t_z <= t_y && t_z <= t_x) {
+		t.set_z(1);
+	}
+	return t;
+}
+
+void Triangle::generate_tangents()
+{
+	if(hasNormals) {
+		Vector3 t = create_not_collinear(normal_v0);
+		tangent_v0 = t.cross(normal_v0).unit();
+		bitangent_v0 = normal_v0.cross(tangent_v0).unit();
+
+		t = create_not_collinear(normal_v1);
+		tangent_v1 = t.cross(normal_v1).unit();
+		bitangent_v1 = normal_v1.cross(tangent_v1).unit();
+
+		t = create_not_collinear(normal_v2);
+		tangent_v2 = t.cross(normal_v2).unit();
+		bitangent_v2 = normal_v2.cross(tangent_v2).unit();
+
+		hasTangents = true;
+	}
+}
+
 Hit Triangle::get_intersection(const Ray& ray) const
 {
 	// Möller-Trumbore algorithm
@@ -42,10 +78,15 @@ Hit Triangle::get_intersection(const Ray& ray) const
 	float t = invDet * edge02.dot(qvec);
 	if (t > 0.001f) {
 		 // There is an intersection
+		Hit intersection(true, nullptr, get_normal(u, v, 1-u-v), t);
 		if(hasUV) {
-			return Hit(true, nullptr, get_normal_smooth(u, v, 1-u-v), t, (u*uv_v1 + v*uv_v2 + (1-u-v)*uv_v0));
+			intersection.set_uv(u*uv_v1 + v*uv_v2 + (1-u-v)*uv_v0);
 		}
-		return Hit(true, nullptr, get_normal_smooth(u, v, 1-u-v), t);
+		if(hasTangents) {
+			intersection.set_tangent(u*tangent_v1 + v*tangent_v2 + (1-u-v)*tangent_v0);
+			intersection.set_bitangent(u*bitangent_v1 + v*bitangent_v2 + (1-u-v)*bitangent_v0);
+		}
+		return intersection;
 	}
 	else // The ray is contained in the triangle
 		return Hit();
