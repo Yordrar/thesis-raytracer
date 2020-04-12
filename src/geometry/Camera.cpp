@@ -171,11 +171,22 @@ Vector3 Camera::get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& 
 	for(Emitter* e : emitters) {
 		for(int i = 0; i < SHADOW_RAYS; i++) {
 			Ray shadow_ray = e->get_shadow_ray(origin);
+			Vector3 shadow_ray_direction = shadow_ray.get_direction();
 			float distance_to_emitter = e->get_distance(origin);
 			Hit intersection = intersectables.get_intersection(shadow_ray);
+			int num_refractions = 0;
+			while(intersection.is_hit() && dynamic_cast<Dielectric*>(intersection.get_material())) {
+				num_refractions++;
+				shadow_ray = intersection.get_material()->scatter(shadow_ray, intersection.get_t(), intersection.get_normal());
+				intersection = intersectables.get_intersection(shadow_ray);
+			}
+			Vector3 direction_to_emitter = e->get_shadow_ray(shadow_ray.get_origin()).get_direction();
 			if(!intersection.is_hit() ||
 			   (intersection.is_hit() && intersection.get_t() > distance_to_emitter)) {
-				color += e->get_emission_color(origin, normal);
+				if(num_refractions > 0 && shadow_ray_direction.dot(shadow_ray.get_direction()) > 0.99f)
+					color += e->get_emission_color(origin, normal) * 100;
+				else
+					color += e->get_emission_color(origin, normal);
 			}
 		}
 	}

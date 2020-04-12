@@ -26,31 +26,31 @@ RenderManager* RenderManager::instance = nullptr;
 RenderManager::RenderManager()
 {
 	cam = new Camera();
-	cam->translate_global(0, 0, 0);
+	cam->translate_global(-0.1f, 1, -2);
+	cam->rotate(-20, 0, 0);
 	escena.set_camera(cam);
 
-	auto meshes = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\manzana.obj");
+	auto meshes = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\test3.obj");
 	std::vector<Intersectable*> intersectables;
 	for(Mesh* m : meshes) {
 		intersectables.push_back(dynamic_cast<Intersectable*>(m));
 	}
 	escena.set_intersectables(intersectables);
-	//m->set_material(new Lambertian(Vector3(255)));
-	//m->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\cow_texture.png"));
-	//m->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\s76weapon_normal.png"));
-	//escena.add_intersectable(m);
 
 	PointLight* l1 = new PointLight(Vector3(128, 64, 32), 80);
 	PointLight* l2 = new PointLight(Vector3(32, 64, 128), 80);
 	PointLight* l3 = new PointLight(Vector3(255, 255, 255), 80);
 	DirectionalLight* l4 = new DirectionalLight(Vector3(255));
+	PointLight* l5 = new PointLight(Vector3(255, 255, 255), 80);
 	l1->set_position(Vector3(-2, 1, -2));
 	l2->set_position(Vector3(-2, 1, -8));
 	l3->set_position(Vector3(-2, 1, -14));
+	l5->set_position(Vector3(3, 3, -1));
 	//escena.add_emitter(l1);
 	//escena.add_emitter(l2);
 	//escena.add_emitter(l3);
 	escena.add_emitter(l4);
+	//escena.add_emitter(l5);
 
 	Sphere* s = new Sphere(Vector3(0, -100.5f, -1), 100);
 	s->set_material(new Lambertian(Vector3(128)));
@@ -58,7 +58,7 @@ RenderManager::RenderManager()
 	s1->set_material(new Emissive(Vector3(255)));
 	//s1->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\brick_diffuse.bmp"));
 	//s1->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\brick_normal.bmp"));
-	Sphere* s2 = new Sphere(Vector3(1.0f, 0, -1.0f), 0.5f);
+	Sphere* s2 = new Sphere(Vector3(0, 0, -2.0f), 0.5f);
 	s2->set_material(new Dielectric(Vector3(255), 1.5f));
 	//escena.add_intersectable(s);
 	//escena.add_intersectable(s1);
