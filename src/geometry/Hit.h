@@ -30,10 +30,10 @@ public:
 	inline void set_uv(const Vector3& value) {uv = value;}
 
 	inline Vector3 get_tangent() const {return tangent;}
-	inline Vector3 set_tangent(const Vector3& value) {tangent = value;}
+	inline void set_tangent(const Vector3& value) {tangent = value;}
 
 	inline Vector3 get_bitangent() const {return bitangent;}
-	inline Vector3 set_bitangent(const Vector3& value) {bitangent = value;}
+	inline void set_bitangent(const Vector3& value) {bitangent = value;}
 
 private:
 	bool hit;

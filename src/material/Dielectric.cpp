@@ -66,12 +66,12 @@ Ray Dielectric::scatter(const Ray& ray, float t, const Vector3& normal)
 
 	// If we reflect, we do it like a metal material with no roughness
 	// If not, we calculate the scattered ray and return it
+	Vector3 new_direction;
 	if(Math::Randf() < reflect_prob) {
-		Vector3 new_direction = ray.get_direction() - 2*ray.get_direction().dot(normal_scatter)*normal_scatter;
-		return Ray(ray.get_point(t), new_direction);
+		new_direction = ray.get_direction() - 2*ray.get_direction().dot(normal_scatter)*normal_scatter;
 	}
 	else {
-		Vector3 new_direction = ni_over_nt*(ray.get_direction() - ray.get_direction().dot(normal_scatter)*normal_scatter) - normal_scatter * sqrtf(discriminant);
-		return Ray(ray.get_point(t), new_direction);
+		new_direction = ni_over_nt*(ray.get_direction() - ray.get_direction().dot(normal_scatter)*normal_scatter) - normal_scatter * sqrtf(discriminant);
 	}
+	return Ray(ray.get_point(t), new_direction);
 }

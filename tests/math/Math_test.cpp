@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
+#include <material/Dielectric.h>
 #include <math/Math.h>
+#include <math/Quaternion.h>
 
 #include <cfloat>
 
@@ -87,4 +89,13 @@ TEST(Math, FastMax) {
 	EXPECT_EQ(Math::Fast_Max(0.0f, FLT_MAX), FLT_MAX);
 	EXPECT_EQ(Math::Fast_Max(0.0f, FLT_MIN), FLT_MIN);
 	EXPECT_EQ(Math::Fast_Max(FLT_MAX, FLT_MIN), FLT_MAX);
+}
+
+TEST(Math, Dielectric) {
+	Dielectric d(Vector3(128), sqrtf(2.0));
+	Quaternion q = Quaternion::create_rotation(45, Vector3(0, 0, 1));
+	Vector3 normal(1, 0, 0);
+	Vector3 ray_dir = -q.apply(normal);
+	Ray scattered = d.scatter(Ray(-ray_dir, ray_dir), 1, normal);
+	ASSERT_TRUE(Math::Float_Eq(scattered.get_direction().cross(normal).get_magnitude(), 0.5f));
 }
