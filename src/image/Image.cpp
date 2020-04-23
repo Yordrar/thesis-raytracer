@@ -28,7 +28,7 @@ Image::Image(std::string file_path)
 			for(int i = 0; i < width; i++) {
 				buffer[j][i] = Vector3(file_data[3*width*j + 3*i],
 										file_data[3*width*j + 3*i+1],
-										file_data[3*width*j + 3*i+2]) / 255.99f;
+										file_data[3*width*j + 3*i+2]) / 255;
 			}
 		}
 	}

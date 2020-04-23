@@ -85,11 +85,29 @@ Image RenderManager::render_preview(int width, int height)
 	return EditModeRenderer::render(escena);
 }
 
-Image RenderManager::render(int width, int height, int n_samples)
+void RenderManager::render(int width, int height, int n_samples)
 {
-	cam->set_width_and_height(width, height);
+	Camera* render_cam = cam->get_copy();
+	render_cam->set_width_and_height(width, height);
 
-	return CPURenderer::render(escena, n_samples);
+	CPURenderer::get_renderer()->render(escena, render_cam, n_samples);
+
+	delete render_cam;
+}
+
+Image* RenderManager::get_rendered_image()
+{
+	return CPURenderer::get_renderer()->get_rendered_image();
+}
+
+bool RenderManager::is_render_finished()
+{
+	return CPURenderer::get_renderer()->is_render_finished();
+}
+
+void RenderManager::finish_render()
+{
+	CPURenderer::get_renderer()->set_render_finished(true);
 }
 
 void RenderManager::move_camera(MOVE_DIRECTION direction)
@@ -133,7 +151,7 @@ QImage RenderManager::image_to_qimage(Image* img) const {
 	QImage qimg(img->get_width(), img->get_height(), QImage::Format_RGB888);
 	for(int j = 0; j < qimg.height(); j++) {
 		for(int i = 0; i < qimg.width(); i++) {
-			Vector3 color = img->get_pixel_color(i, j) * 255.99f;
+			Vector3 color = img->get_pixel_color(i, j) * 255;
 			qimg.setPixelColor(i, j, QColor(static_cast<int>(color.get_x()),
 											static_cast<int>(color.get_y()),
 											static_cast<int>(color.get_z())));

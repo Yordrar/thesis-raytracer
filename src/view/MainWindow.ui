@@ -62,7 +62,7 @@
          </sizepolicy>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="preview_tab">
          <property name="sizePolicy">
@@ -267,17 +267,17 @@
                <number>50</number>
               </property>
              </widget>
-             <widget class="QPushButton" name="render_button">
+             <widget class="QPushButton" name="start_render_button">
               <property name="geometry">
                <rect>
-                <x>90</x>
+                <x>0</x>
                 <y>170</y>
-                <width>80</width>
+                <width>101</width>
                 <height>21</height>
                </rect>
               </property>
               <property name="text">
-               <string>Render</string>
+               <string>Start render</string>
               </property>
              </widget>
              <widget class="QLabel" name="samples_label">
@@ -370,6 +370,22 @@
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="cancel_render_button">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="geometry">
+               <rect>
+                <x>99</x>
+                <y>170</y>
+                <width>101</width>
+                <height>21</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Cancel render</string>
               </property>
              </widget>
             </widget>

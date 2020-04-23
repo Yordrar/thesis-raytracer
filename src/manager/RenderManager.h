@@ -13,7 +13,10 @@ public:
 	static RenderManager* get_manager();
 
 	Image render_preview(int width, int height);
-	Image render(int width, int height, int n_samples);
+	void render(int width, int height, int n_samples);
+	Image* get_rendered_image();
+	bool is_render_finished();
+	void finish_render();
 
 	enum class MOVE_DIRECTION {
 		LEFT,

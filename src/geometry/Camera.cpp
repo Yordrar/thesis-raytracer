@@ -114,6 +114,22 @@ void Camera::rotate(const Quaternion& rotation)
 	recalculate_parameters();
 }
 
+Camera* Camera::get_copy()
+{
+	Camera* cam = new Camera(width, height, vfov);
+	cam->position = position;
+	cam->orientation = orientation;
+	cam->plane_width = plane_width;
+	cam->plane_height = plane_height;
+	cam->half_width = half_width;
+	cam->half_height = half_height;
+	cam->upper_left_corner = upper_left_corner;
+	cam->aperture = aperture;
+	cam->focus_dist = focus_dist;
+
+	return cam;
+}
+
 #define MAX_DEPTH 10
 Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth) const
 {

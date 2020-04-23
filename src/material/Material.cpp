@@ -2,12 +2,12 @@
 
 Material::Material(const Vector3& albedo)
 {
-	this->albedo = albedo/255.99f;
+	this->albedo = albedo/255;
 }
 
 Material::Material(float r, float g, float b)
 {
-	albedo = Vector3(r, g, b)/255.99f;
+	albedo = Vector3(r, g, b)/255;
 }
 
 Vector3 Material::get_emission_color(const Ray& ray, float t, const Vector3& normal)

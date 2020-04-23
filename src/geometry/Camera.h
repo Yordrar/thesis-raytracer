@@ -37,6 +37,8 @@ public:
 	inline float get_aperture() const {return aperture;}
 	inline void set_aperture(float value) {aperture = value;}
 
+	Camera* get_copy();
+
 private:
 	int width, height;
 	float vfov, plane_width, plane_height, half_width, half_height;

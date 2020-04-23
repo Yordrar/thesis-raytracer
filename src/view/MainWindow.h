@@ -5,6 +5,8 @@
 #include <view/Viewport.h>
 #include <view/Inspector.h>
 
+#include <thread>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -21,12 +23,16 @@ public:
 
 private slots:
 	void render_preview();
-	void on_render_button_clicked();
+	void on_start_render_button_clicked();
+
+	void on_cancel_render_button_clicked();
 
 private:
     Ui::MainWindow *ui;
 	Viewport* viewport;
 	Inspector* inspector;
-	QTimer* timer;
+	QTimer* render_timer;
+	void update_render_viewport();
+	std::thread* render_worker = nullptr;
 };
 
