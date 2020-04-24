@@ -19,7 +19,7 @@ public:
 	~Inspector();
 
 public slots:
-	void reload(Entity* entity);
+	void reload();
 
 private slots:
 	void on_open_texture_clicked();

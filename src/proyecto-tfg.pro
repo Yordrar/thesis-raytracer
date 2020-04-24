@@ -100,7 +100,7 @@ QMAKE_LFLAGS += -fopenmp
 INCLUDEPATH += "../deps/opencl/include" "../deps/assimp/include" "../deps/stb"
 LIBS += -static -L"../deps/opencl/lib" -L"../deps/assimp/lib" -lassimp -lIrrXML -lzlibstatic
 
-DISTFILES +=
+DESTDIR = ../build
 
 RESOURCES += \
     resources.qrc

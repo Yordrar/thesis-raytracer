@@ -19,10 +19,7 @@ Inspector::Inspector(QWidget *parent) :
 	ui->open_texture->setIcon(QIcon(icon_pixmap));
 	ui->open_normal->setIcon(QIcon(icon_pixmap));
 
-	QImage default_image(map_preview_size, map_preview_size, QImage::Format_BGR888);
-	default_image.fill(0);
-	ui->texture_view->setPixmap(QPixmap::fromImage(default_image));
-	ui->normal_view->setPixmap(QPixmap::fromImage(default_image));
+	reload();
 }
 
 Inspector::~Inspector()
@@ -30,7 +27,7 @@ Inspector::~Inspector()
 	delete ui;
 }
 
-void Inspector::reload(Entity* entity)
+void Inspector::reload()
 {
 	if(!RenderManager::get_manager()->is_there_entity_selected()) {
 		ui->position_x->setText("");
@@ -42,6 +39,7 @@ void Inspector::reload(Entity* entity)
 		ui->normal_view->setPixmap(QPixmap::fromImage(default_image));
 	}
 	else {
+		Entity* entity = RenderManager::get_manager()->get_entity_selected();
 		Vector3 position = entity->get_position();
 		ui->position_x->setText(QString::number(static_cast<double>(position.get_x())));
 		ui->position_y->setText(QString::number(static_cast<double>(position.get_y())));
@@ -59,8 +57,7 @@ void Inspector::on_open_texture_clicked()
 											"Open Texture Map",
 											"",
 											"Image Files (*.png *.jpg *.bmp)");
-	QImage img(filename);
-	ui->texture_view->setPixmap(QPixmap::fromImage(img.scaled(map_preview_size, map_preview_size)));
+	ui->texture_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(map_preview_size, map_preview_size)));
 	RenderManager::get_manager()->set_texture_map(filename);
 }
 
@@ -72,8 +69,7 @@ void Inspector::on_open_normal_clicked()
 											"Open Normal Map",
 											"",
 											"Image Files (*.png *.jpg *.bmp)");
-	QImage img(filename);
-	ui->normal_view->setPixmap(QPixmap::fromImage(img.scaled(map_preview_size, map_preview_size)));
+	ui->normal_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(map_preview_size, map_preview_size)));
 	RenderManager::get_manager()->set_normal_map(filename);
 }
 

@@ -28,7 +28,7 @@ void Viewport::mousePressEvent(QMouseEvent* ev)
 		Entity* entity_selected = RenderManager::get_manager()->get_selection(static_cast<int>(ev->localPos().x()),
 																	  static_cast<int>(ev->localPos().y()));
 		RenderManager::get_manager()->set_entity_selected(entity_selected);
-		emit entity_selected_changed(entity_selected);
+		emit entity_selected_changed();
 	}
 }
 

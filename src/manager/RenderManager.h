@@ -32,6 +32,7 @@ public:
 
 	inline bool is_there_entity_selected() const {return entity_selected != nullptr;}
 	inline void set_entity_selected(Entity* e) {entity_selected = e;}
+	inline Entity* get_entity_selected() {return entity_selected;}
 
 	QImage get_texture_map() const;
 	inline void set_texture_map(QString filename) const {
@@ -62,7 +63,7 @@ private:
 	Scene escena;
 	Camera* cam;
 	float move_velocity = 0.1f;
-	Entity* entity_selected;
+	Entity* entity_selected = nullptr;
 
 	QImage image_to_qimage(Image* img) const;
 };

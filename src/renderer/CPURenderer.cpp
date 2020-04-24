@@ -57,8 +57,7 @@ void CPURenderer::render(const Scene& scene, Camera* camera, int n_samples)
 		std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 		std::cout << "Scene rendered in " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms ";
 		std::cout << "(" << omp_get_max_threads() << " threads)" << std::endl;
+		render_finished = true;
 	}
-
-	render_finished = true;
 }
 

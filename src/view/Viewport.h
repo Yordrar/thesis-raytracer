@@ -19,7 +19,7 @@ public:
 
 signals:
 	void render();
-	void entity_selected_changed(Entity* entity);
+	void entity_selected_changed();
 
 private:
 	QPoint last_point_pressed;
