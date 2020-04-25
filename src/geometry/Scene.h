@@ -17,7 +17,6 @@ class Scene
 public:
 	Scene();
 	Scene(const std::initializer_list<Intersectable*>& intersectables);
-	Scene(Camera* c);
 
 	inline std::vector<Intersectable*> get_intersectables() const {return intersectables;}
 	inline void set_intersectables(std::vector<Intersectable*> value) {
@@ -33,9 +32,6 @@ public:
 	}
 	inline std::vector<Emitter*> get_emitters() const {return emitters;}
 
-	inline Camera* get_camera() const {return camera;}
-	inline void set_camera(Camera* cam) {camera = cam;}
-
 	inline void add_intersectable(Intersectable* e) {intersectables.push_back(e);}
 	Intersectable* get_intersectable(int index) const;
 	void remove_intersectable(Intersectable* e);
@@ -45,6 +41,5 @@ public:
 private:
 	std::vector<Intersectable*> intersectables;
 	std::vector<Emitter*> emitters;
-	Camera* camera;
 };
 

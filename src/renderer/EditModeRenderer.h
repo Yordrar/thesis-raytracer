@@ -10,6 +10,6 @@ public:
 	EditModeRenderer() = delete;
 	~EditModeRenderer() = delete;
 
-	static Image render(const Scene& scene);
+	static Image render(const Scene* scene, Camera* camera);
 };
 

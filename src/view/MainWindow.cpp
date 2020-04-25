@@ -5,10 +5,14 @@
 #include <QSpinBox>
 #include <QScrollArea>
 #include <QTimer>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QTabWidget>
 
 #include <omp.h>
 
 #include <manager/RenderManager.h>
+#include <manager/SceneManager.h>
 #include <image/Image.h>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -136,4 +140,67 @@ void MainWindow::on_cancel_render_button_clicked()
 
 	ui->centralwidget->findChild<QPushButton*>("start_render_button")->setEnabled(true);
 	ui->centralwidget->findChild<QPushButton*>("cancel_render_button")->setEnabled(false);
+}
+
+void MainWindow::on_actionNew_Scene_triggered()
+{
+	SceneManager::get_manager()->clear_scene();
+	render_preview();
+}
+
+void MainWindow::on_actionOpen_Scene_triggered()
+{
+	QString filename = QFileDialog::getOpenFileName(this,
+											"Open Scene File",
+											"",
+											"Scene and Mesh Files (*.obj *.fbx *.ply)");
+	if(filename.isNull()) return;
+	SceneManager::get_manager()->load_from_file(filename.toStdString());
+	render_preview();
+}
+
+void MainWindow::on_actionAdd_from_File_triggered()
+{
+	QString filename = QFileDialog::getOpenFileName(this,
+											"Open Scene File",
+											"",
+											"Scene and Mesh Files (*.obj *.fbx *.ply)");
+	if(filename.isNull()) return;
+	SceneManager::get_manager()->add_from_file(filename.toStdString());
+	render_preview();
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+	close();
+}
+
+void MainWindow::on_actionRender_Image_triggered()
+{
+	ui->centralwidget->findChild<QTabWidget*>("tabWidget")->setCurrentIndex(1);
+	on_start_render_button_clicked();
+}
+
+void MainWindow::on_actionSave_Render_triggered()
+{
+	auto* render_pixmap = ui->centralwidget->findChild<QLabel*>("render_label")->pixmap();
+	if(!render_pixmap) return;
+
+	QString filename = QFileDialog::getSaveFileName(this,
+													"Save Render",
+													"untitled.png",
+													"");
+	if(filename.isNull()) return;
+
+	bool successful = render_pixmap->save(filename);
+	if(!successful) {
+		QMessageBox::critical(this,
+							 tr("Error"),
+							 tr("There was an error while saving the render."));
+	}
+	else {
+		QMessageBox::information(this,
+								 tr("Success"),
+								 tr("Render saved successfully."));
+	}
 }

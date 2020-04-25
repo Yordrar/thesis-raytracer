@@ -4,10 +4,9 @@
 #include <iostream>
 #include <omp.h>
 
-Image EditModeRenderer::render(const Scene& scene)
+Image EditModeRenderer::render(const Scene* scene, Camera* camera)
 {
-	Camera* camera = scene.get_camera();
-	auto intersectables = scene.get_intersectables();
+	auto intersectables = scene->get_intersectables();
 
 	int width = camera->get_width();
 	int height = camera->get_height();

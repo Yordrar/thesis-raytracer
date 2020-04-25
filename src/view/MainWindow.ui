@@ -444,11 +444,27 @@
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuRender">
+    <property name="title">
+     <string>Render</string>
+    </property>
+    <addaction name="actionRender_Image"/>
+    <addaction name="actionSave_Render"/>
+    <addaction name="separator"/>
+    <addaction name="actionRender_Options"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuRender"/>
   </widget>
   <action name="actionNew_Scene">
    <property name="text">
-    <string>New Scene...</string>
+    <string>New Scene</string>
    </property>
   </action>
   <action name="actionOpen_Scene">
@@ -458,12 +474,27 @@
   </action>
   <action name="actionAdd_from_File">
    <property name="text">
-    <string>Add from File...</string>
+    <string>Add From File...</string>
    </property>
   </action>
   <action name="actionExit">
    <property name="text">
-    <string>Exit...</string>
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionRender_Image">
+   <property name="text">
+    <string>Render Image</string>
+   </property>
+  </action>
+  <action name="actionSave_Render">
+   <property name="text">
+    <string>Save Render...</string>
+   </property>
+  </action>
+  <action name="actionRender_Options">
+   <property name="text">
+    <string>Render Options...</string>
    </property>
   </action>
  </widget>

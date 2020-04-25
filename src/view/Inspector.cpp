@@ -57,6 +57,7 @@ void Inspector::on_open_texture_clicked()
 											"Open Texture Map",
 											"",
 											"Image Files (*.png *.jpg *.bmp)");
+	if(filename.isNull()) return;
 	ui->texture_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(map_preview_size, map_preview_size)));
 	RenderManager::get_manager()->set_texture_map(filename);
 }
@@ -69,6 +70,7 @@ void Inspector::on_open_normal_clicked()
 											"Open Normal Map",
 											"",
 											"Image Files (*.png *.jpg *.bmp)");
+	if(filename.isNull()) return;
 	ui->normal_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(map_preview_size, map_preview_size)));
 	RenderManager::get_manager()->set_normal_map(filename);
 }

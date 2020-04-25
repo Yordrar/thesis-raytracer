@@ -27,6 +27,18 @@ private slots:
 
 	void on_cancel_render_button_clicked();
 
+	void on_actionNew_Scene_triggered();
+
+	void on_actionOpen_Scene_triggered();
+
+	void on_actionAdd_from_File_triggered();
+
+	void on_actionExit_triggered();
+
+	void on_actionRender_Image_triggered();
+
+	void on_actionSave_Render_triggered();
+
 private:
     Ui::MainWindow *ui;
 	Viewport* viewport;

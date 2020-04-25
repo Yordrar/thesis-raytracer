@@ -24,11 +24,11 @@ CPURenderer* CPURenderer::get_renderer()
 	return instance;
 }
 
-void CPURenderer::render(const Scene& scene, Camera* camera, int n_samples)
+void CPURenderer::render(const Scene* scene, Camera* camera, int n_samples)
 {
 	render_finished = false;
 
-	auto intersectables = scene.get_intersectables();
+	auto intersectables = scene->get_intersectables();
 
 	int width = camera->get_width();
 	int height = camera->get_height();
@@ -37,7 +37,7 @@ void CPURenderer::render(const Scene& scene, Camera* camera, int n_samples)
 	render_img = new Image(width, height);
 
 	BVH hierarchy(intersectables);
-	auto emitters = scene.get_emitters();
+	auto emitters = scene->get_emitters();
 
 	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 	#pragma omp parallel for collapse(2) schedule(dynamic)

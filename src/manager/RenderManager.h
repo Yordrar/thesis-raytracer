@@ -18,20 +18,7 @@ public:
 	bool is_render_finished();
 	void finish_render();
 
-	enum class MOVE_DIRECTION {
-		LEFT,
-		RIGHT,
-		FRONT,
-		BACK,
-		UP,
-		DOWN,
-	};
-	inline void set_move_velocity(float value) {move_velocity = value;}
-	void move_camera(MOVE_DIRECTION direction);
-	void rotate_camera(float x0, float y0, float x1, float y1);
-
 	inline bool is_there_entity_selected() const {return entity_selected != nullptr;}
-	inline void set_entity_selected(Entity* e) {entity_selected = e;}
 	inline Entity* get_entity_selected() {return entity_selected;}
 
 	QImage get_texture_map() const;
@@ -54,15 +41,12 @@ public:
 	};
 	void set_material(MATERIAL_TYPE m) const;
 
-	Entity* get_selection(int x, int y);
+	void make_selection(int x, int y);
 
 private:
 	RenderManager();
 	static RenderManager* instance;
 
-	Scene escena;
-	Camera* cam;
-	float move_velocity = 0.1f;
 	Entity* entity_selected = nullptr;
 
 	QImage image_to_qimage(Image* img) const;

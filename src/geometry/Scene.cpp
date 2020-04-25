@@ -18,11 +18,6 @@ Scene::Scene(const std::initializer_list<Intersectable*>& entitites)
 	}
 }
 
-Scene::Scene(Camera* c)
-{
-	camera = c;
-}
-
 Intersectable* Scene::get_intersectable(int index) const
 {
 	if(index < 0 || index >= static_cast<int>(intersectables.size())) {

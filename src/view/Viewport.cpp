@@ -5,6 +5,7 @@
 #include <QDebug>
 
 #include <manager/RenderManager.h>
+#include <manager/SceneManager.h>
 
 Viewport::Viewport(QWidget * parent, Qt::WindowFlags f)
 	: QLabel(parent, f),
@@ -25,9 +26,8 @@ void Viewport::mousePressEvent(QMouseEvent* ev)
 	if(ev->button() == Qt::MouseButton::RightButton)
 		last_point_pressed = ev->pos();
 	else if(ev->button() == Qt::MouseButton::LeftButton) {
-		Entity* entity_selected = RenderManager::get_manager()->get_selection(static_cast<int>(ev->localPos().x()),
-																	  static_cast<int>(ev->localPos().y()));
-		RenderManager::get_manager()->set_entity_selected(entity_selected);
+		RenderManager::get_manager()->make_selection(static_cast<int>(ev->localPos().x()),
+													 static_cast<int>(ev->localPos().y()));
 		emit entity_selected_changed();
 	}
 }
@@ -41,7 +41,7 @@ void Viewport::mouseReleaseEvent(QMouseEvent* ev)
 void Viewport::mouseMoveEvent(QMouseEvent *ev)
 {
 	if(last_point_pressed.x() != -1 && last_point_pressed.y() != -1) {
-		RenderManager::get_manager()->rotate_camera(last_point_pressed.x(),
+		SceneManager::get_manager()->rotate_camera(last_point_pressed.x(),
 													last_point_pressed.y(),
 													ev->x(),
 													ev->y());
@@ -55,27 +55,27 @@ void Viewport::mouseMoveEvent(QMouseEvent *ev)
 void Viewport::keyPressEvent(QKeyEvent* ev)
 {
 	if(ev->key() == Qt::Key_W) {
-		RenderManager::get_manager()->move_camera(RenderManager::MOVE_DIRECTION::FRONT);
+		SceneManager::get_manager()->move_camera(SceneManager::MOVE_DIRECTION::FRONT);
 		emit render();
 	}
 	else if(ev->key() == Qt::Key_A) {
-		RenderManager::get_manager()->move_camera(RenderManager::MOVE_DIRECTION::LEFT);
+		SceneManager::get_manager()->move_camera(SceneManager::MOVE_DIRECTION::LEFT);
 		emit render();
 	}
 	else if(ev->key() == Qt::Key_S) {
-		RenderManager::get_manager()->move_camera(RenderManager::MOVE_DIRECTION::BACK);
+		SceneManager::get_manager()->move_camera(SceneManager::MOVE_DIRECTION::BACK);
 		emit render();
 	}
 	else if(ev->key() == Qt::Key_D) {
-		RenderManager::get_manager()->move_camera(RenderManager::MOVE_DIRECTION::RIGHT);
+		SceneManager::get_manager()->move_camera(SceneManager::MOVE_DIRECTION::RIGHT);
 		emit render();
 	}
 	else if(ev->key() == Qt::Key_Q) {
-		RenderManager::get_manager()->move_camera(RenderManager::MOVE_DIRECTION::UP);
+		SceneManager::get_manager()->move_camera(SceneManager::MOVE_DIRECTION::UP);
 		emit render();
 	}
 	else if(ev->key() == Qt::Key_E) {
-		RenderManager::get_manager()->move_camera(RenderManager::MOVE_DIRECTION::DOWN);
+		SceneManager::get_manager()->move_camera(SceneManager::MOVE_DIRECTION::DOWN);
 		emit render();
 	}
 	else
