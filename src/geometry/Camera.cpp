@@ -14,6 +14,7 @@ Camera::Camera(int width, int height, float vertical_fov)
 	up = Vector3(0, 1, 0);
 	right = Vector3(1, 0, 0);
 	aperture = 0;
+	orbital_anchor_t = 1;
 	recalculate_parameters();
 }
 
@@ -117,6 +118,28 @@ void Camera::rotate(const Quaternion& rotation)
 	recalculate_parameters();
 }
 
+void Camera::rotate_orbital(float euler_x, float euler_y)
+{
+	Vector3 orbital_anchor = position + rotation.get_imaginary()*orbital_anchor_t;
+	position -= orbital_anchor;
+
+	Quaternion qx = Quaternion::create_rotation(euler_x, right);
+	Quaternion qy = Quaternion::create_rotation(euler_y, Vector3(0, 1, 0));
+	Quaternion q = qy*qx;
+
+	position = q.apply(position);
+
+	position += orbital_anchor;
+
+	rotate(q);
+}
+
+void Camera::orbital_anchor_zoom(float delta)
+{
+	if(orbital_anchor_t + delta < 0.1f) return;
+	orbital_anchor_t += delta;
+}
+
 Camera* Camera::get_copy()
 {
 	Camera* cam = new Camera(width, height, vfov);
@@ -131,6 +154,7 @@ Camera* Camera::get_copy()
 	cam->focus_dist = focus_dist;
 	cam->up = up;
 	cam->right = right;
+	cam->orbital_anchor_t = orbital_anchor_t;
 
 	return cam;
 }

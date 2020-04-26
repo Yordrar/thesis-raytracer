@@ -17,6 +17,8 @@ public:
 
 	void keyPressEvent(QKeyEvent *ev) override;
 
+	void wheelEvent(QWheelEvent* ev) override;
+
 signals:
 	void render_preview();
 	void entity_selected_changed();

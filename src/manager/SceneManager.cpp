@@ -89,13 +89,29 @@ void SceneManager::move_camera(MOVE_DIRECTION direction)
 	}
 }
 
-void SceneManager::rotate_camera(float x0, float y0, float x1, float y1)
+void SceneManager::rotate_camera_fps(float x0, float y0, float x1, float y1)
 {
-	auto* cam = SceneManager::get_manager()->get_camera();
-	Quaternion rotation_pitch = Quaternion::create_rotation(-(y1-y0), cam->get_right());
-	Quaternion rotation_yaw = Quaternion::create_rotation(-(x1-x0), Vector3(0, 1, 0));
+	Quaternion rotation_pitch = Quaternion::create_rotation(-(y1-y0)*0.5f, camera->get_right());
+	Quaternion rotation_yaw = Quaternion::create_rotation(-(x1-x0)*0.5f, Vector3(0, 1, 0));
 	Quaternion rotation_combined = rotation_yaw*rotation_pitch;
-	cam->rotate(rotation_combined);
+	camera->rotate(rotation_combined);
+}
+
+void SceneManager::rotate_camera_orbital(float x0, float y0, float x1, float y1)
+{
+	camera->rotate_orbital(-(y1-y0)*0.5f, -(x1-x0)*0.5f);
+}
+
+void SceneManager::orbital_anchor_zoom(MOVE_DIRECTION direction)
+{
+	if(direction == MOVE_DIRECTION::FRONT) {
+		move_camera(SceneManager::MOVE_DIRECTION::FRONT);
+		camera->orbital_anchor_zoom(-move_velocity);
+	}
+	else if(direction == MOVE_DIRECTION::BACK) {
+		move_camera(SceneManager::MOVE_DIRECTION::BACK);
+		camera->orbital_anchor_zoom(move_velocity);
+	}
 }
 
 void SceneManager::load_from_file(std::string filename)

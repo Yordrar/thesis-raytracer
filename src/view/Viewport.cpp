@@ -23,11 +23,14 @@ Viewport::Viewport(const QString& text, QWidget* parent, Qt::WindowFlags f)
 
 void Viewport::mousePressEvent(QMouseEvent* ev)
 {
-	if(ev->button() == Qt::MouseButton::RightButton)
+	if(ev->button() == Qt::MouseButton::RightButton) {
 		last_point_pressed = ev->pos();
+		ev->accept();
+	}
 	else if(ev->button() == Qt::MouseButton::LeftButton) {
 		RenderManager::get_manager()->make_selection(static_cast<int>(ev->localPos().x()),
 													 static_cast<int>(ev->localPos().y()));
+		ev->accept();
 		emit entity_selected_changed();
 		emit render_preview();
 	}
@@ -37,8 +40,10 @@ void Viewport::mousePressEvent(QMouseEvent* ev)
 
 void Viewport::mouseReleaseEvent(QMouseEvent* ev)
 {
-	if(ev->button() == Qt::MouseButton::RightButton)
+	if(ev->button() == Qt::MouseButton::RightButton) {
 		last_point_pressed = QPoint(-1, -1);
+		ev->accept();
+	}
 	else
 		QLabel::mouseReleaseEvent(ev);
 }
@@ -46,11 +51,12 @@ void Viewport::mouseReleaseEvent(QMouseEvent* ev)
 void Viewport::mouseMoveEvent(QMouseEvent *ev)
 {
 	if(last_point_pressed.x() != -1 && last_point_pressed.y() != -1) {
-		SceneManager::get_manager()->rotate_camera(last_point_pressed.x(),
-													last_point_pressed.y(),
-													ev->x(),
-													ev->y());
+		SceneManager::get_manager()->rotate_camera_orbital(last_point_pressed.x(),
+													   last_point_pressed.y(),
+													   ev->x(),
+													   ev->y());
 		last_point_pressed = ev->pos();
+		ev->accept();
 		emit render_preview();
 	}
 	else
@@ -83,6 +89,22 @@ void Viewport::keyPressEvent(QKeyEvent* ev)
 		SceneManager::get_manager()->move_camera(SceneManager::MOVE_DIRECTION::DOWN);
 		emit render_preview();
 	}
-	else
+	else {
+		ev->ignore();
 		QLabel::keyPressEvent(ev);
+		return;
+	}
+	ev->accept();
+}
+
+void Viewport::wheelEvent(QWheelEvent* ev)
+{
+	if(ev->angleDelta().y() > 0) {
+		SceneManager::get_manager()->orbital_anchor_zoom(SceneManager::MOVE_DIRECTION::FRONT);
+		emit render_preview();
+	}
+	else {
+		SceneManager::get_manager()->orbital_anchor_zoom(SceneManager::MOVE_DIRECTION::BACK);
+		emit render_preview();
+	}
 }

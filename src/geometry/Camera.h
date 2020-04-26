@@ -33,6 +33,8 @@ public:
 	void translate_global(const Vector3& delta);
 	void rotate(float euler_x, float euler_y, float euler_z);
 	void rotate(const Quaternion& rotation);
+	void rotate_orbital(float euler_x, float euler_y);
+	void orbital_anchor_zoom(float delta);
 
 	inline float get_aperture() const {return aperture;}
 	inline void set_aperture(float value) {aperture = value;}
@@ -44,6 +46,7 @@ private:
 	float vfov, plane_width, plane_height, half_width, half_height;
 	Vector3 upper_left_corner;
 	float aperture, focus_dist;
+	float orbital_anchor_t;
 
 	Vector3 get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth) const;
 	Vector3 get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& intersectables, const std::vector<Emitter*>& emitters) const;

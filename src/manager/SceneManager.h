@@ -21,7 +21,9 @@ public:
 	};
 	inline void set_move_velocity(float value) {move_velocity = value;}
 	void move_camera(MOVE_DIRECTION direction);
-	void rotate_camera(float x0, float y0, float x1, float y1);
+	void rotate_camera_fps(float x0, float y0, float x1, float y1);
+	void rotate_camera_orbital(float x0, float y0, float x1, float y1);
+	void orbital_anchor_zoom(MOVE_DIRECTION direction);
 
 	inline void clear_scene() {scene->set_intersectables({});}
 	void load_from_file(std::string filename);
