@@ -37,6 +37,8 @@ public:
 					   Math::Fast_Max(min, Math::Fast_Min(z, max)));
 	}
 
+	Vector3 create_not_collinear() const;
+
 	inline Vector3 operator+(const Vector3& other) const {return Vector3(x+other.x, y+other.y, z+other.z);}
 	inline Vector3 operator-(const Vector3& other) const {return Vector3(x-other.x, y-other.y, z-other.z);}
 	inline Vector3 operator-() const {return Vector3(-x, -y, -z);}

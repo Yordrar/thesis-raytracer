@@ -8,6 +8,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QTabWidget>
+#include <QWheelEvent>
+#include <QDebug>
 
 #include <omp.h>
 
@@ -24,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent)
 	ui->centralwidget->findChild<QSpinBox*>("threads")->setValue(omp_get_max_threads());
 	ui->centralwidget->findChild<QSpinBox*>("threads")->setMaximum(omp_get_max_threads());
 
+	ui->centralwidget->findChild<QScrollArea*>("scrollArea")->installEventFilter(this);
+	ui->centralwidget->findChild<QLabel*>("render_label")->installEventFilter(this);
+
 	render_timer = new QTimer(this);
 	render_timer->setInterval(500);
 	render_timer->setSingleShot(false);
@@ -38,7 +43,9 @@ MainWindow::MainWindow(QWidget *parent)
 	viewport->setText("");
 	viewport->setMouseTracking(true);
 	viewport->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	connect(viewport, &Viewport::render, this, &MainWindow::render_preview);
+
+	connect(viewport, &Viewport::render_preview, this, &MainWindow::render_preview);
+	connect(inspector, &Inspector::render_preview, this, &MainWindow::render_preview);
 	connect(viewport, &Viewport::entity_selected_changed, inspector, &Inspector::reload);
 
 	render_preview();
@@ -54,6 +61,44 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 {
 	QMainWindow::resizeEvent(event);
 	render_preview();
+}
+
+bool MainWindow::eventFilter(QObject* obj, QEvent* event)
+{
+	if (event->type() == QEvent::Wheel) {
+		if(ui->centralwidget->findChild<QTabWidget*>("tabWidget")->currentIndex() == 1 && is_ctrl_pressed) {
+			auto* label = ui->centralwidget->findChild<QLabel*>("render_label");
+			if(!label->pixmap()->isNull()) {
+				if(static_cast<QWheelEvent*>(event)->angleDelta().y() > 0) {
+					render_viewport_scale += 0.01f;
+				}
+				else {
+					render_viewport_scale -= 0.01f;
+				}
+				update_render_viewport();
+				event->accept();
+				return true;
+			}
+		}
+	}
+	else if(event->type() == QEvent::KeyPress) {
+		if(static_cast<QKeyEvent*>(event)->key() == Qt::Key::Key_Control) {
+			is_ctrl_pressed = true;
+
+			event->accept();
+			return true;
+		}
+	}
+	else if(event->type() == QEvent::KeyRelease) {
+		if(static_cast<QKeyEvent*>(event)->key() == Qt::Key::Key_Control) {
+			is_ctrl_pressed = false;
+
+			event->accept();
+			return true;
+		}
+	}
+	event->ignore();
+	return false;
 }
 
 void MainWindow::render_preview()
@@ -84,6 +129,8 @@ void render_worker_entry(int width, int height, int n_samples, int num_threads) 
 }
 void MainWindow::on_start_render_button_clicked()
 {
+	render_viewport_scale = 1;
+
 	int width = ui->centralwidget->findChild<QSpinBox*>("width")->value();
 	int height = ui->centralwidget->findChild<QSpinBox*>("height")->value();
 	int n_samples = ui->centralwidget->findChild<QSpinBox*>("samples")->value();
@@ -119,6 +166,7 @@ void MainWindow::update_render_viewport()
 												 static_cast<int>(color.get_z())));
 			}
 		}
+		image = image.scaled(image.width()*render_viewport_scale, image.height()*render_viewport_scale);
 		ui->centralwidget->findChild<QLabel*>("render_label")->setPixmap(QPixmap::fromImage(image));
 	}
 
@@ -140,6 +188,8 @@ void MainWindow::on_cancel_render_button_clicked()
 
 	ui->centralwidget->findChild<QPushButton*>("start_render_button")->setEnabled(true);
 	ui->centralwidget->findChild<QPushButton*>("cancel_render_button")->setEnabled(false);
+
+	update_render_viewport();
 }
 
 void MainWindow::on_actionNew_Scene_triggered()
@@ -184,12 +234,25 @@ void MainWindow::on_actionRender_Image_triggered()
 void MainWindow::on_actionSave_Render_triggered()
 {
 	auto* render_pixmap = ui->centralwidget->findChild<QLabel*>("render_label")->pixmap();
-	if(!render_pixmap) return;
+	if(!render_pixmap) {
+		QMessageBox::critical(this,
+							 tr("Error"),
+							 tr("You need to render an image before saving it."));
+		return;
+	}
 
 	QString filename = QFileDialog::getSaveFileName(this,
 													"Save Render",
 													"untitled.png",
-													"");
+													"Portable Network Graphics (*.png);;"
+													"Joint Photographic Experts Group (*.jpeg *.jpg);;"
+													"Window Bitmap (*.bmp);;"
+													"WebP (*.webp);;"
+													"Portable Pixmap (*.ppm);;"
+													"Portable Bitmap (*.pbm);;"
+													"X11 Bitmap (*.xbm);;"
+													"X11 Pixmap (*.xpm);;"
+													"Tagged Image File Format (*.tiff)");
 	if(filename.isNull()) return;
 
 	bool successful = render_pixmap->save(filename);

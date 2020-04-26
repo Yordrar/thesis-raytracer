@@ -2,6 +2,7 @@
 
 #include <math/Vector3.h>
 #include <math/Ray.h>
+#include <math/Quaternion.h>
 
 #include <geometry/Intersectable.h>
 #include <geometry/Scatterer.h>
@@ -49,6 +50,9 @@ public:
 		this->bitangent_v2 = bitangent_v2;
 	}
 	void generate_tangents();
+
+	void translate(float delta_x, float delta_y, float delta_z);
+	void rotate_vertices(Quaternion rotation);
 
 	// Intersectable interface
 	Hit get_intersection(const Ray& ray) const override;

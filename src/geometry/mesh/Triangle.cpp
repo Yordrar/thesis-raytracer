@@ -21,40 +21,53 @@ Triangle::~Triangle()
 
 }
 
-Vector3 create_not_collinear(Vector3 w) {
-	Vector3 t = w;
-	float t_x = fabsf(t.get_x());
-	float t_y = fabsf(t.get_y());
-	float t_z = fabsf(t.get_z());
-	if(t_x <= t_y && t_x <= t_z) {
-		t.set_x(1);
-	}
-	else if(t_y <= t_x && t_y <= t_z) {
-		t.set_y(1);
-	}
-	else if(t_z <= t_y && t_z <= t_x) {
-		t.set_z(1);
-	}
-	return t;
-}
-
 void Triangle::generate_tangents()
 {
 	if(hasNormals) {
-		Vector3 t = create_not_collinear(normal_v0);
+		Vector3 t = normal_v0.create_not_collinear();
 		tangent_v0 = t.cross(normal_v0).unit();
 		bitangent_v0 = normal_v0.cross(tangent_v0).unit();
 
-		t = create_not_collinear(normal_v1);
+		t = normal_v1.create_not_collinear();
 		tangent_v1 = t.cross(normal_v1).unit();
 		bitangent_v1 = normal_v1.cross(tangent_v1).unit();
 
-		t = create_not_collinear(normal_v2);
+		t = normal_v2.create_not_collinear();
 		tangent_v2 = t.cross(normal_v2).unit();
 		bitangent_v2 = normal_v2.cross(tangent_v2).unit();
 
 		hasTangents = true;
 	}
+}
+
+void Triangle::translate(float delta_x, float delta_y, float delta_z)
+{
+	Vector3 delta(delta_x, delta_y, delta_z);
+	v0 += delta;
+	v1 += delta;
+	v2 += delta;
+
+	Vector3 min_corner = v0.min(v1).min(v2);
+	Vector3 max_corner = v0.max(v1).max(v2);
+	bounding_box = AxisAlignedBoundingBox(min_corner, max_corner);
+}
+
+void Triangle::rotate_vertices(Quaternion rotation)
+{
+	v0 = rotation.apply(v0);
+	v1 = rotation.apply(v1);
+	v2 = rotation.apply(v2);
+	normal_v0 = rotation.apply(normal_v0);
+	normal_v1 = rotation.apply(normal_v1);
+	normal_v2 = rotation.apply(normal_v2);
+	edge01 = v1 - v0;
+	edge02 = v2 - v0;
+	normal_flat = edge01.cross(edge02).unit();
+
+	Vector3 min_corner = v0.min(v1).min(v2);
+	Vector3 max_corner = v0.max(v1).max(v2);
+	bounding_box = AxisAlignedBoundingBox(min_corner, max_corner);
+	generate_tangents();
 }
 
 Hit Triangle::get_intersection(const Ray& ray) const

@@ -199,7 +199,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox">
+  <widget class="QComboBox" name="material_selector">
    <property name="geometry">
     <rect>
      <x>10</x>

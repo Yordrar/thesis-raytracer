@@ -43,6 +43,9 @@ public:
 
 	void make_selection(int x, int y);
 
+	bool set_position_entity_selected(float x, float y, float z);
+	bool set_orientation_entity_selected(float euler_x, float euler_y, float euler_z);
+
 private:
 	RenderManager();
 	static RenderManager* instance;

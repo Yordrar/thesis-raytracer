@@ -51,7 +51,7 @@ Vector3 Camera::get_color(float x, float y, const BVH& intersectables, const std
 }
 
 #define DEFAULT_EDIT_MODE_BGND_COLOR 0.1f
-Vector3 Camera::get_color_preview(float x, float y, const BVH& intersectables) const
+Vector3 Camera::get_color_preview(float x, float y, const BVH& intersectables, Entity* entity_selected) const
 {
 	float u = x / float(width);
 	float v = y / float(height);
@@ -59,6 +59,9 @@ Vector3 Camera::get_color_preview(float x, float y, const BVH& intersectables) c
 	Hit intersection = intersectables.get_intersection(r);
 	float intersection_normal_dot_ray = intersection.get_normal().dot(r.get_direction());
 	if(intersection.is_hit() && intersection_normal_dot_ray <= 0.0f) {
+		if(entity_selected && intersection.get_entity_position() == entity_selected->get_position()) {
+			return Vector3(1.0f, 0.88f, 0.30f) * (-intersection_normal_dot_ray);
+		}
 		return Vector3(Math::Map(intersection_normal_dot_ray, -1.0f, 0.0f, 0.5f, 0.0f));
 	}
 	return Vector3(DEFAULT_EDIT_MODE_BGND_COLOR);
@@ -77,7 +80,7 @@ void Camera::translate_global(float delta_x, float delta_y, float delta_z)
 	Vector3 delta;
 	delta += right*delta_x;
 	delta += up*delta_y;
-	delta += -orientation.get_imaginary()*delta_z;
+	delta += -rotation.get_imaginary()*delta_z;
 	Entity::translate_global(delta);
 	recalculate_parameters();
 }
@@ -87,7 +90,7 @@ void Camera::translate_global(const Vector3& delta)
 	Vector3 new_delta;
 	new_delta += right*delta.get_x();
 	new_delta += up*delta.get_y();
-	new_delta += -orientation.get_imaginary()*delta.get_z();
+	new_delta += -rotation.get_imaginary()*delta.get_z();
 	Entity::translate_global(new_delta);
 	recalculate_parameters();
 }
@@ -118,7 +121,7 @@ Camera* Camera::get_copy()
 {
 	Camera* cam = new Camera(width, height, vfov);
 	cam->position = position;
-	cam->orientation = orientation;
+	cam->rotation = rotation;
 	cam->plane_width = plane_width;
 	cam->plane_height = plane_height;
 	cam->half_width = half_width;
@@ -126,6 +129,8 @@ Camera* Camera::get_copy()
 	cam->upper_left_corner = upper_left_corner;
 	cam->aperture = aperture;
 	cam->focus_dist = focus_dist;
+	cam->up = up;
+	cam->right = right;
 
 	return cam;
 }
@@ -208,7 +213,7 @@ Vector3 Camera::get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& 
 
 void Camera::recalculate_parameters()
 {
-	float focus_dist = (position - orientation.get_imaginary()).get_magnitude();
+	float focus_dist = (position - rotation.get_imaginary()).get_magnitude();
 
 	half_height = tanf(Math::Deg2Rad(vfov)/2);
 	half_width = static_cast<float>(width)/static_cast<float>(height) * half_height;
@@ -216,6 +221,6 @@ void Camera::recalculate_parameters()
 	plane_width = half_width * 2.0f * focus_dist;
 	plane_height = half_height * 2.0f * focus_dist;
 
-	upper_left_corner = -right*half_width + up*half_height + orientation.get_imaginary();
+	upper_left_corner = -right*half_width + up*half_height + rotation.get_imaginary();
 	upper_left_corner *= focus_dist;
 }

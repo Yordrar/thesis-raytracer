@@ -29,13 +29,18 @@ void Viewport::mousePressEvent(QMouseEvent* ev)
 		RenderManager::get_manager()->make_selection(static_cast<int>(ev->localPos().x()),
 													 static_cast<int>(ev->localPos().y()));
 		emit entity_selected_changed();
+		emit render_preview();
 	}
+	else
+		QLabel::mousePressEvent(ev);
 }
 
 void Viewport::mouseReleaseEvent(QMouseEvent* ev)
 {
 	if(ev->button() == Qt::MouseButton::RightButton)
 		last_point_pressed = QPoint(-1, -1);
+	else
+		QLabel::mouseReleaseEvent(ev);
 }
 
 void Viewport::mouseMoveEvent(QMouseEvent *ev)
@@ -46,7 +51,7 @@ void Viewport::mouseMoveEvent(QMouseEvent *ev)
 													ev->x(),
 													ev->y());
 		last_point_pressed = ev->pos();
-		emit render();
+		emit render_preview();
 	}
 	else
 		QLabel::mouseMoveEvent(ev);
@@ -56,27 +61,27 @@ void Viewport::keyPressEvent(QKeyEvent* ev)
 {
 	if(ev->key() == Qt::Key_W) {
 		SceneManager::get_manager()->move_camera(SceneManager::MOVE_DIRECTION::FRONT);
-		emit render();
+		emit render_preview();
 	}
 	else if(ev->key() == Qt::Key_A) {
 		SceneManager::get_manager()->move_camera(SceneManager::MOVE_DIRECTION::LEFT);
-		emit render();
+		emit render_preview();
 	}
 	else if(ev->key() == Qt::Key_S) {
 		SceneManager::get_manager()->move_camera(SceneManager::MOVE_DIRECTION::BACK);
-		emit render();
+		emit render_preview();
 	}
 	else if(ev->key() == Qt::Key_D) {
 		SceneManager::get_manager()->move_camera(SceneManager::MOVE_DIRECTION::RIGHT);
-		emit render();
+		emit render_preview();
 	}
 	else if(ev->key() == Qt::Key_Q) {
 		SceneManager::get_manager()->move_camera(SceneManager::MOVE_DIRECTION::UP);
-		emit render();
+		emit render_preview();
 	}
 	else if(ev->key() == Qt::Key_E) {
 		SceneManager::get_manager()->move_camera(SceneManager::MOVE_DIRECTION::DOWN);
-		emit render();
+		emit render_preview();
 	}
 	else
 		QLabel::keyPressEvent(ev);

@@ -25,7 +25,7 @@ public:
 	inline Vector3 get_right() const {return right;}
 
 	Vector3 get_color(float x, float y, const BVH& intersectables, const std::vector<Emitter*>& emitters) const;
-	Vector3 get_color_preview(float x, float y, const BVH& intersectables) const;
+	Vector3 get_color_preview(float x, float y, const BVH& intersectables, Entity* entity_selected) const;
 
 	Entity* get_object(float x, float y, const BVH& intersectables) const;
 

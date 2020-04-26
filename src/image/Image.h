@@ -21,6 +21,8 @@ public:
 
 	Vector3 get_mean() const;
 
+	void fill(Vector3 color);
+
 private:
 	Vector3** buffer;
 	int width, height;

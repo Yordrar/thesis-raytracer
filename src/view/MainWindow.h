@@ -19,7 +19,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-	void resizeEvent(QResizeEvent* event);
+	void resizeEvent(QResizeEvent* event) override;
+
+	bool eventFilter(QObject *obj, QEvent *event) override;
 
 private slots:
 	void render_preview();
@@ -46,5 +48,7 @@ private:
 	QTimer* render_timer;
 	void update_render_viewport();
 	std::thread* render_worker = nullptr;
+	float render_viewport_scale = 1;
+	bool is_ctrl_pressed = false;
 };
 

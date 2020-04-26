@@ -20,6 +20,12 @@ Vector3 get_uv(Vector3 normal) {
 	return Vector3(1-(phi + Math::PI) / (2*Math::PI), (theta + Math::PI/2) / Math::PI, 0);
 }
 
+Vector3 generate_tangent(Vector3 normal)
+{
+	Vector3 t = normal.create_not_collinear();
+	return t.cross(normal).unit();
+}
+
 #define T_MIN 0.001f
 Hit Sphere::get_intersection(const Ray& r) const
 {
@@ -45,7 +51,8 @@ Hit Sphere::get_intersection(const Ray& r) const
 			return Hit();
 		}
 		Vector3 normal = get_normal(r.get_point(t_min));
-		return Hit(true, material, normal, t_min, get_uv(normal));
+		Vector3 tangent = generate_tangent(normal);
+		return Hit(true, material, normal, t_min, get_uv(normal), tangent, normal.cross(tangent).unit(), position);
 	}
 	return Hit();
 }

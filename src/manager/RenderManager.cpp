@@ -38,7 +38,7 @@ Image RenderManager::render_preview(int width, int height)
 	auto* cam = SceneManager::get_manager()->get_camera();
 	cam->set_width_and_height(width, height);
 
-	return EditModeRenderer::render(SceneManager::get_manager()->get_scene(), cam);
+	return EditModeRenderer::render(SceneManager::get_manager()->get_scene(), cam, entity_selected);
 }
 
 void RenderManager::render(int width, int height, int n_samples)
@@ -125,4 +125,26 @@ void RenderManager::make_selection(int x, int y)
 {
 	BVH hierarchy(SceneManager::get_manager()->get_scene()->get_intersectables());
 	entity_selected = SceneManager::get_manager()->get_camera()->get_object(x, y, hierarchy);
+}
+
+bool RenderManager::set_position_entity_selected(float x, float y, float z)
+{
+	Vector3 old_pos = entity_selected->get_position();
+	Vector3 new_position(x, y, z);
+	Vector3 delta = new_position - old_pos;
+	if(Math::Float_Eq(delta.get_squared_magnitude(), 0.0f))
+		return false;
+	entity_selected->translate_global(delta.get_x(), delta.get_y(), delta.get_z());
+	return true;
+}
+
+bool RenderManager::set_orientation_entity_selected(float euler_x, float euler_y, float euler_z)
+{
+	Vector3 old_rot = entity_selected->get_rotation_euler();
+	Vector3 new_orientation(euler_x, euler_y, euler_z);
+	Vector3 delta = new_orientation - old_rot;
+	if(Math::Float_Eq(delta.get_squared_magnitude(), 0.0f))
+		return false;
+	entity_selected->rotate_global(delta.get_x(), delta.get_y(), delta.get_z());
+	return true;
 }

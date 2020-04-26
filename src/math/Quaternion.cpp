@@ -42,10 +42,10 @@ Quaternion Quaternion::slerp(Quaternion other, float t) const
 
 Quaternion Quaternion::create_rotation(float angle, Vector3 axis)
 {
-	float angle_rad = Math::Deg2Rad(angle);
+	float angle_rad = Math::Deg2Rad(angle/2.0f);
 	Vector3 v = axis.unit();
-	float w = cosf(angle_rad/2.0f);
-	v *= sinf(angle_rad/2.0f);
+	float w = cosf(angle_rad);
+	v *= sinf(angle_rad);
 	return Quaternion(w, v);
 }
 

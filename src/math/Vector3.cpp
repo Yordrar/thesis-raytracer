@@ -37,6 +37,24 @@ Vector3 Vector3::unit() const
 	}
 }
 
+Vector3 Vector3::create_not_collinear() const
+{
+	Vector3 t = *this;
+	float t_x = fabsf(this->get_x());
+	float t_y = fabsf(this->get_y());
+	float t_z = fabsf(this->get_z());
+	if(t_x <= t_y && t_x <= t_z) {
+		t.set_x(1);
+	}
+	else if(t_y <= t_x && t_y <= t_z) {
+		t.set_y(1);
+	}
+	else if(t_z <= t_y && t_z <= t_x) {
+		t.set_z(1);
+	}
+	return t;
+}
+
 Vector3 Vector3::random_in_unit_sphere()
 {
 	Vector3 p;

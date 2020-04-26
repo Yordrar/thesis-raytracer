@@ -78,3 +78,12 @@ Vector3 Image::get_mean() const
 	}
 	return color/(width*height);
 }
+
+void Image::fill(Vector3 color)
+{
+	for(int j = 0; j < height; j++) {
+		for(int i = 0; i < width; i++) {
+			buffer[j][i] = color;
+		}
+	}
+}

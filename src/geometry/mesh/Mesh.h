@@ -23,6 +23,9 @@ public:
 	Hit get_intersection(const Ray& ray) const override;
 	AxisAlignedBoundingBox get_bounding_box() const override;
 
+	void translate_global(float delta_x, float delta_y, float delta_z) override;
+	void rotate_global(float euler_x, float euler_y, float euler_z) override;
+
 private:
 	// The representation is a simple Indexed Triangle List
 	// The vertices are stored without repetition (some triangles may share vertices)

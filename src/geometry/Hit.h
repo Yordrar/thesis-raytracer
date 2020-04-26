@@ -13,7 +13,8 @@ public:
 		float t = 0.0f,
 		Vector3 uv = Vector3(-1),
 		Vector3 tangent = Vector3(),
-		Vector3 bitangent = Vector3());
+		Vector3 bitangent = Vector3(),
+		Vector3 position = Vector3());
 
 	inline bool is_hit() const {return hit;}
 
@@ -35,6 +36,9 @@ public:
 	inline Vector3 get_bitangent() const {return bitangent;}
 	inline void set_bitangent(const Vector3& value) {bitangent = value;}
 
+	inline Vector3 get_entity_position() const {return entity_position;}
+	inline void set_entity_position(const Vector3& value) {entity_position = value;}
+
 private:
 	bool hit;
 	Material* material;
@@ -43,5 +47,6 @@ private:
 	Vector3 uv;
 	Vector3 tangent;
 	Vector3 bitangent;
+	Vector3 entity_position;
 };
 

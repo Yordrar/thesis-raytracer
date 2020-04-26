@@ -18,7 +18,7 @@ public:
 	void keyPressEvent(QKeyEvent *ev) override;
 
 signals:
-	void render();
+	void render_preview();
 	void entity_selected_changed();
 
 private:

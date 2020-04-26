@@ -36,6 +36,12 @@ void CPURenderer::render(const Scene* scene, Camera* camera, int n_samples)
 	if(render_img) delete render_img;
 	render_img = new Image(width, height);
 
+	if(intersectables.size() <= 0) {
+		render_img->fill(Vector3(0));
+		render_finished = true;
+		return;
+	}
+
 	BVH hierarchy(intersectables);
 	auto emitters = scene->get_emitters();
 

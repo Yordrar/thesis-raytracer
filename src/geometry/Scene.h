@@ -22,10 +22,14 @@ public:
 	inline void set_intersectables(std::vector<Intersectable*> value) {
 		if(intersectables.size() > 0) {
 			for(Intersectable* i : intersectables) {
-				if(dynamic_cast<Mesh*>(i))
+				if(dynamic_cast<Mesh*>(i)) {
 					delete dynamic_cast<Mesh*>(i);
-				if(dynamic_cast<Sphere*>(i))
+					continue;
+				}
+				if(dynamic_cast<Sphere*>(i)) {
 					delete dynamic_cast<Sphere*>(i);
+					continue;
+				}
 			}
 		}
 		intersectables = value;
