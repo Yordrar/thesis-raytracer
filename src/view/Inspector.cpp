@@ -69,7 +69,35 @@ void Inspector::reload()
 		ui->orientation_y->setEnabled(true);
 		ui->orientation_z->setEnabled(true);
 
-		ui->material_selector->setEnabled(true);
+		auto material = RenderManager::get_manager()->get_material();
+		if(material != RenderManager::MATERIAL_TYPE::NONE) {
+			ui->material_selector->setEnabled(true);
+			switch(material) {
+			case RenderManager::MATERIAL_TYPE::LAMBERTIAN:
+				ui->material_selector->setCurrentIndex(0);
+				break;
+			case RenderManager::MATERIAL_TYPE::BLINNPHONG:
+				ui->material_selector->setCurrentIndex(1);
+				break;
+			case RenderManager::MATERIAL_TYPE::METAL:
+				ui->material_selector->setCurrentIndex(2);
+				break;
+			case RenderManager::MATERIAL_TYPE::DIELECTRIC:
+				ui->material_selector->setCurrentIndex(3);
+				break;
+			case RenderManager::MATERIAL_TYPE::EMISSIVE:
+				ui->material_selector->setCurrentIndex(4);
+				break;
+			case RenderManager::MATERIAL_TYPE::REFRACTIVE_LAMBERTIAN:
+				ui->material_selector->setCurrentIndex(5);
+				break;
+			default:
+				break;
+			}
+		}
+		else {
+			ui->material_selector->setEnabled(false);
+		}
 
 		Vector3 position = entity->get_position();
 		ui->position_x->setText(QString::number(static_cast<double>(round(position.get_x()*1000)/1000.0f)));
@@ -128,6 +156,12 @@ void Inspector::on_material_selector_currentIndexChanged(int index)
 		break;
 	case 3:
 		RenderManager::get_manager()->set_material(RenderManager::MATERIAL_TYPE::DIELECTRIC);
+		break;
+	case 4:
+		RenderManager::get_manager()->set_material(RenderManager::MATERIAL_TYPE::EMISSIVE);
+		break;
+	case 5:
+		RenderManager::get_manager()->set_material(RenderManager::MATERIAL_TYPE::REFRACTIVE_LAMBERTIAN);
 		break;
 	}
 }

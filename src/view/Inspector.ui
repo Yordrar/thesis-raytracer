@@ -228,6 +228,16 @@
      <string>Dielectric</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>Emissive</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Refractive Lambertian</string>
+    </property>
+   </item>
   </widget>
   <widget class="Line" name="line_3">
    <property name="geometry">

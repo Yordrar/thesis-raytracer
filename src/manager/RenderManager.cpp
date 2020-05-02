@@ -118,7 +118,36 @@ void RenderManager::set_material(RenderManager::MATERIAL_TYPE m) const
 	case RenderManager::MATERIAL_TYPE::REFRACTIVE_LAMBERTIAN:
 		dynamic_cast<Scatterer*>(entity_selected)->set_material(new RefractiveLambertian(Vector3(128)));
 		break;
+	default:
+		break;
 	}
+}
+
+RenderManager::MATERIAL_TYPE RenderManager::get_material() const
+{
+	Scatterer* s = dynamic_cast<Scatterer*>(entity_selected);
+	if(s) {
+		Material* m = s->get_material();
+		if(dynamic_cast<Lambertian*>(m)) {
+			return MATERIAL_TYPE::LAMBERTIAN;
+		}
+		else if(dynamic_cast<BlinnPhong*>(m)) {
+			return MATERIAL_TYPE::BLINNPHONG;
+		}
+		else if(dynamic_cast<Metal*>(m)) {
+			return MATERIAL_TYPE::METAL;
+		}
+		else if(dynamic_cast<Dielectric*>(m)) {
+			return MATERIAL_TYPE::DIELECTRIC;
+		}
+		else if(dynamic_cast<Emissive*>(m)) {
+			return MATERIAL_TYPE::EMISSIVE;
+		}
+		else if(dynamic_cast<RefractiveLambertian*>(m)) {
+			return MATERIAL_TYPE::REFRACTIVE_LAMBERTIAN;
+		}
+	}
+	return MATERIAL_TYPE::NONE;
 }
 
 void RenderManager::make_selection(int x, int y)

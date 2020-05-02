@@ -32,6 +32,7 @@ public:
 	}
 
 	enum class MATERIAL_TYPE {
+		NONE,
 		LAMBERTIAN,
 		BLINNPHONG,
 		METAL,
@@ -40,6 +41,7 @@ public:
 		REFRACTIVE_LAMBERTIAN,
 	};
 	void set_material(MATERIAL_TYPE m) const;
+	MATERIAL_TYPE get_material() const;
 
 	void make_selection(int x, int y);
 
