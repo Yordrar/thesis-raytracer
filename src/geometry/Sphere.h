@@ -15,6 +15,7 @@ public:
 	inline float get_radius() const {return radius;}
 
 	// Intersectable interface
+	AxisAlignedBoundingBox get_bounding_box() const override;
 	Hit get_intersection(const Ray& ray) const override;
 	Vector3 get_normal(const Vector3& point) const;
 

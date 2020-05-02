@@ -1,6 +1,7 @@
 #include "Camera.h"
 
 #include <geometry/Scatterer.h>
+#include <geometry/light/DirectionalLight.h>
 #include <iostream>
 #include <material/Dielectric.h>
 #include <material/Metal.h>
@@ -59,11 +60,18 @@ Vector3 Camera::get_color_preview(float x, float y, const BVH& intersectables, E
 	Ray r = get_ray(u, v);
 	Hit intersection = intersectables.get_intersection(r);
 	float intersection_normal_dot_ray = intersection.get_normal().dot(r.get_direction());
-	if(intersection.is_hit() && intersection_normal_dot_ray <= 0.0f) {
+	if(intersection.is_hit()) {
 		if(entity_selected && intersection.get_entity_position() == entity_selected->get_position()) {
-			return Vector3(1.0f, 0.88f, 0.30f) * (-intersection_normal_dot_ray);
+			if(intersection_normal_dot_ray <= 0.0f)
+				return Vector3(1.0f, 0.88f, 0.30f) * Math::Map(intersection_normal_dot_ray, -1.0f, 0.0f, 1, 0.25f);
+			else
+				return Vector3(1.0f, 0.88f, 0.30f) * Math::Map(intersection_normal_dot_ray, 1.0f, 0.0f, 1, 0.25f);
 		}
-		return Vector3(Math::Map(intersection_normal_dot_ray, -1.0f, 0.0f, 0.5f, 0.0f));
+
+		if(intersection_normal_dot_ray <= 0.0f)
+			return Vector3(Math::Map(intersection_normal_dot_ray, -1.0f, 0.0f, 0.5f, 0.0f));
+		else
+			return Vector3(Math::Map(intersection_normal_dot_ray, 1.0f, 0.0f, 0.5f, 0.0f));
 	}
 	return Vector3(DEFAULT_EDIT_MODE_BGND_COLOR);
 }
@@ -162,6 +170,15 @@ Camera* Camera::get_copy()
 #define MAX_DEPTH 10
 Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth) const
 {
+	double rrFactor = 1.0f;
+	if (depth >= 5) {
+		const double rrStopProbability = 0.1f;
+		if (Math::Randf() <= rrStopProbability) {
+			return Vector3();
+		}
+		rrFactor = 1.0f / (1.0f - rrStopProbability);
+	}
+
 	Vector3 color;
 	Hit intersection = intersectables.get_intersection(r);
 	if(intersection.is_hit()) {
@@ -195,21 +212,18 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 		Vector3 emitters_color;
 		if(material->is_affected_by_shadow_rays())
 			emitters_color = get_shadow_ray_color(new_ray.get_origin(), normal, intersectables, emitters);
-		if(depth < MAX_DEPTH && new_ray.get_direction().get_squared_magnitude() != 0.0f) {
+		if(new_ray.get_direction().get_squared_magnitude() != 0.0f) {
 			color = emission + material_color * (emitters_color + get_color_recursive(new_ray, intersectables, emitters, depth+1));
-		}
-		else {
-			color = emission + material_color;
 		}
 	} else {
 		/*Vector3 unit_direction = r.get_direction().unit();
 		float t = 0.5f*(unit_direction.get_y() + 1.0f);
 		return (1.0f-t)*Vector3(1.0f, 1.0f, 1.0f) + t*Vector3(0.5f, 0.7f, 1.0f);*/
 	}
-	return color;
+	return color * rrFactor;
 }
 
-#define SHADOW_RAYS 1
+#define SHADOW_RAYS 10
 Vector3 Camera::get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& intersectables, const std::vector<Emitter*>& emitters) const
 {
 	Vector3 color;
@@ -218,17 +232,9 @@ Vector3 Camera::get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& 
 			Ray shadow_ray = e->get_shadow_ray(origin);
 			float distance_to_emitter = e->get_distance(origin);
 			Hit intersection = intersectables.get_intersection(shadow_ray);
-			int num_refractions = 0;
-			while(intersection.is_hit() && dynamic_cast<Dielectric*>(intersection.get_material())) {
-				num_refractions++;
-				shadow_ray = intersection.get_material()->scatter(shadow_ray, intersection.get_t(), intersection.get_normal());
-				intersection = intersectables.get_intersection(shadow_ray);
-			}
-			Vector3 direction_to_emitter = e->get_shadow_ray(shadow_ray.get_origin()).get_direction();
 			if(!intersection.is_hit() ||
 			   (intersection.is_hit() && intersection.get_t() > distance_to_emitter)) {
-				if(direction_to_emitter.dot(shadow_ray.get_direction()) > 0.99f)
-					color += e->get_emission_color(origin, normal);
+					color += e->get_emission_color(origin) * normal.dot(shadow_ray.get_direction());
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 
+#include <geometry/light/AreaLight.h>
 #include <geometry/light/DirectionalLight.h>
 #include <geometry/light/PointLight.h>
 #include <geometry/mesh/MeshImporter.h>
@@ -30,15 +31,19 @@ SceneManager::SceneManager()
 	PointLight* l3 = new PointLight(Vector3(255, 255, 255), 80);
 	DirectionalLight* l4 = new DirectionalLight(Vector3(255));
 	PointLight* l5 = new PointLight(Vector3(255, 255, 255), 80);
+	AreaLight* l6 = new AreaLight(Vector3(255), 40);
 	l1->set_position(Vector3(-2, 1, -2));
 	l2->set_position(Vector3(-2, 1, -8));
 	l3->set_position(Vector3(-2, 1, -14));
 	l5->set_position(Vector3(3, 3, -1));
-	//escena.add_emitter(l1);
-	//escena.add_emitter(l2);
-	//escena.add_emitter(l3);
-	scene->add_emitter(l4);
-	//escena.add_emitter(l5);
+	l6->set_position(Vector3(0, 2, -4));
+	l6->rotate_global(90, 0, 0);
+	//scene->add_emitter(l1);
+	//scene->add_emitter(l2);
+	//scene->add_emitter(l3);
+	//scene->add_emitter(l4);
+	//scene->add_emitter(l5);
+	scene->add_emitter(l6);
 
 	Sphere* s = new Sphere(Vector3(0, -100.5f, -1), 100);
 	s->set_material(new Lambertian(Vector3(128)));
@@ -46,11 +51,11 @@ SceneManager::SceneManager()
 	s1->set_material(new Emissive(Vector3(255)));
 	//s1->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\brick_diffuse.bmp"));
 	//s1->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\brick_normal.bmp"));
-	Sphere* s2 = new Sphere(Vector3(0, 0, -2.0f), 0.5f);
+	Sphere* s2 = new Sphere(Vector3(1, 0.5f, -3), 0.5f);
 	s2->set_material(new Dielectric(Vector3(255), 1.5f));
 	//escena.add_intersectable(s);
 	//escena.add_intersectable(s1);
-	//escena.add_intersectable(s2);
+	scene->add_intersectable(s2);
 }
 
 SceneManager::~SceneManager()

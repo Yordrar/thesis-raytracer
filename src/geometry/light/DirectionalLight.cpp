@@ -1,9 +1,10 @@
 #include "DirectionalLight.h"
 
 DirectionalLight::DirectionalLight(Vector3 _albedo, Vector3 direction)
-	: Emitter(_albedo)
+	: Emitter(_albedo),
+	  direction(direction)
 {
-	this->direction = direction;
+
 }
 
 DirectionalLight::~DirectionalLight()
@@ -11,9 +12,9 @@ DirectionalLight::~DirectionalLight()
 
 }
 
-Vector3 DirectionalLight::get_emission_color(Vector3 _position, Vector3 normal) const
+Vector3 DirectionalLight::get_emission_color(Vector3 _position) const
 {
-	return albedo * normal.dot(-direction);
+	return albedo;
 }
 
 Ray DirectionalLight::get_shadow_ray(Vector3 position) const

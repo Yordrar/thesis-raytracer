@@ -14,6 +14,12 @@ Sphere::~Sphere()
 
 }
 
+AxisAlignedBoundingBox Sphere::get_bounding_box() const
+{
+	Vector3 radius_vec(radius, radius, radius);
+	return AxisAlignedBoundingBox(position - radius_vec, position + radius_vec);
+}
+
 Vector3 get_uv(Vector3 normal) {
 	auto phi = atan2f(normal.get_z(), normal.get_x());
 	auto theta = asinf(normal.get_y());

@@ -26,6 +26,7 @@ SOURCES += \
     geometry/Scatterer.cpp \
     geometry/Scene.cpp \
     geometry/Sphere.cpp \
+    geometry/light/AreaLight.cpp \
     geometry/light/DirectionalLight.cpp \
     geometry/light/PointLight.cpp \
     geometry/mesh/Mesh.cpp \
@@ -63,6 +64,7 @@ HEADERS += \
     geometry/Scatterer.h \
     geometry/Scene.h \
     geometry/Sphere.h \
+    geometry/light/AreaLight.h \
     geometry/light/DirectionalLight.h \
     geometry/light/PointLight.h \
     geometry/mesh/Mesh.h \
