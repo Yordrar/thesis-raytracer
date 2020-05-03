@@ -35,8 +35,18 @@ public:
 
 	virtual inline bool is_affected_by_shadow_rays() const {return true;}
 
+	inline float get_roughness() const {return roughness;}
+	inline void set_roughness(float value) {roughness = Math::Clampf(value, 0, 1);}
+
+	inline float get_metallicity() const {return metallicity;}
+	inline void set_metallicity(float value) {metallicity = Math::Clampf(value, 0, 1);}
+
+	inline float get_reflectance() const {return reflectance;}
+	inline void set_reflectance(float value) {reflectance = Math::Clampf(value, 0, 1);}
+
 protected:
 	Vector3 albedo;
+	float  roughness, metallicity, reflectance;
 	Image* texture_map = nullptr;
 	Image* normal_map = nullptr;
 };

@@ -20,12 +20,17 @@ Inspector::Inspector(QWidget *parent) :
 	ui->open_normal->setIcon(QIcon(icon_pixmap));
 
 	number_validator = new QDoubleValidator;
+	number_validator->setNotation(QDoubleValidator::StandardNotation);
 	ui->position_x->setValidator(number_validator);
 	ui->position_y->setValidator(number_validator);
 	ui->position_z->setValidator(number_validator);
 	ui->orientation_x->setValidator(number_validator);
 	ui->orientation_y->setValidator(number_validator);
 	ui->orientation_z->setValidator(number_validator);
+
+	material_parameter_validator = new QDoubleValidator;
+	material_parameter_validator->setNotation(QDoubleValidator::StandardNotation);
+	ui->roughness->setValidator(material_parameter_validator);
 
 	reload();
 }
@@ -53,6 +58,7 @@ void Inspector::reload()
 		ui->orientation_z->setEnabled(false);
 
 		ui->material_selector->setEnabled(false);
+		ui->roughness->setEnabled(false);
 
 		QImage default_image(map_preview_size, map_preview_size, QImage::Format_BGR888);
 		default_image.fill(0);
@@ -94,9 +100,12 @@ void Inspector::reload()
 			default:
 				break;
 			}
+			ui->roughness->setEnabled(true);
+			ui->roughness->setText(QString::number(RenderManager::get_manager()->get_roughness()));
 		}
 		else {
 			ui->material_selector->setEnabled(false);
+			ui->roughness->setEnabled(false);
 		}
 
 		Vector3 position = entity->get_position();
@@ -181,10 +190,10 @@ void Inspector::orientation_changed(float euler_x, float euler_y, float euler_z)
 }
 
 int cero = 0;
-void Inspector::line_edit_edited(QLineEdit* line_edit, const QString& text)
+void Inspector::line_edit_edited(QLineEdit* line_edit, const QString& text, QValidator* validator)
 {
 	QString input(text);
-	if(number_validator->validate(input, cero) == QValidator::State::Acceptable) {
+	if(validator->validate(input, cero) == QValidator::State::Acceptable) {
 		QPalette palette = line_edit->palette();
 		palette.setColor(QPalette::Base, Qt::white);
 		line_edit->setPalette(palette);
@@ -205,7 +214,7 @@ void Inspector::on_orientation_x_editingFinished()
 
 void Inspector::on_orientation_x_textEdited(const QString& arg1)
 {
-	line_edit_edited(ui->orientation_x, arg1);
+	line_edit_edited(ui->orientation_x, arg1, number_validator);
 }
 
 void Inspector::on_orientation_y_editingFinished()
@@ -217,7 +226,7 @@ void Inspector::on_orientation_y_editingFinished()
 
 void Inspector::on_orientation_y_textEdited(const QString &arg1)
 {
-	line_edit_edited(ui->orientation_y, arg1);
+	line_edit_edited(ui->orientation_y, arg1, number_validator);
 }
 
 void Inspector::on_orientation_z_editingFinished()
@@ -229,7 +238,7 @@ void Inspector::on_orientation_z_editingFinished()
 
 void Inspector::on_orientation_z_textEdited(const QString &arg1)
 {
-	line_edit_edited(ui->orientation_z, arg1);
+	line_edit_edited(ui->orientation_z, arg1, number_validator);
 }
 
 void Inspector::on_position_x_editingFinished()
@@ -241,7 +250,7 @@ void Inspector::on_position_x_editingFinished()
 
 void Inspector::on_position_x_textEdited(const QString &arg1)
 {
-	line_edit_edited(ui->position_x, arg1);
+	line_edit_edited(ui->position_x, arg1, number_validator);
 }
 
 
@@ -254,7 +263,7 @@ void Inspector::on_position_y_editingFinished()
 
 void Inspector::on_position_y_textEdited(const QString &arg1)
 {
-	line_edit_edited(ui->position_y, arg1);
+	line_edit_edited(ui->position_y, arg1, number_validator);
 }
 
 void Inspector::on_position_z_editingFinished()
@@ -266,5 +275,15 @@ void Inspector::on_position_z_editingFinished()
 
 void Inspector::on_position_z_textEdited(const QString &arg1)
 {
-	line_edit_edited(ui->position_z, arg1);
+	line_edit_edited(ui->position_z, arg1, number_validator);
+}
+
+void Inspector::on_roughness_editingFinished()
+{
+	RenderManager::get_manager()->set_roughness(ui->roughness->text().toFloat());
+}
+
+void Inspector::on_roughness_textEdited(const QString &arg1)
+{
+	line_edit_edited(ui->roughness, arg1, material_parameter_validator);
 }

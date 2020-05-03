@@ -1,16 +1,14 @@
 #include "BlinnPhong.h"
 
-BlinnPhong::BlinnPhong(const Vector3& _albedo, float shininess)
-	: Material(_albedo),
-	  shininess(shininess)
+BlinnPhong::BlinnPhong(const Vector3& _albedo)
+	: Material(_albedo)
 {
 	ambient_albedo = Vector3(0);
 	specular_albedo = Vector3(255);
 }
 
-BlinnPhong::BlinnPhong(float r, float g, float b, float shininess)
-	: Material(r, g, b),
-	  shininess(shininess)
+BlinnPhong::BlinnPhong(float r, float g, float b)
+	: Material(r, g, b)
 {
 	ambient_albedo = Vector3(0);
 	specular_albedo = Vector3(255);
@@ -35,7 +33,8 @@ Vector3 BlinnPhong::get_color(const Vector3& uv, const Vector3& normal, const st
 	Vector3 color = ambient_albedo * 0.5f;
 	for(auto l : light_vectors) {
 		Vector3 half_vector = (l + view_vector).unit();
-		color += Math::Fast_Max(l.dot(normal), 0) * diffuse_color  +  0.1f * powf(normal.dot(half_vector), shininess) * specular_albedo;
+		color += Math::Fast_Max(l.dot(normal), 0) * diffuse_color  +
+				 Math::Map(roughness, 0, 1, 0.05f, 0.001f) * powf(normal.dot(half_vector), Math::Map(roughness, 0, 1, 500, 50)) * specular_albedo;
 	}
 	return color;
 }

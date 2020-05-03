@@ -48,6 +48,15 @@ public:
 	bool set_position_entity_selected(float x, float y, float z);
 	bool set_orientation_entity_selected(float euler_x, float euler_y, float euler_z);
 
+	float get_roughness() const;
+	void set_roughness(float value);
+
+	float get_metallicity() const;
+	void set_metallicity(float value);
+
+	float get_reflectance() const;
+	void set_reflectance(float value);
+
 private:
 	RenderManager();
 	static RenderManager* instance;

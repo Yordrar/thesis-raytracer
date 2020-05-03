@@ -16,6 +16,10 @@ public:
 	inline Material* get_material() const {return material;}
 	inline void set_material(Material* new_material) {
 		if(material) {
+			new_material->set_albedo(material->get_albedo());
+			new_material->set_roughness(material->get_roughness());
+			new_material->set_metallicity(material->get_metallicity());
+			new_material->set_reflectance(material->get_reflectance());
 			if(material->get_texture_map()) new_material->set_texture_map(material->get_texture_map()->get_copy());
 			if(material->get_normal_map()) new_material->set_normal_map(material->get_normal_map()->get_copy());
 			delete material;

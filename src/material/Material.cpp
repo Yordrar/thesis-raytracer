@@ -3,11 +3,17 @@
 Material::Material(const Vector3& albedo)
 {
 	this->albedo = albedo/255;
+	roughness = 0;
+	metallicity = 1;
+	reflectance = 1;
 }
 
 Material::Material(float r, float g, float b)
 {
 	albedo = Vector3(r, g, b)/255;
+	roughness = 0;
+	metallicity = 1;
+	reflectance = 1;
 }
 
 Vector3 Material::get_emission_color(const Ray& ray, float t, const Vector3& normal)

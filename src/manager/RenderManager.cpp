@@ -177,3 +177,18 @@ bool RenderManager::set_orientation_entity_selected(float euler_x, float euler_y
 	entity_selected->rotate_global(delta.get_x(), delta.get_y(), delta.get_z());
 	return true;
 }
+
+float RenderManager::get_roughness() const
+{
+	auto* scatterer_selected = dynamic_cast<Scatterer*>(entity_selected);
+	if(scatterer_selected)
+		return scatterer_selected->get_material()->get_roughness();
+	return -1;
+}
+
+void RenderManager::set_roughness(float value)
+{
+	auto* scatterer_selected = dynamic_cast<Scatterer*>(entity_selected);
+	if(scatterer_selected)
+		scatterer_selected->get_material()->set_roughness(value);
+}

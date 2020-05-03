@@ -12,8 +12,5 @@ public:
 	Ray scatter(const Ray& ray, float t, const Vector3& normal) override;
 
 	inline bool is_affected_by_shadow_rays() const override {return false;}
-
-private:
-	float roughness;
 };
 

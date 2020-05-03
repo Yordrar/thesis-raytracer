@@ -41,9 +41,9 @@ SceneManager::SceneManager()
 	//scene->add_emitter(l1);
 	//scene->add_emitter(l2);
 	//scene->add_emitter(l3);
-	//scene->add_emitter(l4);
+	scene->add_emitter(l4);
 	//scene->add_emitter(l5);
-	scene->add_emitter(l6);
+	//scene->add_emitter(l6);
 
 	Sphere* s = new Sphere(Vector3(0, -100.5f, -1), 100);
 	s->set_material(new Lambertian(Vector3(128)));

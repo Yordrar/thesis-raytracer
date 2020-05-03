@@ -243,7 +243,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>170</y>
+     <y>300</y>
      <width>211</width>
      <height>20</height>
     </rect>
@@ -256,7 +256,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>190</y>
+     <y>320</y>
      <width>51</width>
      <height>16</height>
     </rect>
@@ -278,7 +278,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>230</y>
+     <y>360</y>
      <width>150</width>
      <height>150</height>
     </rect>
@@ -291,7 +291,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>390</y>
+     <y>520</y>
      <width>211</width>
      <height>20</height>
     </rect>
@@ -304,7 +304,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>410</y>
+     <y>540</y>
      <width>71</width>
      <height>16</height>
     </rect>
@@ -326,7 +326,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>190</y>
+     <y>320</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -339,7 +339,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>450</y>
+     <y>580</y>
      <width>150</width>
      <height>150</height>
     </rect>
@@ -352,13 +352,39 @@
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>410</y>
+     <y>540</y>
      <width>31</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="roughness_label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>180</y>
+     <width>61</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Roughness</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="roughness">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>180</y>
+     <width>51</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
  </widget>
