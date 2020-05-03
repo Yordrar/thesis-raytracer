@@ -59,6 +59,8 @@ void Inspector::reload()
 
 		ui->material_selector->setEnabled(false);
 		ui->roughness->setEnabled(false);
+		ui->metallicity->setEnabled(false);
+		ui->reflectance->setEnabled(false);
 
 		QImage default_image(map_preview_size, map_preview_size, QImage::Format_BGR888);
 		default_image.fill(0);
@@ -102,10 +104,16 @@ void Inspector::reload()
 			}
 			ui->roughness->setEnabled(true);
 			ui->roughness->setText(QString::number(RenderManager::get_manager()->get_roughness()));
+			ui->metallicity->setEnabled(true);
+			ui->metallicity->setText(QString::number(RenderManager::get_manager()->get_metallicity()));
+			ui->reflectance->setEnabled(true);
+			ui->reflectance->setText(QString::number(RenderManager::get_manager()->get_reflectance()));
 		}
 		else {
 			ui->material_selector->setEnabled(false);
 			ui->roughness->setEnabled(false);
+			ui->metallicity->setEnabled(false);
+			ui->reflectance->setEnabled(false);
 		}
 
 		Vector3 position = entity->get_position();
@@ -286,4 +294,24 @@ void Inspector::on_roughness_editingFinished()
 void Inspector::on_roughness_textEdited(const QString &arg1)
 {
 	line_edit_edited(ui->roughness, arg1, material_parameter_validator);
+}
+
+void Inspector::on_metallicity_editingFinished()
+{
+	RenderManager::get_manager()->set_metallicity(ui->metallicity->text().toFloat());
+}
+
+void Inspector::on_metallicity_textEdited(const QString &arg1)
+{
+	line_edit_edited(ui->metallicity, arg1, material_parameter_validator);
+}
+
+void Inspector::on_reflectance_editingFinished()
+{
+	RenderManager::get_manager()->set_reflectance(ui->reflectance->text().toFloat());
+}
+
+void Inspector::on_reflectance_textEdited(const QString &arg1)
+{
+	line_edit_edited(ui->reflectance, arg1, material_parameter_validator);
 }

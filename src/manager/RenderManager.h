@@ -48,14 +48,14 @@ public:
 	bool set_position_entity_selected(float x, float y, float z);
 	bool set_orientation_entity_selected(float euler_x, float euler_y, float euler_z);
 
-	float get_roughness() const;
-	void set_roughness(float value);
+	inline float get_roughness() const {return dynamic_cast<Scatterer*>(entity_selected)->get_material()->get_roughness();}
+	inline void set_roughness(float value) {dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_roughness(value);}
 
-	float get_metallicity() const;
-	void set_metallicity(float value);
+	inline float get_metallicity() const {return dynamic_cast<Scatterer*>(entity_selected)->get_material()->get_metallicity();}
+	inline void set_metallicity(float value) {dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_metallicity(value);}
 
-	float get_reflectance() const;
-	void set_reflectance(float value);
+	inline float get_reflectance() const {return dynamic_cast<Scatterer*>(entity_selected)->get_material()->get_reflectance();}
+	inline void set_reflectance(float value) {dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_reflectance(value);}
 
 private:
 	RenderManager();

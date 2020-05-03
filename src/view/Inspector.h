@@ -61,6 +61,14 @@ private slots:
 
 	void on_roughness_textEdited(const QString &arg1);
 
+	void on_metallicity_editingFinished();
+
+	void on_metallicity_textEdited(const QString &arg1);
+
+	void on_reflectance_editingFinished();
+
+	void on_reflectance_textEdited(const QString &arg1);
+
 private:
 	Ui::Inspector *ui;
 	unsigned int map_preview_size;
