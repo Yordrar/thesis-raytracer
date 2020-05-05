@@ -1,17 +1,5 @@
 #include "Metal.h"
 
-Metal::Metal(const Vector3& _albedo, float roughness)
-	: Material(_albedo)
-{
-	this->roughness = roughness;
-}
-
-Metal::Metal(float r, float g, float b, float roughness)
-	: Material(r, g, b)
-{
-	this->roughness = roughness;
-}
-
 Metal::~Metal()
 {
 

@@ -52,7 +52,7 @@ SceneManager::SceneManager()
 	//s1->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\brick_diffuse.bmp"));
 	//s1->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\brick_normal.bmp"));
 	Sphere* s2 = new Sphere(Vector3(1, 0.5f, -3), 0.5f);
-	s2->set_material(new Dielectric(Vector3(255), 1.5f));
+	s2->set_material(new Dielectric(Vector3(255)));
 	//escena.add_intersectable(s);
 	//escena.add_intersectable(s1);
 	scene->add_intersectable(s2);

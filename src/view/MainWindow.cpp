@@ -105,7 +105,7 @@ void MainWindow::render_preview()
 {
 	omp_set_num_threads(ui->centralwidget->findChild<QSpinBox*>("threads")->maximum());
 
-	int width = this->size().width()-280;
+	int width = this->size().width()-300;
 	int height = this->size().height()-50;
 
 	Image frame = RenderManager::get_manager()->render_preview(width, height);

@@ -66,57 +66,44 @@ void RenderManager::finish_render()
 	CPURenderer::get_renderer()->set_render_finished(true);
 }
 
-QImage RenderManager::image_to_qimage(Image* img) const {
-	if(img == nullptr) {
-		QImage qimg(1, 1, QImage::Format_RGB888);
-		qimg.fill(0);
-		return qimg;
-	}
-
-	QImage qimg(img->get_width(), img->get_height(), QImage::Format_RGB888);
-	for(int j = 0; j < qimg.height(); j++) {
-		for(int i = 0; i < qimg.width(); i++) {
-			Vector3 color = img->get_pixel_color(i, j) * 255;
-			qimg.setPixelColor(i, j, QColor(static_cast<int>(color.get_x()),
-											static_cast<int>(color.get_y()),
-											static_cast<int>(color.get_z())));
-		}
-	}
-	return qimg;
+Image* RenderManager::get_texture_map() const
+{
+	Scatterer* s = dynamic_cast<Scatterer*>(entity_selected);
+	if(s)
+		return s->get_material()->get_texture_map();
+	else
+		return nullptr;
 }
 
-QImage RenderManager::get_texture_map() const
+Image* RenderManager::get_normal_map() const
 {
-	Image* img = dynamic_cast<Scatterer*>(entity_selected)->get_material()->get_texture_map();
-	return image_to_qimage(img);
-}
-
-QImage RenderManager::get_normal_map() const
-{
-	Image* img = dynamic_cast<Scatterer*>(entity_selected)->get_material()->get_normal_map();
-	return image_to_qimage(img);
+	Scatterer* s = dynamic_cast<Scatterer*>(entity_selected);
+	if(s)
+		return s->get_material()->get_normal_map();
+	else
+		return nullptr;
 }
 
 void RenderManager::set_material(RenderManager::MATERIAL_TYPE m) const
 {
 	switch(m) {
 	case RenderManager::MATERIAL_TYPE::LAMBERTIAN:
-		dynamic_cast<Scatterer*>(entity_selected)->set_material(new Lambertian(Vector3(128)));
+		dynamic_cast<Scatterer*>(entity_selected)->set_material(new Lambertian);
 		break;
 	case RenderManager::MATERIAL_TYPE::BLINNPHONG:
-		dynamic_cast<Scatterer*>(entity_selected)->set_material(new BlinnPhong());
+		dynamic_cast<Scatterer*>(entity_selected)->set_material(new BlinnPhong);
 		break;
 	case RenderManager::MATERIAL_TYPE::METAL:
-		dynamic_cast<Scatterer*>(entity_selected)->set_material(new Metal(Vector3(200)));
+		dynamic_cast<Scatterer*>(entity_selected)->set_material(new Metal);
 		break;
 	case RenderManager::MATERIAL_TYPE::DIELECTRIC:
-		dynamic_cast<Scatterer*>(entity_selected)->set_material(new Dielectric(Vector3(255), 1.5f));
+		dynamic_cast<Scatterer*>(entity_selected)->set_material(new Dielectric);
 		break;
 	case RenderManager::MATERIAL_TYPE::EMISSIVE:
-		dynamic_cast<Scatterer*>(entity_selected)->set_material(new Emissive(Vector3(255), 5));
+		dynamic_cast<Scatterer*>(entity_selected)->set_material(new Emissive);
 		break;
 	case RenderManager::MATERIAL_TYPE::REFRACTIVE_LAMBERTIAN:
-		dynamic_cast<Scatterer*>(entity_selected)->set_material(new RefractiveLambertian(Vector3(128)));
+		dynamic_cast<Scatterer*>(entity_selected)->set_material(new RefractiveLambertian);
 		break;
 	default:
 		break;
@@ -176,4 +163,51 @@ bool RenderManager::set_orientation_entity_selected(float euler_x, float euler_y
 		return false;
 	entity_selected->rotate_global(delta.get_x(), delta.get_y(), delta.get_z());
 	return true;
+}
+
+float RenderManager::get_intensity() const
+{
+	Scatterer* s = dynamic_cast<Scatterer*>(entity_selected);
+	if(s) {
+		Emissive* em = dynamic_cast<Emissive*>(s->get_material());
+		if(em)
+			return em->get_intensity();
+		else
+			return 0;
+	}
+	else
+		return 0;
+}
+
+void RenderManager::set_intensity(float value)
+{
+	Scatterer* s = dynamic_cast<Scatterer*>(entity_selected);
+	if(s) {
+		Emissive* em = dynamic_cast<Emissive*>(s->get_material());
+		if(em)
+			return em->set_intensity(value);
+	}
+}
+
+float RenderManager::get_refraction_index() const
+{Scatterer* s = dynamic_cast<Scatterer*>(entity_selected);
+	if(s) {
+		Dielectric* d = dynamic_cast<Dielectric*>(s->get_material());
+		if(d)
+			return d->get_refraction_index();
+		else
+			return 0;
+	}
+	else
+		return 0;
+}
+
+void RenderManager::set_refraction_index(float value)
+{
+	Scatterer* s = dynamic_cast<Scatterer*>(entity_selected);
+	if(s) {
+		Dielectric* d = dynamic_cast<Dielectric*>(s->get_material());
+		if(d)
+			return d->set_refraction_index(value);
+	}
 }

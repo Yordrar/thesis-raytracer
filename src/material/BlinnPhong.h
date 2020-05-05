@@ -7,8 +7,7 @@
 class BlinnPhong : public Material
 {
 public:
-	BlinnPhong(const Vector3& albedo = Vector3(128, 128, 128));
-	BlinnPhong(float r, float g, float b);
+	using Material::Material;
 	~BlinnPhong() override;
 
 	Ray scatter(const Ray& ray, float t, const Vector3& normal) override;
@@ -24,5 +23,6 @@ public:
 	void set_texture_map(Image *value) override;
 
 private:
-	Vector3 ambient_albedo, specular_albedo;
+	Vector3 ambient_albedo = Vector3(0);
+	Vector3 specular_albedo = Vector3(255);
 };

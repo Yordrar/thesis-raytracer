@@ -1,19 +1,5 @@
 #include "Dielectric.h"
 
-Dielectric::Dielectric(const Vector3& _albedo, float refraction_index)
-	: Material(_albedo),
-	  refraction_index(refraction_index)
-{
-
-}
-
-Dielectric::Dielectric(float r, float g, float b, float refraction_index)
-	: Material(r, g, b),
-	  refraction_index(refraction_index)
-{
-
-}
-
 Dielectric::~Dielectric()
 {
 
@@ -73,5 +59,8 @@ Ray Dielectric::scatter(const Ray& ray, float t, const Vector3& normal)
 	else {
 		new_direction = ni_over_nt*(ray.get_direction() - ray.get_direction().dot(normal_scatter)*normal_scatter) - normal_scatter * sqrtf(discriminant);
 	}
-	return Ray(ray.get_point(t), new_direction);
+	if(Math::Float_Eq(roughness, 0.0f))
+		return Ray(ray.get_point(t), new_direction);
+	else
+		return Ray(ray.get_point(t), new_direction + Vector3::random_in_unit_sphere() * roughness);
 }

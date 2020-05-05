@@ -1,5 +1,10 @@
 <RCC>
     <qresource prefix="/">
         <file>resource/open_file_icon.png</file>
+        <file>resource/material_icon.png</file>
+        <file>resource/transform_icon.png</file>
+        <file>resource/normal_map_icon.png</file>
+        <file>resource/texture_map_icon.png</file>
+        <file>resource/image_placeholder.png</file>
     </qresource>
 </RCC>

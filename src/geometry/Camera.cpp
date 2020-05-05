@@ -215,6 +215,9 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 		if(new_ray.get_direction().get_squared_magnitude() != 0.0f) {
 			color = emission + material_color * (emitters_color + get_color_recursive(new_ray, intersectables, emitters, depth+1));
 		}
+		else {
+			color = emission + material_color;
+		}
 	} else {
 		/*Vector3 unit_direction = r.get_direction().unit();
 		float t = 0.5f*(unit_direction.get_y() + 1.0f);

@@ -1,19 +1,5 @@
 #include "BlinnPhong.h"
 
-BlinnPhong::BlinnPhong(const Vector3& _albedo)
-	: Material(_albedo)
-{
-	ambient_albedo = Vector3(0);
-	specular_albedo = Vector3(255);
-}
-
-BlinnPhong::BlinnPhong(float r, float g, float b)
-	: Material(r, g, b)
-{
-	ambient_albedo = Vector3(0);
-	specular_albedo = Vector3(255);
-}
-
 BlinnPhong::~BlinnPhong()
 {
 

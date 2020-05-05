@@ -69,14 +69,36 @@ private slots:
 
 	void on_reflectance_textEdited(const QString &arg1);
 
+	void on_albedo_x_editingFinished();
+
+	void on_albedo_x_textEdited(const QString &arg1);
+
+	void on_albedo_y_editingFinished();
+
+	void on_albedo_y_textEdited(const QString &arg1);
+
+	void on_albedo_z_editingFinished();
+
+	void on_albedo_z_textEdited(const QString &arg1);
+
+	void on_intensity_editingFinished();
+
+	void on_intensity_textEdited(const QString &arg1);
+
+	void on_refraction_editingFinished();
+
+	void on_refraction_textEdited(const QString &arg1);
+
 private:
 	Ui::Inspector *ui;
 	unsigned int map_preview_size;
-	QDoubleValidator* number_validator;
+	QDoubleValidator* transform_validator;
 	QDoubleValidator* material_parameter_validator;
+	QIntValidator* albedo_validator;
 
 	void position_changed(float x, float y, float z);
 	void orientation_changed(float euler_x, float euler_y, float euler_z);
-	void line_edit_edited(QLineEdit* line_edit, const QString& text, QValidator* validator);
+	void line_edit_edited(QLineEdit* line_edit, const QString& text);
+	QImage image_to_qimage(Image* img) const;
 };
 
