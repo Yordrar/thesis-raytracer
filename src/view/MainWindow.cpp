@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "RenderOptions.h"
 #include "ui_MainWindow.h"
 #include <QPixmap>
 #include <QLabel>
@@ -10,6 +11,7 @@
 #include <QTabWidget>
 #include <QWheelEvent>
 #include <QDebug>
+#include <QPushButton>
 
 #include <omp.h>
 
@@ -23,8 +25,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
 	ui->setupUi(this);
 
-	ui->centralwidget->findChild<QSpinBox*>("threads")->setValue(omp_get_max_threads());
-	ui->centralwidget->findChild<QSpinBox*>("threads")->setMaximum(omp_get_max_threads());
+	RenderOptions* options = new RenderOptions;
+	ui->centralwidget->findChild<QScrollArea*>("render_options")->setWidget(options);
+	connect(options, &RenderOptions::start_render, this, &MainWindow::start_render);
+	connect(options, &RenderOptions::cancel_render, this, &MainWindow::cancel_render);
 
 	ui->centralwidget->findChild<QScrollArea*>("scrollArea")->installEventFilter(this);
 	ui->centralwidget->findChild<QLabel*>("render_label")->installEventFilter(this);
@@ -36,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 	inspector = new Inspector();
 	ui->centralwidget->findChild<QScrollArea*>("inspector")->setWidget(inspector);
+	connect(inspector, &Inspector::render_preview, this, &MainWindow::render_preview);
 
 	QLayout* preview = ui->centralwidget->findChild<QLayout*>("preview_layout");
 	viewport = new Viewport(this);
@@ -45,7 +50,6 @@ MainWindow::MainWindow(QWidget *parent)
 	viewport->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 	connect(viewport, &Viewport::render_preview, this, &MainWindow::render_preview);
-	connect(inspector, &Inspector::render_preview, this, &MainWindow::render_preview);
 	connect(viewport, &Viewport::entity_selected_changed, inspector, &Inspector::reload);
 
 	render_preview();
@@ -127,16 +131,14 @@ void render_worker_entry(int width, int height, int n_samples, int num_threads) 
 
 	RenderManager::get_manager()->render(width, height, n_samples);
 }
-void MainWindow::on_start_render_button_clicked()
+void MainWindow::start_render()
 {
 	render_viewport_scale = 1;
 
 	int width = ui->centralwidget->findChild<QSpinBox*>("width")->value();
 	int height = ui->centralwidget->findChild<QSpinBox*>("height")->value();
 	int n_samples = ui->centralwidget->findChild<QSpinBox*>("samples")->value();
-
-	ui->centralwidget->findChild<QPushButton*>("start_render_button")->setEnabled(false);
-	ui->centralwidget->findChild<QPushButton*>("cancel_render_button")->setEnabled(true);
+	int num_threads = ui->centralwidget->findChild<QSpinBox*>("threads")->value();
 
 	render_timer->start();
 	if(render_worker) {
@@ -144,7 +146,7 @@ void MainWindow::on_start_render_button_clicked()
 		render_worker->join();
 		delete render_worker;
 	}
-	render_worker = new std::thread(render_worker_entry, width, height, n_samples, ui->centralwidget->findChild<QSpinBox*>("threads")->value());
+	render_worker = new std::thread(render_worker_entry, width, height, n_samples, num_threads);
 }
 
 void MainWindow::update_render_viewport()
@@ -177,7 +179,7 @@ void MainWindow::update_render_viewport()
 	}
 }
 
-void MainWindow::on_cancel_render_button_clicked()
+void MainWindow::cancel_render()
 {
 	render_timer->stop();
 
@@ -185,9 +187,6 @@ void MainWindow::on_cancel_render_button_clicked()
 	render_worker->join();
 	delete render_worker;
 	render_worker = nullptr;
-
-	ui->centralwidget->findChild<QPushButton*>("start_render_button")->setEnabled(true);
-	ui->centralwidget->findChild<QPushButton*>("cancel_render_button")->setEnabled(false);
 
 	update_render_viewport();
 }
@@ -228,7 +227,11 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_actionRender_Image_triggered()
 {
 	ui->centralwidget->findChild<QTabWidget*>("tabWidget")->setCurrentIndex(1);
-	on_start_render_button_clicked();
+	if(RenderManager::get_manager()->is_render_finished()) {
+		ui->centralwidget->findChild<QPushButton*>("start_render_button")->setEnabled(false);
+		ui->centralwidget->findChild<QPushButton*>("cancel_render_button")->setEnabled(true);
+		start_render();
+	}
 }
 
 void MainWindow::on_actionSave_Render_triggered()

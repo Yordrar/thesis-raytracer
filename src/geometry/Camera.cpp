@@ -3,11 +3,12 @@
 #include <geometry/Scatterer.h>
 #include <geometry/light/DirectionalLight.h>
 #include <iostream>
+#include <manager/OptionsManager.h>
 #include <material/Dielectric.h>
 #include <material/Metal.h>
 
 Camera::Camera(int width, int height, float vertical_fov)
-	: Entity(Vector3(), Quaternion(0, Vector3(0, 0, -1))),
+	: Entity(),
 	  width(width),
 	  height(height),
 	  vfov(vertical_fov)
@@ -15,6 +16,7 @@ Camera::Camera(int width, int height, float vertical_fov)
 	up = Vector3(0, 1, 0);
 	right = Vector3(1, 0, 0);
 	aperture = 0;
+	focus_dist = 1;
 	orbital_anchor_t = 1;
 	recalculate_parameters();
 }
@@ -89,7 +91,7 @@ void Camera::translate_global(float delta_x, float delta_y, float delta_z)
 	Vector3 delta;
 	delta += right*delta_x;
 	delta += up*delta_y;
-	delta += -rotation.get_imaginary()*delta_z;
+	delta += rotation.get_imaginary()*delta_z;
 	Entity::translate_global(delta);
 	recalculate_parameters();
 }
@@ -99,7 +101,7 @@ void Camera::translate_global(const Vector3& delta)
 	Vector3 new_delta;
 	new_delta += right*delta.get_x();
 	new_delta += up*delta.get_y();
-	new_delta += -rotation.get_imaginary()*delta.get_z();
+	new_delta += rotation.get_imaginary()*delta.get_z();
 	Entity::translate_global(new_delta);
 	recalculate_parameters();
 }
@@ -128,7 +130,7 @@ void Camera::rotate(const Quaternion& rotation)
 
 void Camera::rotate_orbital(float euler_x, float euler_y)
 {
-	Vector3 orbital_anchor = position + rotation.get_imaginary()*orbital_anchor_t;
+	Vector3 orbital_anchor = position - rotation.get_imaginary()*orbital_anchor_t;
 	position -= orbital_anchor;
 
 	Quaternion qx = Quaternion::create_rotation(euler_x, right);
@@ -219,9 +221,10 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 			color = emission + material_color;
 		}
 	} else {
-		/*Vector3 unit_direction = r.get_direction().unit();
+		Vector3 unit_direction = r.get_direction().unit();
 		float t = 0.5f*(unit_direction.get_y() + 1.0f);
-		return (1.0f-t)*Vector3(1.0f, 1.0f, 1.0f) + t*Vector3(0.5f, 0.7f, 1.0f);*/
+		return t*OptionsManager::get_manager()->get_gradient_start_color() +
+				(1.0f-t)*OptionsManager::get_manager()->get_gradient_end_color();
 	}
 	return color * rrFactor;
 }
@@ -246,14 +249,12 @@ Vector3 Camera::get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& 
 
 void Camera::recalculate_parameters()
 {
-	float focus_dist = (position - rotation.get_imaginary()).get_magnitude();
-
 	half_height = tanf(Math::Deg2Rad(vfov)/2);
 	half_width = static_cast<float>(width)/static_cast<float>(height) * half_height;
 
 	plane_width = half_width * 2.0f * focus_dist;
 	plane_height = half_height * 2.0f * focus_dist;
 
-	upper_left_corner = -right*half_width + up*half_height + rotation.get_imaginary();
+	upper_left_corner = -right*half_width + up*half_height - rotation.get_imaginary();
 	upper_left_corner *= focus_dist;
 }

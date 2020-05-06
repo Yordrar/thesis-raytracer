@@ -179,7 +179,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>790</width>
+                 <width>690</width>
                  <height>547</height>
                 </rect>
                </property>
@@ -213,7 +213,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>200</width>
+              <width>300</width>
               <height>0</height>
              </size>
             </property>
@@ -228,191 +228,10 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>198</width>
+               <width>298</width>
                <height>549</height>
               </rect>
              </property>
-             <widget class="QLabel" name="width_label">
-              <property name="geometry">
-               <rect>
-                <x>80</x>
-                <y>10</y>
-                <width>41</width>
-                <height>20</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Width</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-             <widget class="QSpinBox" name="threads">
-              <property name="geometry">
-               <rect>
-                <x>130</x>
-                <y>130</y>
-                <width>51</width>
-                <height>22</height>
-               </rect>
-              </property>
-              <property name="minimum">
-               <number>1</number>
-              </property>
-              <property name="maximum">
-               <number>32</number>
-              </property>
-              <property name="singleStep">
-               <number>1</number>
-              </property>
-              <property name="value">
-               <number>16</number>
-              </property>
-             </widget>
-             <widget class="QSpinBox" name="samples">
-              <property name="geometry">
-               <rect>
-                <x>130</x>
-                <y>90</y>
-                <width>51</width>
-                <height>22</height>
-               </rect>
-              </property>
-              <property name="minimum">
-               <number>1</number>
-              </property>
-              <property name="maximum">
-               <number>1000000</number>
-              </property>
-              <property name="singleStep">
-               <number>10</number>
-              </property>
-              <property name="value">
-               <number>50</number>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="start_render_button">
-              <property name="geometry">
-               <rect>
-                <x>0</x>
-                <y>170</y>
-                <width>101</width>
-                <height>21</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Start render</string>
-              </property>
-             </widget>
-             <widget class="QLabel" name="samples_label">
-              <property name="geometry">
-               <rect>
-                <x>20</x>
-                <y>90</y>
-                <width>101</width>
-                <height>20</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Num. Samples</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-             <widget class="QLabel" name="threads_label">
-              <property name="geometry">
-               <rect>
-                <x>30</x>
-                <y>130</y>
-                <width>91</width>
-                <height>20</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Num. Threads</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-             <widget class="QSpinBox" name="height">
-              <property name="geometry">
-               <rect>
-                <x>130</x>
-                <y>50</y>
-                <width>51</width>
-                <height>22</height>
-               </rect>
-              </property>
-              <property name="minimum">
-               <number>100</number>
-              </property>
-              <property name="maximum">
-               <number>10000</number>
-              </property>
-              <property name="singleStep">
-               <number>100</number>
-              </property>
-              <property name="value">
-               <number>500</number>
-              </property>
-             </widget>
-             <widget class="QSpinBox" name="width">
-              <property name="geometry">
-               <rect>
-                <x>130</x>
-                <y>10</y>
-                <width>51</width>
-                <height>22</height>
-               </rect>
-              </property>
-              <property name="minimum">
-               <number>100</number>
-              </property>
-              <property name="maximum">
-               <number>10000</number>
-              </property>
-              <property name="singleStep">
-               <number>100</number>
-              </property>
-              <property name="value">
-               <number>500</number>
-              </property>
-             </widget>
-             <widget class="QLabel" name="height_label">
-              <property name="geometry">
-               <rect>
-                <x>70</x>
-                <y>50</y>
-                <width>51</width>
-                <height>20</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Height</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="cancel_render_button">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>99</x>
-                <y>170</y>
-                <width>101</width>
-                <height>21</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Cancel render</string>
-              </property>
-             </widget>
             </widget>
            </widget>
           </item>
@@ -456,7 +275,6 @@
     <addaction name="actionRender_Image"/>
     <addaction name="actionSave_Render"/>
     <addaction name="separator"/>
-    <addaction name="actionRender_Options"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -490,11 +308,6 @@
   <action name="actionSave_Render">
    <property name="text">
     <string>Save Render...</string>
-   </property>
-  </action>
-  <action name="actionRender_Options">
-   <property name="text">
-    <string>Render Options...</string>
    </property>
   </action>
  </widget>

@@ -39,6 +39,9 @@ public:
 	inline float get_aperture() const {return aperture;}
 	inline void set_aperture(float value) {aperture = value;}
 
+	inline float get_focus_dist() const {return focus_dist;}
+	inline void set_focus_dist(float value) {focus_dist = value; recalculate_parameters();}
+
 	Camera* get_copy();
 
 private:

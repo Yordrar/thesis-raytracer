@@ -25,9 +25,9 @@ public:
 
 private slots:
 	void render_preview();
-	void on_start_render_button_clicked();
-
-	void on_cancel_render_button_clicked();
+	void start_render();
+	void cancel_render();
+	void update_render_viewport();
 
 	void on_actionNew_Scene_triggered();
 
@@ -46,7 +46,6 @@ private:
 	Viewport* viewport;
 	Inspector* inspector;
 	QTimer* render_timer;
-	void update_render_viewport();
 	std::thread* render_worker = nullptr;
 	float render_viewport_scale = 1;
 	bool is_ctrl_pressed = false;

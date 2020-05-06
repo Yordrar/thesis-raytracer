@@ -1,3 +1,4 @@
+#include "OptionsManager.h"
 #include "RenderManager.h"
 #include "SceneManager.h"
 
@@ -45,6 +46,8 @@ void RenderManager::render(int width, int height, int n_samples)
 {
 	Camera* render_cam = SceneManager::get_manager()->get_camera()->get_copy();
 	render_cam->set_width_and_height(width, height);
+	render_cam->set_aperture(OptionsManager::get_manager()->getCamera_aperture());
+	render_cam->set_focus_dist(OptionsManager::get_manager()->getCamera_focus_distance());
 
 	CPURenderer::get_renderer()->render(SceneManager::get_manager()->get_scene(), render_cam, n_samples);
 

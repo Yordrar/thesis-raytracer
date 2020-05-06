@@ -34,6 +34,7 @@ SOURCES += \
     geometry/mesh/Triangle.cpp \
     image/Image.cpp \
     main.cpp \
+    manager/OptionsManager.cpp \
     manager/RenderManager.cpp \
     manager/SceneManager.cpp \
     material/BlinnPhong.cpp \
@@ -51,6 +52,7 @@ SOURCES += \
     renderer/EditModeRenderer.cpp \
     view/Inspector.cpp \
     view/MainWindow.cpp \
+    view/RenderOptions.cpp \
     view/Viewport.cpp
 
 HEADERS += \
@@ -71,6 +73,7 @@ HEADERS += \
     geometry/mesh/MeshImporter.h \
     geometry/mesh/Triangle.h \
     image/Image.h \
+    manager/OptionsManager.h \
     manager/RenderManager.h \
     manager/SceneManager.h \
     material/BlinnPhong.h \
@@ -88,11 +91,13 @@ HEADERS += \
     renderer/EditModeRenderer.h \
     view/Inspector.h \
     view/MainWindow.h \
+    view/RenderOptions.h \
     view/Viewport.h
 
 FORMS += \
     view/Inspector.ui \
-    view/MainWindow.ui
+    view/MainWindow.ui \
+    view/RenderOptions.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

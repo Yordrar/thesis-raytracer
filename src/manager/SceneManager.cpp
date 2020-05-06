@@ -1,3 +1,4 @@
+#include "OptionsManager.h"
 #include "SceneManager.h"
 
 #include <geometry/light/AreaLight.h>
@@ -73,6 +74,7 @@ SceneManager* SceneManager::get_manager()
 
 void SceneManager::move_camera(MOVE_DIRECTION direction)
 {
+	float move_velocity = OptionsManager::get_manager()->getCamera_move_velocity();
 	auto* cam = SceneManager::get_manager()->get_camera();
 	if(direction == MOVE_DIRECTION::FRONT) {
 		cam->translate_global(0, 0, -move_velocity);
@@ -109,13 +111,14 @@ void SceneManager::rotate_camera_orbital(float x0, float y0, float x1, float y1)
 
 void SceneManager::orbital_anchor_zoom(MOVE_DIRECTION direction)
 {
+	float zoom_velocity = OptionsManager::get_manager()->getCamera_zoom_velocity();
 	if(direction == MOVE_DIRECTION::FRONT) {
 		move_camera(SceneManager::MOVE_DIRECTION::FRONT);
-		camera->orbital_anchor_zoom(-move_velocity);
+		camera->orbital_anchor_zoom(-zoom_velocity);
 	}
 	else if(direction == MOVE_DIRECTION::BACK) {
 		move_camera(SceneManager::MOVE_DIRECTION::BACK);
-		camera->orbital_anchor_zoom(move_velocity);
+		camera->orbital_anchor_zoom(zoom_velocity);
 	}
 }
 

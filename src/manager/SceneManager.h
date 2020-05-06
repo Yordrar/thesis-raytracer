@@ -19,7 +19,7 @@ public:
 		UP,
 		DOWN,
 	};
-	inline void set_move_velocity(float value) {move_velocity = value;}
+
 	void move_camera(MOVE_DIRECTION direction);
 	void rotate_camera_fps(float x0, float y0, float x1, float y1);
 	void rotate_camera_orbital(float x0, float y0, float x1, float y1);
@@ -32,8 +32,6 @@ public:
 private:
 	SceneManager();
 	static SceneManager* instance;
-
-	float move_velocity = 0.1f;
 
 	Scene* scene = nullptr;
 	Camera* camera = nullptr;
