@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
 	ui->centralwidget->findChild<QScrollArea*>("render_options")->setWidget(options);
 	connect(options, &RenderOptions::start_render, this, &MainWindow::start_render);
 	connect(options, &RenderOptions::cancel_render, this, &MainWindow::cancel_render);
+	connect(this, &MainWindow::update_render_progress, options, &RenderOptions::update_render_progress);
 
 	ui->centralwidget->findChild<QScrollArea*>("scrollArea")->installEventFilter(this);
 	ui->centralwidget->findChild<QLabel*>("render_label")->installEventFilter(this);
@@ -69,7 +70,7 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* event)
 {
-	if (event->type() == QEvent::Wheel) {
+	if(event->type() == QEvent::Wheel) {
 		if(ui->centralwidget->findChild<QTabWidget*>("tabWidget")->currentIndex() == 1 && is_ctrl_pressed) {
 			auto* label = ui->centralwidget->findChild<QLabel*>("render_label");
 			if(!label->pixmap()->isNull()) {
@@ -171,6 +172,8 @@ void MainWindow::update_render_viewport()
 		image = image.scaled(image.width()*render_viewport_scale, image.height()*render_viewport_scale);
 		ui->centralwidget->findChild<QLabel*>("render_label")->setPixmap(QPixmap::fromImage(image));
 	}
+
+	emit update_render_progress(RenderManager::get_manager()->get_samples_rendered());
 
 	if(RenderManager::get_manager()->is_render_finished()) {
 		ui->centralwidget->findChild<QPushButton*>("start_render_button")->setEnabled(true);

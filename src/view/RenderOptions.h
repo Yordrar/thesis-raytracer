@@ -19,6 +19,9 @@ signals:
 	void start_render();
 	void cancel_render();
 
+public slots:
+	void update_render_progress(int samples_rendered);
+
 private slots:
 	void on_start_render_button_clicked();
 

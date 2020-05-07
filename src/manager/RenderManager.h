@@ -2,6 +2,7 @@
 
 #include <image/Image.h>
 #include <geometry/Scene.h>
+#include <renderer/CPURenderer.h>
 
 #include <QImage>
 #include <QString>
@@ -67,6 +68,8 @@ public:
 
 	float get_refraction_index() const;
 	void set_refraction_index(float value);
+
+	int get_samples_rendered() const {return CPURenderer::get_renderer()->get_samples_rendered();}
 
 private:
 	RenderManager();

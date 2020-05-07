@@ -23,6 +23,9 @@ public:
 
 	bool eventFilter(QObject *obj, QEvent *event) override;
 
+signals:
+	void update_render_progress(int samples_rendered);
+
 private slots:
 	void render_preview();
 	void start_render();

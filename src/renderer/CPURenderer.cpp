@@ -27,6 +27,7 @@ CPURenderer* CPURenderer::get_renderer()
 void CPURenderer::render(const Scene* scene, Camera* camera, int n_samples)
 {
 	render_finished = false;
+	samples_rendered = 0;
 
 	auto intersectables = scene->get_intersectables();
 
@@ -57,6 +58,7 @@ void CPURenderer::render(const Scene* scene, Camera* camera, int n_samples)
 			color /= n_samples;
 			color = Vector3(sqrtf(color.get_x()), sqrtf(color.get_y()), sqrtf(color.get_z()));
 			render_img->set_pixel_color(i, j, Vector3(color.get_x(), color.get_y(), color.get_z()));
+			samples_rendered++;
 		}
 	}
 	if(!render_finished) {

@@ -6,5 +6,8 @@
         <file>resource/normal_map_icon.png</file>
         <file>resource/texture_map_icon.png</file>
         <file>resource/image_placeholder.png</file>
+        <file>resource/camera_params_icon.png</file>
+        <file>resource/illum_image_params.png</file>
+        <file>resource/render_params_icon.png</file>
     </qresource>
 </RCC>
