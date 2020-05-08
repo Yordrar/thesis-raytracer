@@ -8,7 +8,7 @@
 class Material
 {
 public:
-	Material(const Vector3& albedo = Vector3(128, 128, 128));
+	Material(const Vector3& albedo = Vector3(255));
 	Material(float r, float g, float b);
 	virtual ~Material() = 0;
 

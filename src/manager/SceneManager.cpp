@@ -49,11 +49,11 @@ SceneManager::SceneManager()
 	Sphere* s = new Sphere(Vector3(0, -100.5f, -1), 100);
 	s->set_material(new Lambertian(Vector3(128)));
 	Sphere* s1 = new Sphere(Vector3(0, 2, 0), 0.5f);
-	s1->set_material(new Emissive(Vector3(255)));
+	s1->set_material(new Emissive());
 	//s1->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\brick_diffuse.bmp"));
 	//s1->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\brick_normal.bmp"));
 	Sphere* s2 = new Sphere(Vector3(1, 0.5f, -3), 0.5f);
-	s2->set_material(new Dielectric(Vector3(255)));
+	s2->set_material(new Dielectric());
 	//escena.add_intersectable(s);
 	//escena.add_intersectable(s1);
 	scene->add_intersectable(s2);
@@ -113,11 +113,9 @@ void SceneManager::orbital_anchor_zoom(MOVE_DIRECTION direction)
 {
 	float zoom_velocity = OptionsManager::get_manager()->getCamera_zoom_velocity();
 	if(direction == MOVE_DIRECTION::FRONT) {
-		move_camera(SceneManager::MOVE_DIRECTION::FRONT);
 		camera->orbital_anchor_zoom(-zoom_velocity);
 	}
 	else if(direction == MOVE_DIRECTION::BACK) {
-		move_camera(SceneManager::MOVE_DIRECTION::BACK);
 		camera->orbital_anchor_zoom(zoom_velocity);
 	}
 }

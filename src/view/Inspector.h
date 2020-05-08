@@ -91,7 +91,6 @@ private slots:
 
 private:
 	Ui::Inspector *ui;
-	unsigned int map_preview_size;
 	QDoubleValidator* transform_validator;
 	QDoubleValidator* material_parameter_validator;
 	QIntValidator* albedo_validator;

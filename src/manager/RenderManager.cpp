@@ -23,7 +23,7 @@ RenderManager::RenderManager()
 
 RenderManager::~RenderManager()
 {
-
+	if(environment_map) delete environment_map;
 }
 
 RenderManager* RenderManager::get_manager()

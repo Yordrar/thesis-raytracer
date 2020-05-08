@@ -16,7 +16,7 @@ Mesh::Mesh(std::vector<Triangle> triangles)
 		position += ((t.get_vertex0() + t.get_vertex1() + t.get_vertex2()) / 3) / this->triangles.size();
 	}
 	tri_hierarchy = new BVH(tris);
-	material = new Lambertian(Vector3(128));
+	material = new Lambertian;
 }
 
 Mesh::~Mesh()

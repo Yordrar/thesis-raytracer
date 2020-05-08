@@ -2,8 +2,8 @@
 
 #include <geometry/Scatterer.h>
 #include <geometry/light/DirectionalLight.h>
-#include <iostream>
 #include <manager/OptionsManager.h>
+#include <manager/RenderManager.h>
 #include <material/Dielectric.h>
 #include <material/Metal.h>
 
@@ -146,8 +146,10 @@ void Camera::rotate_orbital(float euler_x, float euler_y)
 
 void Camera::orbital_anchor_zoom(float delta)
 {
-	if(orbital_anchor_t + delta < 0.1f) return;
-	orbital_anchor_t += delta;
+	Vector3 move_delta = rotation.get_imaginary() * delta;
+	position += move_delta;
+	if(orbital_anchor_t + delta >= 0.1f)
+		orbital_anchor_t += delta;
 }
 
 Camera* Camera::get_copy()
@@ -221,10 +223,23 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 			color = emission + material_color;
 		}
 	} else {
-		Vector3 unit_direction = r.get_direction().unit();
-		float t = 0.5f*(unit_direction.get_y() + 1.0f);
-		return t*OptionsManager::get_manager()->get_gradient_start_color() +
-				(1.0f-t)*OptionsManager::get_manager()->get_gradient_end_color();
+		if(OptionsManager::get_manager()->get_light_type() == OptionsManager::IMAGE_BASED_LIGHT_TYPE::GRADIENT) {
+			Vector3 unit_direction = r.get_direction().unit();
+			float t = 0.5f*(unit_direction.get_y() + 1.0f);
+			return t*OptionsManager::get_manager()->get_gradient_start_color() +
+					(1.0f-t)*OptionsManager::get_manager()->get_gradient_end_color();
+		}
+		else if(OptionsManager::get_manager()->get_light_type() == OptionsManager::IMAGE_BASED_LIGHT_TYPE::ENVIRONMENT_MAP) {
+			Image* env_map = RenderManager::get_manager()->get_environment_map();
+			if(env_map) {
+				Sphere env_sphere(r.get_origin(), -100000);
+				Hit hit = env_sphere.get_intersection(r);
+				float env_map_x = hit.get_uv().get_x() * env_map->get_width();
+				float env_map_y = (1.0f-hit.get_uv().get_y()) * env_map->get_height();
+				color = env_map->get_pixel_color(env_map_x, env_map_y);
+				color *= color;
+			}
+		}
 	}
 	return color * rrFactor;
 }

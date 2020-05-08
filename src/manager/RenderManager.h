@@ -71,10 +71,17 @@ public:
 
 	int get_samples_rendered() const {return CPURenderer::get_renderer()->get_samples_rendered();}
 
+	inline Image* get_environment_map() const {return environment_map;}
+	inline void set_environment_map(QString filename) {
+		if(environment_map) delete environment_map;
+		environment_map = new Image(filename.toUtf8().constData());
+	}
+
 private:
 	RenderManager();
 	static RenderManager* instance;
 
 	Entity* entity_selected = nullptr;
+	Image* environment_map = nullptr;
 };
 

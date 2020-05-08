@@ -77,7 +77,7 @@ Vector3 OptionsManager::get_gradient_end_color() const
 
 void OptionsManager::set_gradient_end_color(const Vector3& value)
 {
-	gradient_end_color = value;
+	gradient_end_color = value/255;
 }
 
 Vector3 OptionsManager::get_gradient_start_color() const
@@ -87,7 +87,7 @@ Vector3 OptionsManager::get_gradient_start_color() const
 
 void OptionsManager::set_gradient_start_color(const Vector3& value)
 {
-	gradient_start_color = value;
+	gradient_start_color = value/255;
 }
 
 OptionsManager::IMAGE_BASED_LIGHT_TYPE OptionsManager::get_light_type() const

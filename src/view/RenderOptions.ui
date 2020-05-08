@@ -452,6 +452,9 @@
    <property name="text">
     <string>Solid Gradient</string>
    </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QRadioButton" name="environment_map">
    <property name="geometry">
@@ -513,7 +516,7 @@
     <rect>
      <x>30</x>
      <y>240</y>
-     <width>211</width>
+     <width>230</width>
      <height>16</height>
     </rect>
    </property>
@@ -526,7 +529,7 @@
     <rect>
      <x>30</x>
      <y>410</y>
-     <width>211</width>
+     <width>230</width>
      <height>16</height>
     </rect>
    </property>
@@ -560,7 +563,7 @@
    <property name="geometry">
     <rect>
      <x>15</x>
-     <y>13</y>
+     <y>12</y>
      <width>21</width>
      <height>21</height>
     </rect>

@@ -179,6 +179,7 @@ void MainWindow::update_render_viewport()
 		ui->centralwidget->findChild<QPushButton*>("start_render_button")->setEnabled(true);
 		ui->centralwidget->findChild<QPushButton*>("cancel_render_button")->setEnabled(false);
 		render_timer->stop();
+		emit update_render_progress(RenderManager::get_manager()->get_samples_rendered());
 	}
 }
 

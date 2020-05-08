@@ -13,8 +13,6 @@ Inspector::Inspector(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	map_preview_size = ui->texture_view->width();
-
 	QFont f("Arial", 10, QFont::Bold);
 	ui->transform_label->setStyleSheet("font-weight: bold");
 	ui->transform_label->setFont(f);
@@ -40,6 +38,7 @@ Inspector::Inspector(QWidget *parent) :
 
 	transform_validator = new QDoubleValidator;
 	transform_validator->setNotation(QDoubleValidator::StandardNotation);
+	transform_validator->setLocale(QLocale(QLocale::C));
 	ui->position_x->setValidator(transform_validator);
 	ui->position_y->setValidator(transform_validator);
 	ui->position_z->setValidator(transform_validator);
@@ -47,8 +46,9 @@ Inspector::Inspector(QWidget *parent) :
 	ui->orientation_y->setValidator(transform_validator);
 	ui->orientation_z->setValidator(transform_validator);
 
-	material_parameter_validator = new QDoubleValidator(0, 1, 3);
+	material_parameter_validator = new QDoubleValidator(0.0, 1.0, 3);
 	material_parameter_validator->setNotation(QDoubleValidator::StandardNotation);
+	material_parameter_validator->setLocale(QLocale(QLocale::C));
 	ui->roughness->setValidator(material_parameter_validator);
 	ui->metallicity->setValidator(material_parameter_validator);
 	ui->reflectance->setValidator(material_parameter_validator);
@@ -106,8 +106,10 @@ void Inspector::reload()
 		ui->refraction->setText("");
 
 		QPixmap placeholder_image(":/resource/image_placeholder.png");
-		ui->texture_view->setPixmap(placeholder_image.scaled(map_preview_size, map_preview_size));
-		ui->normal_view->setPixmap(placeholder_image.scaled(map_preview_size, map_preview_size));
+		ui->texture_view->setPixmap(placeholder_image.scaled(ui->texture_view->width(),
+															 ui->texture_view->height()));
+		ui->normal_view->setPixmap(placeholder_image.scaled(ui->normal_view->width(),
+															ui->normal_view->height()));
 	}
 	else {
 		Entity* entity = RenderManager::get_manager()->get_entity_selected();
@@ -212,20 +214,24 @@ void Inspector::reload()
 
 		Image* texture_map = RenderManager::get_manager()->get_texture_map();
 		if(texture_map) {
-			ui->texture_view->setPixmap(QPixmap::fromImage(image_to_qimage(texture_map).scaled(map_preview_size, map_preview_size)));
+			ui->texture_view->setPixmap(QPixmap::fromImage(image_to_qimage(texture_map).scaled(ui->texture_view->width(),
+																							   ui->texture_view->height())));
 		}
 		else {
 			QPixmap placeholder_image(":/resource/image_placeholder.png");
-			ui->texture_view->setPixmap(placeholder_image.scaled(map_preview_size, map_preview_size));
+			ui->texture_view->setPixmap(placeholder_image.scaled(ui->texture_view->width(),
+																 ui->texture_view->height()));
 		}
 
 		Image* normal_map = RenderManager::get_manager()->get_normal_map();
 		if(normal_map) {
-			ui->normal_view->setPixmap(QPixmap::fromImage(image_to_qimage(normal_map).scaled(map_preview_size, map_preview_size)));
+			ui->normal_view->setPixmap(QPixmap::fromImage(image_to_qimage(normal_map).scaled(ui->normal_view->width(),
+																							 ui->normal_view->height())));
 		}
 		else {
 			QPixmap placeholder_image(":/resource/image_placeholder.png");
-			ui->normal_view->setPixmap(placeholder_image.scaled(map_preview_size, map_preview_size));
+			ui->normal_view->setPixmap(placeholder_image.scaled(ui->normal_view->width(),
+																ui->normal_view->height()));
 		}
 	}
 }
@@ -239,7 +245,8 @@ void Inspector::on_open_texture_clicked()
 											"",
 											"Image Files (*.png *.jpg *.bmp)");
 	if(filename.isNull()) return;
-	ui->texture_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(map_preview_size, map_preview_size)));
+	ui->texture_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(ui->texture_view->width(),
+																		   ui->texture_view->height())));
 	RenderManager::get_manager()->set_texture_map(filename);
 }
 
@@ -252,7 +259,8 @@ void Inspector::on_open_normal_clicked()
 											"",
 											"Image Files (*.png *.jpg *.bmp)");
 	if(filename.isNull()) return;
-	ui->normal_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(map_preview_size, map_preview_size)));
+	ui->normal_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(ui->normal_view->width(),
+																		  ui->normal_view->height())));
 	RenderManager::get_manager()->set_normal_map(filename);
 }
 
@@ -297,11 +305,11 @@ void Inspector::orientation_changed(float euler_x, float euler_y, float euler_z)
 	if(orientation_changed) emit render_preview();
 }
 
-int cero = 0;
 void Inspector::line_edit_edited(QLineEdit* line_edit, const QString& text)
 {
 	QString input(text);
-	if(line_edit->validator()->validate(input, cero) == QValidator::State::Acceptable) {
+	int pos = 0;
+	if(line_edit->validator()->validate(input, pos) == QValidator::State::Acceptable) {
 		QPalette palette = line_edit->palette();
 		palette.setColor(QPalette::Base, Qt::white);
 		line_edit->setPalette(palette);
