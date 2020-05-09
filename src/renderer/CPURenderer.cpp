@@ -63,7 +63,18 @@ void CPURenderer::render(const Scene* scene, Camera* camera, int n_samples)
 	}
 	if(!render_finished) {
 		std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-		std::cout << "Scene rendered in " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms ";
+		if(std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() > 1000) {
+			std::cout << "Scene rendered in ";
+			int hours = std::chrono::duration_cast<std::chrono::hours>(end - begin).count();
+			std::cout << (hours < 10 ? "0"+std::to_string(hours) : std::to_string(hours)) << ":";
+			int minutes = std::chrono::duration_cast<std::chrono::minutes>(end - begin).count() % 60;
+			std::cout << (minutes < 10 ? "0"+std::to_string(minutes) : std::to_string(minutes)) << ":";
+			int seconds = std::chrono::duration_cast<std::chrono::seconds>(end - begin).count() % 60;
+			std::cout << (seconds < 10 ? "0"+std::to_string(seconds) : std::to_string(seconds)) << " ";
+		}
+		else {
+			std::cout << "Scene rendered in " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms ";
+		}
 		std::cout << "(" << omp_get_max_threads() << " threads)" << std::endl;
 		render_finished = true;
 	}

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>300</width>
+    <width>320</width>
     <height>770</height>
    </rect>
   </property>
@@ -351,7 +351,7 @@
   <widget class="QLineEdit" name="end_color_z">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>240</x>
      <y>520</y>
      <width>50</width>
      <height>21</height>
@@ -361,8 +361,8 @@
   <widget class="QLineEdit" name="start_color_z">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>490</y>
+     <x>240</x>
+     <y>491</y>
      <width>50</width>
      <height>21</height>
     </rect>
@@ -371,7 +371,7 @@
   <widget class="QLineEdit" name="end_color_x">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>107</x>
      <y>520</y>
      <width>50</width>
      <height>21</height>
@@ -381,7 +381,7 @@
   <widget class="QLineEdit" name="end_color_y">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>174</x>
      <y>520</y>
      <width>50</width>
      <height>21</height>
@@ -400,12 +400,22 @@
    <property name="text">
     <string/>
    </property>
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/resource/open_file_icon.png</normaloff>:/resource/open_file_icon.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
   </widget>
   <widget class="QLineEdit" name="start_color_y">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>490</y>
+     <x>174</x>
+     <y>491</y>
      <width>50</width>
      <height>21</height>
     </rect>
@@ -488,8 +498,8 @@
   <widget class="QLineEdit" name="start_color_x">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>490</y>
+     <x>107</x>
+     <y>491</y>
      <width>50</width>
      <height>21</height>
     </rect>
@@ -516,7 +526,7 @@
     <rect>
      <x>30</x>
      <y>240</y>
-     <width>230</width>
+     <width>250</width>
      <height>16</height>
     </rect>
    </property>
@@ -529,7 +539,7 @@
     <rect>
      <x>30</x>
      <y>410</y>
-     <width>230</width>
+     <width>250</width>
      <height>16</height>
     </rect>
    </property>
@@ -598,7 +608,133 @@
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="open_color_dialog_start">
+   <property name="geometry">
+    <rect>
+     <x>3</x>
+     <y>486</y>
+     <width>30</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/resource/color_dialog_icon.png</normaloff>:/resource/color_dialog_icon.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="open_color_dialog_end">
+   <property name="geometry">
+    <rect>
+     <x>3</x>
+     <y>517</y>
+     <width>30</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/resource/color_dialog_icon.png</normaloff>:/resource/color_dialog_icon.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>164</x>
+     <y>492</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>G</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>98</x>
+     <y>492</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>R</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>232</x>
+     <y>492</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>B</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>232</x>
+     <y>522</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>B</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>98</x>
+     <y>522</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>R</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>164</x>
+     <y>522</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>G</string>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -236,7 +236,7 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 				Hit hit = env_sphere.get_intersection(r);
 				float env_map_x = hit.get_uv().get_x() * env_map->get_width();
 				float env_map_y = (1.0f-hit.get_uv().get_y()) * env_map->get_height();
-				color = env_map->get_pixel_color(env_map_x, env_map_y);
+				color = env_map->get_pixel_color_bilinear_interp(env_map_x, env_map_y);
 				color *= color;
 			}
 		}

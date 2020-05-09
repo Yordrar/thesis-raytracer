@@ -12,6 +12,7 @@ public:
 	~Image();
 
 	Vector3 get_pixel_color(int x, int y);
+	Vector3 get_pixel_color_bilinear_interp(float x, float y);
 	void set_pixel_color(int x, int y, const Vector3& color);
 
 	inline int get_width() {return width;}

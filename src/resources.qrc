@@ -9,5 +9,6 @@
         <file>resource/camera_params_icon.png</file>
         <file>resource/illum_image_params.png</file>
         <file>resource/render_params_icon.png</file>
+        <file>resource/color_dialog_icon.png</file>
     </qresource>
 </RCC>

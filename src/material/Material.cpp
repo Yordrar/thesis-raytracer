@@ -30,8 +30,8 @@ Material::~Material()
 Vector3 Material::get_color(const Vector3& uv, const Vector3& normal, const std::vector<Vector3>& light_vectors, const Vector3& view_vector) const
 {
 	if(texture_map) {
-		return texture_map->get_pixel_color(static_cast<int>(uv.get_x() * texture_map->get_width()),
-											static_cast<int>((1.0f-uv.get_y()) * texture_map->get_height()));
+		return texture_map->get_pixel_color_bilinear_interp(uv.get_x() * texture_map->get_width(),
+															(1.0f-uv.get_y()) * texture_map->get_height());
 	}
 	else {
 		return albedo;

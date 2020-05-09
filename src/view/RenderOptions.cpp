@@ -6,6 +6,7 @@
 #include <manager/OptionsManager.h>
 #include <manager/RenderManager.h>
 
+#include <QColorDialog>
 #include <QFileDialog>
 
 RenderOptions::RenderOptions(QWidget *parent) :
@@ -60,8 +61,6 @@ RenderOptions::RenderOptions(QWidget *parent) :
 
 	ui->environment_view->setPixmap(QPixmap(":/resource/image_placeholder.png").scaled(ui->environment_view->width(),
 																					   ui->environment_view->height()));
-	QPixmap open_file_icon_pixmap(":/resource/open_file_icon.png");
-	ui->open_environment->setIcon(QIcon(open_file_icon_pixmap));
 
 	ui->render_progress->reset();
 }
@@ -251,4 +250,38 @@ void RenderOptions::on_open_environment_clicked()
 	ui->environment_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(ui->environment_view->width(),
 																			   ui->environment_view->height())));
 	RenderManager::get_manager()->set_environment_map(filename);
+}
+
+void RenderOptions::on_open_color_dialog_start_clicked()
+{
+	QColor color_chosen = QColorDialog::getColor(QColor(ui->start_color_x->text().toFloat(),
+														ui->start_color_y->text().toFloat(),
+														ui->start_color_z->text().toFloat()),
+												 this,
+												 "Choose Gradient Start Color");
+	if(color_chosen.isValid()) {
+		int r, g, b;
+		color_chosen.getRgb(&r, &g, &b);
+		ui->start_color_x->setText(QString::number(r));
+		ui->start_color_y->setText(QString::number(g));
+		ui->start_color_z->setText(QString::number(b));
+		OptionsManager::get_manager()->set_gradient_start_color(Vector3(r, g, b));
+	}
+}
+
+void RenderOptions::on_open_color_dialog_end_clicked()
+{
+	QColor color_chosen = QColorDialog::getColor(QColor(ui->end_color_x->text().toFloat(),
+														ui->end_color_y->text().toFloat(),
+														ui->end_color_z->text().toFloat()),
+												 this,
+												 "Choose Gradient End Color");
+	if(color_chosen.isValid()) {
+		int r, g, b;
+		color_chosen.getRgb(&r, &g, &b);
+		ui->end_color_x->setText(QString::number(r));
+		ui->end_color_y->setText(QString::number(g));
+		ui->end_color_z->setText(QString::number(b));
+		OptionsManager::get_manager()->set_gradient_end_color(Vector3(r, g, b));
+	}
 }

@@ -89,6 +89,8 @@ private slots:
 
 	void on_refraction_textEdited(const QString &arg1);
 
+	void on_open_color_dialog_clicked();
+
 private:
 	Ui::Inspector *ui;
 	QDoubleValidator* transform_validator;

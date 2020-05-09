@@ -74,6 +74,10 @@ private slots:
 
 	void on_open_environment_clicked();
 
+	void on_open_color_dialog_start_clicked();
+
+	void on_open_color_dialog_end_clicked();
+
 private:
 	Ui::RenderOptions *ui;
 	QDoubleValidator* parameter_validator;

@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include <QPixmap>
 #include <QFileDialog>
+#include <QColorDialog>
 
 #include <manager/RenderManager.h>
 
@@ -31,10 +32,6 @@ Inspector::Inspector(QWidget *parent) :
 	ui->texture_map_icon->setPixmap(texture_map_icon_pixmap.scaled(ui->texture_map_icon->width(), ui->texture_map_icon->height()));
 	QPixmap normal_map_icon_pixmap(":/resource/normal_map_icon.png");
 	ui->normal_map_icon->setPixmap(normal_map_icon_pixmap.scaled(ui->normal_map_icon->width(), ui->normal_map_icon->height()));
-
-	QPixmap open_file_icon_pixmap(":/resource/open_file_icon.png");
-	ui->open_texture->setIcon(QIcon(open_file_icon_pixmap));
-	ui->open_normal->setIcon(QIcon(open_file_icon_pixmap));
 
 	transform_validator = new QDoubleValidator;
 	transform_validator->setNotation(QDoubleValidator::StandardNotation);
@@ -88,6 +85,7 @@ void Inspector::reload()
 		ui->orientation_z->setText("");
 
 		ui->material_selector->setEnabled(false);
+		ui->open_color_dialog->setEnabled(false);
 		ui->albedo_x->setEnabled(false);
 		ui->albedo_x->setText("");
 		ui->albedo_y->setEnabled(false);
@@ -134,6 +132,7 @@ void Inspector::reload()
 		auto material = RenderManager::get_manager()->get_material();
 		if(material != RenderManager::MATERIAL_TYPE::NONE) {
 			ui->material_selector->setEnabled(true);
+			ui->open_color_dialog->setEnabled(true);
 			Vector3 albedo = RenderManager::get_manager()->get_albedo()*255;
 			ui->albedo_x->setEnabled(true);
 			ui->albedo_x->setText(QString::number(albedo.get_x()));
@@ -191,6 +190,7 @@ void Inspector::reload()
 		}
 		else {
 			ui->material_selector->setEnabled(false);
+			ui->open_color_dialog->setEnabled(false);
 			ui->albedo_x->setEnabled(false);
 			ui->albedo_x->setText("");
 			ui->albedo_y->setEnabled(false);
@@ -497,4 +497,21 @@ void Inspector::on_refraction_editingFinished()
 void Inspector::on_refraction_textEdited(const QString &arg1)
 {
 	line_edit_edited(ui->intensity, arg1);
+}
+
+void Inspector::on_open_color_dialog_clicked()
+{
+	QColor color_chosen = QColorDialog::getColor(QColor(ui->albedo_x->text().toFloat(),
+														ui->albedo_y->text().toFloat(),
+														ui->albedo_z->text().toFloat()),
+												 this,
+												 "Choose Albedo");
+	if(color_chosen.isValid()) {
+		int r, g, b;
+		color_chosen.getRgb(&r, &g, &b);
+		ui->albedo_x->setText(QString::number(r));
+		ui->albedo_y->setText(QString::number(g));
+		ui->albedo_z->setText(QString::number(b));
+		RenderManager::get_manager()->set_albedo(r, g, b);
+	}
 }

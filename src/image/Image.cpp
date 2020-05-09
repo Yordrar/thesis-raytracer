@@ -44,10 +44,32 @@ Image::~Image()
 
 Vector3 Image::get_pixel_color(int x, int y)
 {
-	if(x >= width || x < 0 || y >= height || y < 0) {
-		return Vector3();
-	}
+	x = Math::Clampf(x, 0, width-1);
+	y = Math::Clampf(y, 0, height-1);
 	return buffer[y][x];
+}
+
+Vector3 Image::get_pixel_color_bilinear_interp(float x, float y)
+{
+	x = Math::Clampf(x, 0, width-1);
+	y = Math::Clampf(y, 0, height-1);
+
+	Vector3 q11(floor(x), ceil(y), 0);
+	Vector3 q12(floor(x), floor(y), 0);
+	Vector3 q21(ceil(x), ceil(y), 0);
+	Vector3 q22(ceil(x), floor(y), 0);
+
+	Vector3 fxy1 = (ceil(x) - x) / (ceil(x) - floor(x)) * buffer[static_cast<int>(q11.get_y())][static_cast<int>(q11.get_x())];
+	fxy1 += (x  - floor(x)) / (ceil(x) - floor(x)) * buffer[static_cast<int>(q21.get_y())][static_cast<int>(q21.get_x())];
+
+	Vector3 fxy2 = (ceil(x) - x) / (ceil(x) - floor(x)) * buffer[static_cast<int>(q12.get_y())][static_cast<int>(q12.get_x())];
+	fxy2 += (x  - floor(x)) / (ceil(x) - floor(x)) * buffer[static_cast<int>(q22.get_y())][static_cast<int>(q22.get_x())];
+
+
+	Vector3 fxy = (floor(y) - y) / (floor(y) - ceil(y)) * fxy1;
+	fxy += (y  - ceil(y)) / (floor(y) - ceil(y)) * fxy2;
+
+	return fxy;
 }
 
 void Image::set_pixel_color(int x, int y, const Vector3& color)
