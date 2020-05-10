@@ -5,7 +5,7 @@ RefractiveLambertian::~RefractiveLambertian()
 
 }
 
-Ray RefractiveLambertian::scatter(const Ray& ray, float t, const Vector3& normal)
+Ray RefractiveLambertian::scatter(const Ray& ray, float t, const Vector3& normal, float roughness, float metallicity)
 {
 	Vector3 new_ray_direction;
 	if(ray.get_direction().dot(normal) < 0.0f) {

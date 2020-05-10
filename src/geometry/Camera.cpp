@@ -190,6 +190,7 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 		Material* material = intersection.get_material();
 		Vector3 normal;
 		Vector3 material_color;
+		float roughness, metallicity;
 		if(!Math::Float_Eq(intersection.get_uv().get_x(), -1) && !Math::Float_Eq(intersection.get_uv().get_y(), -1)) {
 			Vector3 uv = intersection.get_uv();
 			if(material->get_normal_map() && intersection.get_tangent().get_squared_magnitude() != 0.0f) {
@@ -201,17 +202,23 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 			else {
 				normal = intersection.get_normal();
 			}
+
 			std::vector<Vector3> light_vectors;
 			for(Emitter* e : emitters) {
 				light_vectors.push_back(e->get_shadow_ray(r.get_point(intersection.get_t())).get_direction().unit());
 			}
 			material_color = material->get_color(uv, normal, light_vectors, -r.get_direction().unit());
+
+			roughness = material->get_roughness_from_map(intersection.get_uv());
+			metallicity = material->get_metallicity_from_map(intersection.get_uv());
 		}
 		else {
 			normal = intersection.get_normal();
 			material_color = material->get_albedo();
+			roughness = material->get_roughness();
+			metallicity = material->get_metallicity();
 		}
-		Ray new_ray = material->scatter(r, t, normal);
+		Ray new_ray = material->scatter(r, t, normal, roughness, metallicity);
 		Vector3 emission = material->get_emission_color(r, t, normal);
 		Vector3 emitters_color;
 		if(material->is_affected_by_shadow_rays())

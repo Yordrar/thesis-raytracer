@@ -22,6 +22,9 @@ public:
 			new_material->set_reflectance(material->get_reflectance());
 			if(material->get_texture_map()) new_material->set_texture_map(material->get_texture_map()->get_copy());
 			if(material->get_normal_map()) new_material->set_normal_map(material->get_normal_map()->get_copy());
+			if(material->get_roughness_map()) new_material->set_roughness_map(material->get_roughness_map()->get_copy());
+			if(material->get_metallicity_map()) new_material->set_metallicity_map(material->get_metallicity_map()->get_copy());
+			if(material->get_ao_map()) new_material->set_ao_map(material->get_ao_map()->get_copy());
 			delete material;
 		}
 		material = new_material;

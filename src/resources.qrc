@@ -10,5 +10,9 @@
         <file>resource/illum_image_params.png</file>
         <file>resource/render_params_icon.png</file>
         <file>resource/color_dialog_icon.png</file>
+        <file>resource/metal_map_icon.png</file>
+        <file>resource/ambient_occlusion_map_icon.png</file>
+        <file>resource/roughness_map_icon.png</file>
+        <file>resource/material_params_icon.png</file>
     </qresource>
 </RCC>

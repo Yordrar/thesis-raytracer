@@ -18,7 +18,7 @@ float Dielectric::schlick(float cosine)
 	return r0 + (1.0f - r0) * powf(1.0f - cosine, 5);
 }
 
-Ray Dielectric::scatter(const Ray& ray, float t, const Vector3& normal)
+Ray Dielectric::scatter(const Ray& ray, float t, const Vector3& normal, float roughness, float metallicity)
 {
 	float ni_over_nt = 0;
 	float schlick_cosine;

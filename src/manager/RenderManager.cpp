@@ -87,6 +87,33 @@ Image* RenderManager::get_normal_map() const
 		return nullptr;
 }
 
+Image* RenderManager::get_roughness_map() const
+{
+	Scatterer* s = dynamic_cast<Scatterer*>(entity_selected);
+	if(s)
+		return s->get_material()->get_roughness_map();
+	else
+		return nullptr;
+}
+
+Image* RenderManager::get_metallicity_map() const
+{
+	Scatterer* s = dynamic_cast<Scatterer*>(entity_selected);
+	if(s)
+		return s->get_material()->get_metallicity_map();
+	else
+		return nullptr;
+}
+
+Image* RenderManager::get_ao_map() const
+{
+	Scatterer* s = dynamic_cast<Scatterer*>(entity_selected);
+	if(s)
+		return s->get_material()->get_ao_map();
+	else
+		return nullptr;
+}
+
 void RenderManager::set_material(RenderManager::MATERIAL_TYPE m) const
 {
 	switch(m) {

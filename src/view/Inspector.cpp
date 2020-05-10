@@ -14,25 +14,6 @@ Inspector::Inspector(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	QFont f("Arial", 10, QFont::Bold);
-	ui->transform_label->setStyleSheet("font-weight: bold");
-	ui->transform_label->setFont(f);
-	ui->material_label->setStyleSheet("font-weight: bold");
-	ui->material_label->setFont(f);
-	ui->texture_label->setStyleSheet("font-weight: bold");
-	ui->texture_label->setFont(f);
-	ui->normal_label->setStyleSheet("font-weight: bold");
-	ui->normal_label->setFont(f);
-
-	QPixmap transform_icon_pixmap(":/resource/transform_icon.png");
-	ui->transform_icon->setPixmap(transform_icon_pixmap.scaled(ui->transform_icon->width(), ui->transform_icon->height()));
-	QPixmap material_icon_pixmap(":/resource/material_icon.png");
-	ui->material_icon->setPixmap(material_icon_pixmap.scaled(ui->material_icon->width(), ui->material_icon->height()));
-	QPixmap texture_map_icon_pixmap(":/resource/texture_map_icon.png");
-	ui->texture_map_icon->setPixmap(texture_map_icon_pixmap.scaled(ui->texture_map_icon->width(), ui->texture_map_icon->height()));
-	QPixmap normal_map_icon_pixmap(":/resource/normal_map_icon.png");
-	ui->normal_map_icon->setPixmap(normal_map_icon_pixmap.scaled(ui->normal_map_icon->width(), ui->normal_map_icon->height()));
-
 	transform_validator = new QDoubleValidator;
 	transform_validator->setNotation(QDoubleValidator::StandardNotation);
 	transform_validator->setLocale(QLocale(QLocale::C));
@@ -108,6 +89,12 @@ void Inspector::reload()
 															 ui->texture_view->height()));
 		ui->normal_view->setPixmap(placeholder_image.scaled(ui->normal_view->width(),
 															ui->normal_view->height()));
+		ui->roughness_view->setPixmap(placeholder_image.scaled(ui->roughness_view->width(),
+															   ui->roughness_view->height()));
+		ui->metallicity_view->setPixmap(placeholder_image.scaled(ui->metallicity_view->width(),
+																 ui->metallicity_view->height()));
+		ui->ao_view->setPixmap(placeholder_image.scaled(ui->ao_view->width(),
+														ui->ao_view->height()));
 	}
 	else {
 		Entity* entity = RenderManager::get_manager()->get_entity_selected();
@@ -151,11 +138,14 @@ void Inspector::reload()
 			ui->refraction->setEnabled(false);
 			ui->refraction->setText("");
 
+			changing_entity_selected = true;
 			switch(material) {
 			case RenderManager::MATERIAL_TYPE::NONE:
 				break;
 			case RenderManager::MATERIAL_TYPE::LAMBERTIAN:
 				ui->material_selector->setCurrentIndex(0);
+				ui->reflectance->setEnabled(true);
+				ui->reflectance->setText(QString::number(RenderManager::get_manager()->get_reflectance()));
 				break;
 			case RenderManager::MATERIAL_TYPE::BLINNPHONG:
 				ui->material_selector->setCurrentIndex(1);
@@ -187,6 +177,7 @@ void Inspector::reload()
 				ui->material_selector->setCurrentIndex(5);
 				break;
 			}
+			changing_entity_selected = false;
 		}
 		else {
 			ui->material_selector->setEnabled(false);
@@ -212,13 +203,13 @@ void Inspector::reload()
 			ui->refraction->setText("");
 		}
 
+		QPixmap placeholder_image(":/resource/image_placeholder.png");
 		Image* texture_map = RenderManager::get_manager()->get_texture_map();
 		if(texture_map) {
 			ui->texture_view->setPixmap(QPixmap::fromImage(image_to_qimage(texture_map).scaled(ui->texture_view->width(),
 																							   ui->texture_view->height())));
 		}
 		else {
-			QPixmap placeholder_image(":/resource/image_placeholder.png");
 			ui->texture_view->setPixmap(placeholder_image.scaled(ui->texture_view->width(),
 																 ui->texture_view->height()));
 		}
@@ -229,9 +220,38 @@ void Inspector::reload()
 																							 ui->normal_view->height())));
 		}
 		else {
-			QPixmap placeholder_image(":/resource/image_placeholder.png");
 			ui->normal_view->setPixmap(placeholder_image.scaled(ui->normal_view->width(),
 																ui->normal_view->height()));
+		}
+
+		Image* roughness_map = RenderManager::get_manager()->get_roughness_map();
+		if(roughness_map) {
+			ui->roughness_view->setPixmap(QPixmap::fromImage(image_to_qimage(roughness_map).scaled(ui->roughness_view->width(),
+																								   ui->roughness_view->height())));
+		}
+		else {
+			ui->roughness_view->setPixmap(placeholder_image.scaled(ui->roughness_view->width(),
+																   ui->roughness_view->height()));
+		}
+
+		Image* metallicity_map = RenderManager::get_manager()->get_metallicity_map();
+		if(metallicity_map) {
+			ui->metallicity_view->setPixmap(QPixmap::fromImage(image_to_qimage(metallicity_map).scaled(ui->metallicity_view->width(),
+																									   ui->metallicity_view->height())));
+		}
+		else {
+			ui->metallicity_view->setPixmap(placeholder_image.scaled(ui->metallicity_view->width(),
+																	 ui->metallicity_view->height()));
+		}
+
+		Image* ao_map = RenderManager::get_manager()->get_ao_map();
+		if(ao_map) {
+			ui->ao_view->setPixmap(QPixmap::fromImage(image_to_qimage(ao_map).scaled(ui->ao_view->width(),
+																					 ui->ao_view->height())));
+		}
+		else {
+			ui->ao_view->setPixmap(placeholder_image.scaled(ui->ao_view->width(),
+															ui->ao_view->height()));
 		}
 	}
 }
@@ -266,7 +286,8 @@ void Inspector::on_open_normal_clicked()
 
 void Inspector::on_material_selector_currentIndexChanged(int index)
 {
-	if(!RenderManager::get_manager()->is_there_entity_selected()) return;
+	if(!RenderManager::get_manager()->is_there_entity_selected() ||
+	   changing_entity_selected) return;
 
 	switch(index) {
 	case 0:
@@ -514,4 +535,46 @@ void Inspector::on_open_color_dialog_clicked()
 		ui->albedo_z->setText(QString::number(b));
 		RenderManager::get_manager()->set_albedo(r, g, b);
 	}
+}
+
+void Inspector::on_open_roughness_clicked()
+{
+	if(!RenderManager::get_manager()->is_there_entity_selected()) return;
+
+	QString filename = QFileDialog::getOpenFileName(this,
+											"Open Roughness Map",
+											"",
+											"Image Files (*.png *.jpg *.bmp)");
+	if(filename.isNull()) return;
+	ui->roughness_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(ui->roughness_view->width(),
+																			 ui->roughness_view->height())));
+	RenderManager::get_manager()->set_roughness_map(filename);
+}
+
+void Inspector::on_open_metallicity_clicked()
+{
+	if(!RenderManager::get_manager()->is_there_entity_selected()) return;
+
+	QString filename = QFileDialog::getOpenFileName(this,
+											"Open Metallicity Map",
+											"",
+											"Image Files (*.png *.jpg *.bmp)");
+	if(filename.isNull()) return;
+	ui->metallicity_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(ui->metallicity_view->width(),
+																			   ui->metallicity_view->height())));
+	RenderManager::get_manager()->set_metallicity_map(filename);
+}
+
+void Inspector::on_open_ao_clicked()
+{
+	if(!RenderManager::get_manager()->is_there_entity_selected()) return;
+
+	QString filename = QFileDialog::getOpenFileName(this,
+											"Open Ambient Occlusion Map",
+											"",
+											"Image Files (*.png *.jpg *.bmp)");
+	if(filename.isNull()) return;
+	ui->ao_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(ui->ao_view->width(),
+																	  ui->ao_view->height())));
+	RenderManager::get_manager()->set_ao_map(filename);
 }

@@ -15,19 +15,6 @@ RenderOptions::RenderOptions(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	ui->render_parameters_label->setStyleSheet("font-weight: bold");
-	ui->camera_parameters_label->setStyleSheet("font-weight: bold");
-	ui->ibl_label->setStyleSheet("font-weight: bold");
-
-	QPixmap render_params_icon_pixmap(":/resource/render_params_icon.png");
-	ui->render_params_icon->setPixmap(render_params_icon_pixmap.scaled(ui->render_params_icon->width(),
-																	   ui->render_params_icon->height()));
-	QPixmap camera_params_icon_pixmap(":/resource/camera_params_icon.png");
-	ui->camera_params_icon->setPixmap(camera_params_icon_pixmap.scaled(ui->camera_params_icon->width(),
-																	   ui->camera_params_icon->height()));
-	QPixmap ibl_icon_pixmap(":/resource/illum_image_params.png");
-	ui->ibl_icon->setPixmap(ibl_icon_pixmap.scaled(ui->ibl_icon->width(), ui->ibl_icon->height()));
-
 	ui->threads->setValue(omp_get_max_threads());
 	ui->threads->setMaximum(omp_get_max_threads());
 

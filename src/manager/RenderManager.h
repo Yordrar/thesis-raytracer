@@ -32,6 +32,21 @@ public:
 		dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_normal_map(new Image(filename.toUtf8().constData()));
 	}
 
+	Image* get_roughness_map() const;
+	inline void set_roughness_map(QString filename) const {
+		dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_roughness_map(new Image(filename.toUtf8().constData()));
+	}
+
+	Image* get_metallicity_map() const;
+	inline void set_metallicity_map(QString filename) const {
+		dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_metallicity_map(new Image(filename.toUtf8().constData()));
+	}
+
+	Image* get_ao_map() const;
+	inline void set_ao_map(QString filename) const {
+		dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_ao_map(new Image(filename.toUtf8().constData()));
+	}
+
 	enum class MATERIAL_TYPE {
 		NONE,
 		LAMBERTIAN,

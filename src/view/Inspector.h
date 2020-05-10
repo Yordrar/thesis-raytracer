@@ -91,11 +91,18 @@ private slots:
 
 	void on_open_color_dialog_clicked();
 
+	void on_open_roughness_clicked();
+
+	void on_open_metallicity_clicked();
+
+	void on_open_ao_clicked();
+
 private:
 	Ui::Inspector *ui;
 	QDoubleValidator* transform_validator;
 	QDoubleValidator* material_parameter_validator;
 	QIntValidator* albedo_validator;
+	bool changing_entity_selected = false;
 
 	void position_changed(float x, float y, float z);
 	void orientation_changed(float euler_x, float euler_y, float euler_z);

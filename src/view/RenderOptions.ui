@@ -205,9 +205,20 @@
     <rect>
      <x>40</x>
      <y>260</y>
-     <width>114</width>
+     <width>131</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>Camera Parameters</string>
@@ -337,9 +348,20 @@
     <rect>
      <x>42</x>
      <y>430</y>
-     <width>132</width>
+     <width>151</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>Image-Based Lightning</string>
@@ -460,7 +482,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Solid Gradient</string>
+    <string>Color Gradient</string>
    </property>
    <property name="checked">
     <bool>true</bool>
@@ -510,9 +532,20 @@
     <rect>
      <x>40</x>
      <y>12</y>
-     <width>111</width>
+     <width>131</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>Render Parameters</string>
@@ -581,6 +614,12 @@
    <property name="text">
     <string/>
    </property>
+   <property name="pixmap">
+    <pixmap resource="../resources.qrc">:/resource/render_params_icon.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLabel" name="camera_params_icon">
    <property name="geometry">
@@ -594,6 +633,12 @@
    <property name="text">
     <string/>
    </property>
+   <property name="pixmap">
+    <pixmap resource="../resources.qrc">:/resource/camera_params_icon.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLabel" name="ibl_icon">
    <property name="geometry">
@@ -606,6 +651,12 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="../resources.qrc">:/resource/illum_image_params.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="open_color_dialog_start">

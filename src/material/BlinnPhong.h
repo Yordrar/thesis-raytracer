@@ -10,7 +10,7 @@ public:
 	using Material::Material;
 	~BlinnPhong() override;
 
-	Ray scatter(const Ray& ray, float t, const Vector3& normal) override;
+	Ray scatter(const Ray& ray, float t, const Vector3& normal, float roughness, float metallicity) override;
 
 	Vector3 get_color(const Vector3& uv, const Vector3& normal, const std::vector<Vector3>& light_vectors, const Vector3& view_vector) const override;
 

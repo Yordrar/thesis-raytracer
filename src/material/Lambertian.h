@@ -8,6 +8,6 @@ public:
 	using Material::Material;
 	~Lambertian() override;
 
-	Ray scatter(const Ray& ray, float t, const Vector3& normal) override;
+	Ray scatter(const Ray& ray, float t, const Vector3& normal, float roughness, float metallicity) override;
 };
 

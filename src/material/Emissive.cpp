@@ -5,7 +5,7 @@ Emissive::~Emissive()
 
 }
 
-Ray Emissive::scatter(const Ray& ray, float t, const Vector3& normal)
+Ray Emissive::scatter(const Ray& ray, float t, const Vector3& normal, float roughness, float metallicity)
 {
 	return Ray(ray.get_point(t), Vector3(0));
 }

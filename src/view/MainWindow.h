@@ -5,6 +5,7 @@
 #include <view/Viewport.h>
 #include <view/Inspector.h>
 
+#include <QWinTaskbarButton>
 #include <thread>
 
 QT_BEGIN_NAMESPACE
@@ -22,6 +23,8 @@ public:
 	void resizeEvent(QResizeEvent* event) override;
 
 	bool eventFilter(QObject *obj, QEvent *event) override;
+
+	void showEvent(QShowEvent* ev) override;
 
 signals:
 	void update_render_progress(int samples_rendered);
@@ -52,5 +55,6 @@ private:
 	std::thread* render_worker = nullptr;
 	float render_viewport_scale = 1;
 	bool is_ctrl_pressed = false;
+	QWinTaskbarButton* taskbar_button = nullptr;
 };
 

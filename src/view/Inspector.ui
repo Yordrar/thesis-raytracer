@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>320</width>
-    <height>785</height>
+    <height>721</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>320</width>
-    <height>785</height>
+    <height>721</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -138,6 +138,17 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <property name="frameShape">
     <enum>QFrame::NoFrame</enum>
    </property>
@@ -169,6 +180,17 @@
      <width>61</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="frameShape">
     <enum>QFrame::NoFrame</enum>
@@ -234,129 +256,6 @@
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
-  <widget class="QLabel" name="texture_label">
-   <property name="geometry">
-    <rect>
-     <x>42</x>
-     <y>372</y>
-     <width>81</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::NoFrame</enum>
-   </property>
-   <property name="text">
-    <string>Texture Map</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="texture_view">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>402</y>
-     <width>150</width>
-     <height>150</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="Line" name="line_4">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>562</y>
-     <width>250</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
-  <widget class="QLabel" name="normal_label">
-   <property name="geometry">
-    <rect>
-     <x>42</x>
-     <y>584</y>
-     <width>81</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::NoFrame</enum>
-   </property>
-   <property name="text">
-    <string>Normal Map</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="open_texture">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>522</y>
-     <width>31</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset resource="../resources.qrc">
-     <normaloff>:/resource/open_file_icon.png</normaloff>:/resource/open_file_icon.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>20</width>
-     <height>20</height>
-    </size>
-   </property>
-  </widget>
-  <widget class="QLabel" name="normal_view">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>612</y>
-     <width>150</width>
-     <height>150</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="open_normal">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>732</y>
-     <width>31</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset resource="../resources.qrc">
-     <normaloff>:/resource/open_file_icon.png</normaloff>:/resource/open_file_icon.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>20</width>
-     <height>20</height>
-    </size>
    </property>
   </widget>
   <widget class="QLabel" name="roughness_label">
@@ -516,6 +415,12 @@
    <property name="text">
     <string/>
    </property>
+   <property name="pixmap">
+    <pixmap resource="../resources.qrc">:/resource/transform_icon.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLabel" name="material_icon">
    <property name="geometry">
@@ -529,31 +434,11 @@
    <property name="text">
     <string/>
    </property>
-  </widget>
-  <widget class="QLabel" name="texture_map_icon">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>368</y>
-     <width>25</width>
-     <height>25</height>
-    </rect>
+   <property name="pixmap">
+    <pixmap resource="../resources.qrc">:/resource/material_params_icon.png</pixmap>
    </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="normal_map_icon">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>580</y>
-     <width>25</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLineEdit" name="intensity">
@@ -764,6 +649,303 @@
    </property>
    <property name="text">
     <string>Z</string>
+   </property>
+  </widget>
+  <widget class="QToolBox" name="toolBox">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>400</y>
+     <width>321</width>
+     <height>321</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="texture">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>321</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <attribute name="icon">
+     <iconset resource="../resources.qrc">
+      <normaloff>:/resource/texture_map_icon.png</normaloff>:/resource/texture_map_icon.png</iconset>
+    </attribute>
+    <attribute name="label">
+     <string>Texture Map</string>
+    </attribute>
+    <widget class="QLabel" name="texture_view">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>150</width>
+       <height>150</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="open_texture">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>130</y>
+       <width>31</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../resources.qrc">
+       <normaloff>:/resource/open_file_icon.png</normaloff>:/resource/open_file_icon.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="normal_map">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>321</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <attribute name="icon">
+     <iconset resource="../resources.qrc">
+      <normaloff>:/resource/normal_map_icon.png</normaloff>:/resource/normal_map_icon.png</iconset>
+    </attribute>
+    <attribute name="label">
+     <string>Normal Map</string>
+    </attribute>
+    <widget class="QPushButton" name="open_normal">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>130</y>
+       <width>31</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../resources.qrc">
+       <normaloff>:/resource/open_file_icon.png</normaloff>:/resource/open_file_icon.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QLabel" name="normal_view">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>150</width>
+       <height>150</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="roughness_map">
+    <attribute name="icon">
+     <iconset resource="../resources.qrc">
+      <normaloff>:/resource/roughness_map_icon.png</normaloff>:/resource/roughness_map_icon.png</iconset>
+    </attribute>
+    <attribute name="label">
+     <string>Roughness Map</string>
+    </attribute>
+    <widget class="QLabel" name="roughness_view">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>150</width>
+       <height>150</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="open_roughness">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>130</y>
+       <width>31</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../resources.qrc">
+       <normaloff>:/resource/open_file_icon.png</normaloff>:/resource/open_file_icon.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="metallicity_map">
+    <attribute name="icon">
+     <iconset resource="../resources.qrc">
+      <normaloff>:/resource/metal_map_icon.png</normaloff>:/resource/metal_map_icon.png</iconset>
+    </attribute>
+    <attribute name="label">
+     <string>Metallicity Map</string>
+    </attribute>
+    <widget class="QLabel" name="metallicity_view">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>150</width>
+       <height>150</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="open_metallicity">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>130</y>
+       <width>31</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../resources.qrc">
+       <normaloff>:/resource/open_file_icon.png</normaloff>:/resource/open_file_icon.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="AO_map">
+    <attribute name="icon">
+     <iconset resource="../resources.qrc">
+      <normaloff>:/resource/ambient_occlusion_map_icon.png</normaloff>:/resource/ambient_occlusion_map_icon.png</iconset>
+    </attribute>
+    <attribute name="label">
+     <string>Ambient Occlusion Map</string>
+    </attribute>
+    <widget class="QLabel" name="ao_view">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>150</width>
+       <height>150</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="open_ao">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>130</y>
+       <width>31</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../resources.qrc">
+       <normaloff>:/resource/open_file_icon.png</normaloff>:/resource/open_file_icon.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="pbr_textures_label">
+   <property name="geometry">
+    <rect>
+     <x>42</x>
+     <y>372</y>
+     <width>91</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>PBR Textures</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="pbr_icon">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>370</y>
+     <width>25</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="../resources.qrc">:/resource/material_icon.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>

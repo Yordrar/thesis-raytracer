@@ -12,6 +12,8 @@
 #include <QWheelEvent>
 #include <QDebug>
 #include <QPushButton>
+#include <QWinTaskbarButton>
+#include <QWinTaskbarProgress>
 
 #include <omp.h>
 
@@ -106,6 +108,19 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event)
 	return false;
 }
 
+void MainWindow::showEvent(QShowEvent* ev)
+{
+	QMainWindow::showEvent(ev);
+
+	if(!taskbar_button) {
+		taskbar_button = new QWinTaskbarButton;
+		taskbar_button->progress()->setMinimum(0);
+		taskbar_button->progress()->setMaximum(100);
+		taskbar_button->progress()->setValue(0);
+		taskbar_button->setWindow(this->windowHandle());
+	}
+}
+
 void MainWindow::render_preview()
 {
 	omp_set_num_threads(ui->centralwidget->findChild<QSpinBox*>("threads")->maximum());
@@ -136,6 +151,9 @@ void MainWindow::start_render()
 {
 	render_viewport_scale = 1;
 
+	taskbar_button->progress()->setValue(0);
+	taskbar_button->progress()->setVisible(true);
+
 	int width = ui->centralwidget->findChild<QSpinBox*>("width")->value();
 	int height = ui->centralwidget->findChild<QSpinBox*>("height")->value();
 	int n_samples = ui->centralwidget->findChild<QSpinBox*>("samples")->value();
@@ -153,6 +171,7 @@ void MainWindow::start_render()
 void MainWindow::update_render_viewport()
 {
 	Image* frame = RenderManager::get_manager()->get_rendered_image();
+	int samples_rendered = RenderManager::get_manager()->get_samples_rendered();
 	if(frame == nullptr) {
 		QImage image(0, 0, QImage::Format_RGB888);
 		ui->centralwidget->findChild<QLabel*>("render_label")->setPixmap(QPixmap::fromImage(image));
@@ -171,21 +190,27 @@ void MainWindow::update_render_viewport()
 		}
 		image = image.scaled(image.width()*render_viewport_scale, image.height()*render_viewport_scale);
 		ui->centralwidget->findChild<QLabel*>("render_label")->setPixmap(QPixmap::fromImage(image));
+		taskbar_button->progress()->setValue(qRound((static_cast<float>(samples_rendered) / (width * height)) * 100));
 	}
 
-	emit update_render_progress(RenderManager::get_manager()->get_samples_rendered());
+	emit update_render_progress(samples_rendered);
 
 	if(RenderManager::get_manager()->is_render_finished()) {
 		ui->centralwidget->findChild<QPushButton*>("start_render_button")->setEnabled(true);
 		ui->centralwidget->findChild<QPushButton*>("cancel_render_button")->setEnabled(false);
 		render_timer->stop();
-		emit update_render_progress(RenderManager::get_manager()->get_samples_rendered());
+		taskbar_button->progress()->reset();
+		QApplication::alert(this);
+		emit update_render_progress(samples_rendered);
 	}
 }
 
 void MainWindow::cancel_render()
 {
 	render_timer->stop();
+
+	taskbar_button->progress()->setValue(0);
+	taskbar_button->progress()->setVisible(false);
 
 	RenderManager::get_manager()->finish_render();
 	render_worker->join();

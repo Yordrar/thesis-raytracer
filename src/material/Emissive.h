@@ -8,7 +8,7 @@ public:
 	using Material::Material;
 	~Emissive() override;
 
-	Ray scatter(const Ray& ray, float t, const Vector3& normal) override;
+	Ray scatter(const Ray& ray, float t, const Vector3& normal, float roughness, float metallicity) override;
 	Vector3 get_emission_color(const Ray& ray, float t, const Vector3& normal) override;
 
 	inline bool is_affected_by_shadow_rays() const override {return false;}

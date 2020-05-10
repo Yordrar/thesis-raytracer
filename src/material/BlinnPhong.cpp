@@ -5,16 +5,28 @@ BlinnPhong::~BlinnPhong()
 
 }
 
-Ray BlinnPhong::scatter(const Ray& ray, float t, const Vector3& normal)
+Ray BlinnPhong::scatter(const Ray& ray, float t, const Vector3& normal, float roughness, float metallicity)
 {
-	Vector3 intersection_point = ray.get_origin() + ray.get_direction()*t;
-	Vector3 new_ray_direction = normal + Vector3::random_in_unit_sphere();
-	return Ray(intersection_point, new_ray_direction);
+	float reflectance_prob = Math::Randf();
+	if(reflectance_prob <= reflectance) {
+		Vector3 ray_direction = ray.get_direction();
+		Vector3 new_direction = ray_direction - 2*ray_direction.dot(normal)*normal;
+		return Ray(ray.get_point(t), new_direction);
+	}
+	else {
+		Vector3 intersection_point = ray.get_origin() + ray.get_direction()*t;
+		Vector3 new_ray_direction = normal + Vector3::random_in_unit_sphere();
+		return Ray(intersection_point, new_ray_direction);
+	}
 }
 
 Vector3 BlinnPhong::get_color(const Vector3& uv, const Vector3& normal, const std::vector<Vector3>& light_vectors, const Vector3& view_vector) const
 {
 	Vector3 diffuse_color = Material::get_color(uv, normal, light_vectors, view_vector);
+	float roughness = this->roughness;
+	if(roughness_map)
+		roughness = roughness_map->get_pixel_color_bilinear_interp(uv.get_x() * roughness_map->get_width(),
+																   (1.0f-uv.get_y()) * roughness_map->get_height()).get_x();
 
 	Vector3 color = ambient_albedo * 0.5f;
 	for(auto l : light_vectors) {
