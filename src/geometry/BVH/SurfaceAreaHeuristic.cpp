@@ -31,6 +31,6 @@ BVHBuildStrategy::SPLIT_AXIS SurfaceAreaHeuristic::get_split_axis(std::vector<In
             break;
         }
 
-return SPLIT_AXIS::X_AXIS;
+        return SPLIT_AXIS::X_AXIS;
     }
 }
