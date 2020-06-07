@@ -5,8 +5,8 @@
 class Ray
 {
 public:
-	Ray(const Vector3& direction);
-	Ray(const Vector3& origin, const Vector3& direction);
+    explicit Ray(const Vector3& direction);
+    explicit Ray(const Vector3& origin, const Vector3& direction);
 
 	inline Vector3 get_origin() const {return origin;}
 	inline Vector3 get_direction() const {return direction;}

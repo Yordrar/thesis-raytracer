@@ -12,5 +12,5 @@ Ray Emissive::scatter(const Ray& ray, float t, const Vector3& normal, float roug
 
 Vector3 Emissive::get_emission_color(const Ray& ray, float t, const Vector3& normal)
 {
-	return albedo * intensity;
+    return (albedo * (intensity / (ray.get_point(t) - ray.get_origin()).get_squared_magnitude())).clamp(0, 1.0f);
 }

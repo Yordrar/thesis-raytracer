@@ -24,9 +24,10 @@ void AreaLight::rotate_global(float euler_x, float euler_y, float euler_z)
 	right = q.apply(right);
 }
 
-Vector3 AreaLight::get_emission_color(Vector3 position) const
+Vector3 AreaLight::get_emission_color(Vector3 _position) const
 {
-	return albedo;
+    Vector3 light_vector = this->position - _position;
+    return (albedo * (intensity / light_vector.get_squared_magnitude())).clamp(0, 1.0f);
 }
 
 Ray AreaLight::get_shadow_ray(Vector3 position) const

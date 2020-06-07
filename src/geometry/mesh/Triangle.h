@@ -70,7 +70,7 @@ private:
 	Vector3 tangent_v0, tangent_v1, tangent_v2;
 	Vector3 bitangent_v0, bitangent_v1, bitangent_v2;
 
-	inline Vector3 get_normal(float u, float v, float w) const {
+    inline Vector3 get_normal(float u, float v, float w) const {
 		if(hasNormals)
 			return (u*normal_v1 + v*normal_v2 + w*normal_v0).unit();
 		else

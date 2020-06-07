@@ -54,10 +54,10 @@ void CPURenderer::render(const Scene* scene, Camera* camera, int n_samples)
 			Vector3 color;
 			for(int n = 0; n < n_samples; n++) {
 				color += camera->get_color(float(i+Math::Randf()), float(j+Math::Randf()), hierarchy, emitters);
-			}
-			color /= n_samples;
-			color = Vector3(sqrtf(color.get_x()), sqrtf(color.get_y()), sqrtf(color.get_z()));
-			render_img->set_pixel_color(i, j, Vector3(color.get_x(), color.get_y(), color.get_z()));
+            }
+            color /= n_samples;
+            color = Vector3(sqrtf(color.get_x()), sqrtf(color.get_y()), sqrtf(color.get_z()));
+            render_img->set_pixel_color(i, j, color);
 			samples_rendered++;
 		}
 	}

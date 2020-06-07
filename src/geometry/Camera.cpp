@@ -172,7 +172,6 @@ Camera* Camera::get_copy()
 	return cam;
 }
 
-#define MAX_DEPTH 10
 Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth) const
 {
 	double rrFactor = 1.0f;
@@ -256,7 +255,7 @@ Vector3 Camera::get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& 
 {
     int num_shadow_rays = 1;
     float total_shadow_rays = 0;
-	Vector3 color;
+    Vector3 color(0);
 	for(Emitter* e : emitters) {
         if(dynamic_cast<AreaLight*>(e)) {
             num_shadow_rays = 10;
@@ -276,7 +275,7 @@ Vector3 Camera::get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& 
 			}
 		}
 	}
-    return color / total_shadow_rays;
+    return color / Math::Fast_Max(total_shadow_rays, 1);
 }
 
 void Camera::recalculate_parameters()

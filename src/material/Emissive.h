@@ -17,6 +17,6 @@ public:
 	inline void set_intensity(float value) {intensity = value;}
 
 private:
-	float intensity = 10;
+    float intensity = 1;
 };
 
