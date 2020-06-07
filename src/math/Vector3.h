@@ -8,9 +8,9 @@
 class Vector3
 {
 public:
-    Vector3();
-	Vector3(float);
-	Vector3(float, float, float);
+    explicit Vector3();
+    explicit Vector3(float);
+    explicit Vector3(float, float, float);
 
 	inline float get_x() const {return x;}
 	inline float get_y() const {return y;}

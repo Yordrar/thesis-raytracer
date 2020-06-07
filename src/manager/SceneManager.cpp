@@ -15,18 +15,18 @@ SceneManager* SceneManager::instance = nullptr;
 SceneManager::SceneManager()
 {
 	camera = new Camera;
-	camera->translate_global(-0.1f, 1, -2);
+    camera->translate_global(-0.1f, 1, 2);
 	camera->rotate(-20, 0, 0);
 
 	scene = new Scene;
-
+/*
     auto meshes = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\test4.obj");
 	std::vector<Intersectable*> intersectables;
 	for(Mesh* m : meshes) {
 		intersectables.push_back(dynamic_cast<Intersectable*>(m));
 	}
 	scene->set_intersectables(intersectables);
-
+*/
 	PointLight* l1 = new PointLight(Vector3(128, 64, 32), 80);
 	PointLight* l2 = new PointLight(Vector3(32, 64, 128), 80);
 	PointLight* l3 = new PointLight(Vector3(255, 255, 255), 80);
@@ -42,7 +42,7 @@ SceneManager::SceneManager()
 	//scene->add_emitter(l1);
 	//scene->add_emitter(l2);
 	//scene->add_emitter(l3);
-	scene->add_emitter(l4);
+    //scene->add_emitter(l4);
 	//scene->add_emitter(l5);
 	//scene->add_emitter(l6);
 
@@ -54,9 +54,9 @@ SceneManager::SceneManager()
 	//s1->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\brick_normal.bmp"));
 	Sphere* s2 = new Sphere(Vector3(1, 0.5f, -3), 0.5f);
 	s2->set_material(new Dielectric());
-	//escena.add_intersectable(s);
-	//escena.add_intersectable(s1);
-    scene->add_intersectable(s2);
+    //scene->add_intersectable(s);
+    scene->add_intersectable(s1);
+    //scene->add_intersectable(s2);
 }
 
 SceneManager::~SceneManager()
