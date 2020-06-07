@@ -1,6 +1,7 @@
 #include "Camera.h"
 
 #include <geometry/Scatterer.h>
+#include <geometry/light/AreaLight.h>
 #include <geometry/light/DirectionalLight.h>
 #include <manager/OptionsManager.h>
 #include <manager/RenderManager.h>
@@ -223,18 +224,18 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 		Vector3 emitters_color;
 		if(material->is_affected_by_shadow_rays())
 			emitters_color = get_shadow_ray_color(new_ray.get_origin(), normal, intersectables, emitters);
-		if(new_ray.get_direction().get_squared_magnitude() != 0.0f) {
+        if(new_ray.get_direction().get_squared_magnitude() != 0.0f) {
 			color = emission + material_color * (emitters_color + get_color_recursive(new_ray, intersectables, emitters, depth+1));
 		}
 		else {
 			color = emission + material_color;
 		}
-	} else {
+    } else {
 		if(OptionsManager::get_manager()->get_light_type() == OptionsManager::IMAGE_BASED_LIGHT_TYPE::GRADIENT) {
 			Vector3 unit_direction = r.get_direction().unit();
 			float t = 0.5f*(unit_direction.get_y() + 1.0f);
-			return t*OptionsManager::get_manager()->get_gradient_start_color() +
-					(1.0f-t)*OptionsManager::get_manager()->get_gradient_end_color();
+            color += (t*OptionsManager::get_manager()->get_gradient_start_color() +
+                      (1.0f-t)*OptionsManager::get_manager()->get_gradient_end_color());
 		}
 		else if(OptionsManager::get_manager()->get_light_type() == OptionsManager::IMAGE_BASED_LIGHT_TYPE::ENVIRONMENT_MAP) {
 			Image* env_map = RenderManager::get_manager()->get_environment_map();
@@ -243,7 +244,7 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 				Hit hit = env_sphere.get_intersection(r);
 				float env_map_x = hit.get_uv().get_x() * env_map->get_width();
 				float env_map_y = (1.0f-hit.get_uv().get_y()) * env_map->get_height();
-				color = env_map->get_pixel_color_bilinear_interp(env_map_x, env_map_y);
+                color += env_map->get_pixel_color_bilinear_interp(env_map_x, env_map_y);
 				color *= color;
 			}
 		}
@@ -251,22 +252,31 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 	return color * rrFactor;
 }
 
-#define SHADOW_RAYS 10
 Vector3 Camera::get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& intersectables, const std::vector<Emitter*>& emitters) const
 {
+    int num_shadow_rays = 1;
+    float total_shadow_rays = 0;
 	Vector3 color;
 	for(Emitter* e : emitters) {
-		for(int i = 0; i < SHADOW_RAYS; i++) {
+        if(dynamic_cast<AreaLight*>(e)) {
+            num_shadow_rays = 10;
+            total_shadow_rays += 10;
+        }
+        else {
+            num_shadow_rays = 1;
+            total_shadow_rays += 1;
+        }
+        for(int i = 0; i < num_shadow_rays; i++) {
 			Ray shadow_ray = e->get_shadow_ray(origin);
 			float distance_to_emitter = e->get_distance(origin);
 			Hit intersection = intersectables.get_intersection(shadow_ray);
 			if(!intersection.is_hit() ||
-			   (intersection.is_hit() && intersection.get_t() > distance_to_emitter)) {
+               (intersection.is_hit() && intersection.get_t() > distance_to_emitter)) {
 					color += e->get_emission_color(origin) * normal.dot(shadow_ray.get_direction());
 			}
 		}
 	}
-	return color/(SHADOW_RAYS * Math::Fast_Max(emitters.size(), 1));
+    return color / total_shadow_rays;
 }
 
 void Camera::recalculate_parameters()

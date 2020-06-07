@@ -18,6 +18,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     geometry/BVH/AxisAlignedBoundingBox.cpp \
     geometry/BVH/BVH.cpp \
+    geometry/BVH/BVHBuildStrategy.cpp \
+    geometry/BVH/RandomAxis.cpp \
+    geometry/BVH/SurfaceAreaHeuristic.cpp \
     geometry/Camera.cpp \
     geometry/Emitter.cpp \
     geometry/Entity.cpp \
@@ -58,6 +61,9 @@ SOURCES += \
 HEADERS += \
     geometry/BVH/AxisAlignedBoundingBox.h \
     geometry/BVH/BVH.h \
+    geometry/BVH/BVHBuildStrategy.h \
+    geometry/BVH/RandomAxis.h \
+    geometry/BVH/SurfaceAreaHeuristic.h \
     geometry/Camera.h \
     geometry/Emitter.h \
     geometry/Entity.h \

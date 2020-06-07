@@ -20,7 +20,7 @@ SceneManager::SceneManager()
 
 	scene = new Scene;
 
-	auto meshes = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\test3.obj");
+    auto meshes = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\test4.obj");
 	std::vector<Intersectable*> intersectables;
 	for(Mesh* m : meshes) {
 		intersectables.push_back(dynamic_cast<Intersectable*>(m));
@@ -56,7 +56,7 @@ SceneManager::SceneManager()
 	s2->set_material(new Dielectric());
 	//escena.add_intersectable(s);
 	//escena.add_intersectable(s1);
-	scene->add_intersectable(s2);
+    scene->add_intersectable(s2);
 }
 
 SceneManager::~SceneManager()

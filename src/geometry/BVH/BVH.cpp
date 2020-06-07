@@ -1,70 +1,15 @@
 #include "BVH.h"
+#include "RandomAxis.h"
 
 #include <algorithm>
 #include <iostream>
 
-BVH::BVH()
-{
-
-}
-
-int box_x_compare(const void* a, const void* b) {
-	Intersectable* ah = *(Intersectable**)a;
-	Intersectable* bh = *(Intersectable**)b;
-
-	AxisAlignedBoundingBox box_left = ah->get_bounding_box();
-	AxisAlignedBoundingBox box_right = bh->get_bounding_box();
-
-	if (box_left.get_min_corner().get_x() < box_right.get_min_corner().get_x())
-		return -1;
-	else
-		return 1;
-}
-
-int box_y_compare(const void* a, const void* b) {
-	Intersectable* ah = *(Intersectable**)a;
-	Intersectable* bh = *(Intersectable**)b;
-
-	AxisAlignedBoundingBox box_left = ah->get_bounding_box();
-	AxisAlignedBoundingBox box_right = bh->get_bounding_box();
-
-	if (box_left.get_min_corner().get_y() < box_right.get_min_corner().get_y())
-		return -1;
-	else
-		return 1;
-}
-
-int box_z_compare(const void* a, const void* b) {
-	Intersectable* ah = *(Intersectable**)a;
-	Intersectable* bh = *(Intersectable**)b;
-
-	AxisAlignedBoundingBox box_left = ah->get_bounding_box();
-	AxisAlignedBoundingBox box_right = bh->get_bounding_box();
-
-	if (box_left.get_min_corner().get_z() < box_right.get_min_corner().get_z())
-		return -1;
-	else
-		return 1;
-}
+BVHBuildStrategy* BVH::build_strategy = new RandomAxis();
 
 BVH::BVH(std::vector<Intersectable*> intersectables)
 {
-	int axis = static_cast<int>(Math::Randf()*3.0f);
-	int num_elem = static_cast<int>(intersectables.size());
-
-	switch(axis) {
-	case 0:
-		std::qsort(intersectables.data(), num_elem, sizeof(Intersectable*), box_x_compare);
-		break;
-	case 1:
-		std::qsort(intersectables.data(), num_elem, sizeof(Intersectable*), box_y_compare);
-		break;
-	case 2:
-		std::qsort(intersectables.data(), num_elem, sizeof(Intersectable*), box_z_compare);
-		break;
-	}
-
-	if (num_elem == 1) {
+    int num_elem = static_cast<int>(intersectables.size());
+    if (num_elem == 1) {
 		left = intersectables[0];
 		right = intersectables[0];
 		bounding_box = intersectables[0]->get_bounding_box();
@@ -74,7 +19,20 @@ BVH::BVH(std::vector<Intersectable*> intersectables)
 		left = intersectables[0];
 		right = intersectables[1];
 	}
-	else {
+    else {
+        BVHBuildStrategy::SPLIT_AXIS axis = build_strategy->get_split_axis(intersectables);
+
+        switch(axis) {
+        case BVHBuildStrategy::SPLIT_AXIS::X_AXIS:
+            std::qsort(intersectables.data(), num_elem, sizeof(Intersectable*), AxisAlignedBoundingBox::box_x_compare);
+            break;
+        case BVHBuildStrategy::SPLIT_AXIS::Y_AXIS:
+            std::qsort(intersectables.data(), num_elem, sizeof(Intersectable*), AxisAlignedBoundingBox::box_y_compare);
+            break;
+        case BVHBuildStrategy::SPLIT_AXIS::Z_AXIS:
+            std::qsort(intersectables.data(), num_elem, sizeof(Intersectable*), AxisAlignedBoundingBox::box_z_compare);
+            break;
+        }
 		int half_size = num_elem / 2;
 		auto half = intersectables.begin() + half_size;
 
@@ -144,14 +102,24 @@ Entity* BVH::get_intersectable(const Ray& ray) const
 		}
 		return nullptr;
 	}
-	return nullptr;
+    return nullptr;
 }
 
-int BVH::count() const
+int BVH::get_num_nodes() const
+{
+    BVH* l = dynamic_cast<BVH*>(left);
+    BVH* r = dynamic_cast<BVH*>(right);
+    int num_nodes = 1;
+    if(l) num_nodes += l->get_num_nodes();
+    if(r) num_nodes += r->get_num_nodes();
+    return num_nodes;
+}
+
+int BVH::get_num_intersectables() const
 {
 	BVH* l = dynamic_cast<BVH*>(left);
 	BVH* r = dynamic_cast<BVH*>(right);
-	if(l && r) return l->count() + r->count();
+    if(l && r) return l->get_num_intersectables() + r->get_num_intersectables();
 	else if (!l && !r && l != r) return 2;
 	return 1;
 }

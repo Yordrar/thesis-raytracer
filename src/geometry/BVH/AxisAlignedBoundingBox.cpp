@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include <geometry/Intersectable.h>
+
 AxisAlignedBoundingBox::AxisAlignedBoundingBox()
 {
 
@@ -12,6 +14,15 @@ AxisAlignedBoundingBox::AxisAlignedBoundingBox(Vector3 min, Vector3 max)
 	  max_corner(max)
 {
 
+}
+
+float AxisAlignedBoundingBox::get_surface_area() const
+{
+    float xy_plane_area = (max_corner.get_x() - min_corner.get_x()) * (max_corner.get_y() - min_corner.get_y());
+    float xz_plane_area = (max_corner.get_x() - min_corner.get_x()) * (max_corner.get_z() - min_corner.get_z());
+    float yz_plane_area = (max_corner.get_y() - min_corner.get_y()) * (max_corner.get_z() - min_corner.get_z());
+
+    return 2*xy_plane_area + 2*xz_plane_area + 2*yz_plane_area;
 }
 
 bool AxisAlignedBoundingBox::hit(const Ray& ray, float tmin, float tmax) const
@@ -46,4 +57,43 @@ AxisAlignedBoundingBox AxisAlignedBoundingBox::surrounding_box(AxisAlignedBoundi
 {
 	return AxisAlignedBoundingBox(box0.get_min_corner().min(box1.get_min_corner()),
 								  box0.get_max_corner().max(box1.get_max_corner()));
+}
+
+int AxisAlignedBoundingBox::box_x_compare(const void* a, const void* b) {
+    Intersectable* ah = *(Intersectable**)a;
+    Intersectable* bh = *(Intersectable**)b;
+
+    AxisAlignedBoundingBox box_left = ah->get_bounding_box();
+    AxisAlignedBoundingBox box_right = bh->get_bounding_box();
+
+    if (box_left.get_min_corner().get_x() < box_right.get_min_corner().get_x())
+        return -1;
+    else
+        return 1;
+}
+
+int AxisAlignedBoundingBox::box_y_compare(const void* a, const void* b) {
+    Intersectable* ah = *(Intersectable**)a;
+    Intersectable* bh = *(Intersectable**)b;
+
+    AxisAlignedBoundingBox box_left = ah->get_bounding_box();
+    AxisAlignedBoundingBox box_right = bh->get_bounding_box();
+
+    if (box_left.get_min_corner().get_y() < box_right.get_min_corner().get_y())
+        return -1;
+    else
+        return 1;
+}
+
+int AxisAlignedBoundingBox::box_z_compare(const void* a, const void* b) {
+    Intersectable* ah = *(Intersectable**)a;
+    Intersectable* bh = *(Intersectable**)b;
+
+    AxisAlignedBoundingBox box_left = ah->get_bounding_box();
+    AxisAlignedBoundingBox box_right = bh->get_bounding_box();
+
+    if (box_left.get_min_corner().get_z() < box_right.get_min_corner().get_z())
+        return -1;
+    else
+        return 1;
 }

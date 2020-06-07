@@ -193,16 +193,15 @@ void MainWindow::update_render_viewport()
 		taskbar_button->progress()->setValue(qRound((static_cast<float>(samples_rendered) / (width * height)) * 100));
 	}
 
-	emit update_render_progress(samples_rendered);
-
 	if(RenderManager::get_manager()->is_render_finished()) {
 		ui->centralwidget->findChild<QPushButton*>("start_render_button")->setEnabled(true);
 		ui->centralwidget->findChild<QPushButton*>("cancel_render_button")->setEnabled(false);
 		render_timer->stop();
 		taskbar_button->progress()->reset();
 		QApplication::alert(this);
-		emit update_render_progress(samples_rendered);
 	}
+
+	emit update_render_progress(samples_rendered);
 }
 
 void MainWindow::cancel_render()
