@@ -13,7 +13,7 @@ public:
 	virtual ~Material() = 0;
 
 	inline Vector3 get_albedo() const {return albedo;}
-	inline void set_albedo(const Vector3& new_albedo) {albedo = new_albedo;}
+    inline void set_albedo(const Vector3& new_albedo) {albedo = new_albedo;}
 
 	inline Image* get_texture_map() const {return texture_map;}
 	virtual inline void set_texture_map(Image* value) {
@@ -48,7 +48,7 @@ public:
 	virtual Ray scatter(const Ray& ray, float t, const Vector3& normal, float roughness, float metallicity) = 0;
 	virtual Vector3 get_emission_color(const Ray& ray, float t, const Vector3& normal);
 
-	virtual Vector3 get_color(const Vector3& uv, const Vector3& normal, const std::vector<Vector3>& light_vectors, const Vector3& view_vector) const;
+    virtual Vector3 get_color(const Vector3& uv, const Vector3& normal, const std::vector<Vector3>& light_vectors, const Vector3& view_vector) const;
 	virtual Vector3 get_normal(const Vector3& uv) const;
 	float get_roughness_from_map(const Vector3& uv) const;
 	float get_metallicity_from_map(const Vector3& uv) const;

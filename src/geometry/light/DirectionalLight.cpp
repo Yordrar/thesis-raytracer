@@ -14,7 +14,7 @@ DirectionalLight::~DirectionalLight()
 
 Vector3 DirectionalLight::get_emission_color(Vector3 _position) const
 {
-	return albedo;
+    return albedo;
 }
 
 Ray DirectionalLight::get_shadow_ray(Vector3 position) const

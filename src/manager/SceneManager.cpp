@@ -6,17 +6,18 @@
 #include <geometry/light/PointLight.h>
 #include <geometry/mesh/MeshImporter.h>
 
+#include <material/BlinnPhong.h>
 #include <material/Dielectric.h>
 #include <material/Emissive.h>
 #include <material/Lambertian.h>
+#include <material/Metal.h>
 
 SceneManager* SceneManager::instance = nullptr;
 
 SceneManager::SceneManager()
 {
-	camera = new Camera;
-    camera->translate_global(-0.1f, 1, 2);
-	camera->rotate(-20, 0, 0);
+    camera = new Camera;
+    camera->translate_global(2.5f, 0, 65);
 
 	scene = new Scene;
 /*
@@ -32,19 +33,19 @@ SceneManager::SceneManager()
 	PointLight* l3 = new PointLight(Vector3(255, 255, 255), 80);
 	DirectionalLight* l4 = new DirectionalLight(Vector3(255));
 	PointLight* l5 = new PointLight(Vector3(255, 255, 255), 80);
-	AreaLight* l6 = new AreaLight(Vector3(255), 40);
+    AreaLight* l6 = new AreaLight(Vector3(248, 222, 126), 10);
 	l1->set_position(Vector3(-2, 1, -2));
 	l2->set_position(Vector3(-2, 1, -8));
 	l3->set_position(Vector3(-2, 1, -14));
 	l5->set_position(Vector3(3, 3, -1));
-	l6->set_position(Vector3(0, 2, -4));
-	l6->rotate_global(90, 0, 0);
+    l6->set_position(Vector3(0, 7.9f, 0));
+    l6->rotate_global(90, 0, 0);
 	//scene->add_emitter(l1);
 	//scene->add_emitter(l2);
 	//scene->add_emitter(l3);
-    //scene->add_emitter(l4);
+    scene->add_emitter(l4);
 	//scene->add_emitter(l5);
-	//scene->add_emitter(l6);
+    //scene->add_emitter(l6);
 
 	Sphere* s = new Sphere(Vector3(0, -100.5f, -1), 100);
 	s->set_material(new Lambertian(Vector3(128)));
@@ -55,8 +56,31 @@ SceneManager::SceneManager()
 	Sphere* s2 = new Sphere(Vector3(1, 0.5f, -3), 0.5f);
 	s2->set_material(new Dielectric());
     //scene->add_intersectable(s);
-    scene->add_intersectable(s1);
+    //scene->add_intersectable(s1);
     //scene->add_intersectable(s2);
+
+    Sphere* m6 = new Sphere(Vector3(-50, 0, 0), 5);m6->set_material(new BlinnPhong());m6->get_material()->set_reflectance(0);m6->get_material()->set_albedo(Vector3(1,0,0));
+    Sphere* m5 = new Sphere(Vector3(-40, 0, 0), 5);m5->set_material(new BlinnPhong());m5->get_material()->set_reflectance(0.1f);m5->get_material()->set_albedo(Vector3(1,0,0));
+    Sphere* m4 = new Sphere(Vector3(-30, 0, 0), 5);m4->set_material(new BlinnPhong());m4->get_material()->set_reflectance(0.2f);m4->get_material()->set_albedo(Vector3(1,0,0));
+    Sphere* m3 = new Sphere(Vector3(-20, 0, 0), 5);m3->set_material(new BlinnPhong());m3->get_material()->set_reflectance(0.3f);m3->get_material()->set_albedo(Vector3(1,0,0));
+    Sphere* m2 = new Sphere(Vector3(-10, 0, 0), 5);m2->set_material(new BlinnPhong());m2->get_material()->set_reflectance(0.4f);m2->get_material()->set_albedo(Vector3(1,0,0));
+    Sphere* m1 = new Sphere(Vector3(), 5);m1->set_material(new BlinnPhong());m1->get_material()->set_reflectance(0.5f);m1->get_material()->set_albedo(Vector3(1,0,0));
+    Sphere* m7 = new Sphere(Vector3(10, 0, 0), 5);m7->set_material(new BlinnPhong());m7->get_material()->set_reflectance(0.6f);m7->get_material()->set_albedo(Vector3(1,0,0));
+    Sphere* m8 = new Sphere(Vector3(20, 0, 0), 5);m8->set_material(new BlinnPhong());m8->get_material()->set_reflectance(0.7f);m8->get_material()->set_albedo(Vector3(1,0,0));
+    Sphere* m9 = new Sphere(Vector3(30, 0, 0), 5);m9->set_material(new BlinnPhong());m9->get_material()->set_reflectance(0.8f);m9->get_material()->set_albedo(Vector3(1,0,0));
+    Sphere* m10 = new Sphere(Vector3(40, 0, 0), 5);m10->set_material(new BlinnPhong());m10->get_material()->set_reflectance(0.9f);m10->get_material()->set_albedo(Vector3(1,0,0));
+    Sphere* m11 = new Sphere(Vector3(50, 0, 0), 5);m11->set_material(new BlinnPhong());m11->get_material()->set_reflectance(1);m11->get_material()->set_albedo(Vector3(1,0,0));
+    scene->add_intersectable(m1);
+    scene->add_intersectable(m2);
+    scene->add_intersectable(m3);
+    scene->add_intersectable(m4);
+    scene->add_intersectable(m5);
+    scene->add_intersectable(m6);
+    scene->add_intersectable(m7);
+    scene->add_intersectable(m8);
+    scene->add_intersectable(m9);
+    scene->add_intersectable(m10);
+    scene->add_intersectable(m11);
 }
 
 SceneManager::~SceneManager()

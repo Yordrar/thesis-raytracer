@@ -25,5 +25,6 @@ public:
 private:
 	float intensity;
 	float size = 1;
+    Vector3 normal;
 };
 

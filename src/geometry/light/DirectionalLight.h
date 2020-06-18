@@ -7,7 +7,7 @@
 class DirectionalLight : public Emitter
 {
 public:
-	DirectionalLight(Vector3 albedo = Vector3(255, 255, 255), Vector3 direction = Vector3(-1));
+    DirectionalLight(Vector3 albedo = Vector3(255, 255, 255), Vector3 direction = Vector3(-1));
 	~DirectionalLight() override;
 
 	// Emitter interface

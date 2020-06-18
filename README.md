@@ -28,6 +28,10 @@ There are still some features I'm working on, such as a scene hierarchy view and
 
 These are some example renders I made with this software.
 
+![cornell_box](/renders/cornell_box.png)
+
+Typical Cornell Box with one area light
+
 ![panoramic_metal](/renders/panoramic_metal.png)
 
 Environment map with a glass of crystal and a metal ball

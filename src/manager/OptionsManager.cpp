@@ -90,12 +90,12 @@ void OptionsManager::set_gradient_start_color(const Vector3& value)
 	gradient_start_color = value/255;
 }
 
-OptionsManager::IMAGE_BASED_LIGHT_TYPE OptionsManager::get_light_type() const
+OptionsManager::IMAGE_BASED_LIGHTNING_TYPE OptionsManager::get_light_type() const
 {
 	return light_type;
 }
 
-void OptionsManager::set_light_type(const IMAGE_BASED_LIGHT_TYPE& value)
+void OptionsManager::set_light_type(const IMAGE_BASED_LIGHTNING_TYPE& value)
 {
 	light_type = value;
 }

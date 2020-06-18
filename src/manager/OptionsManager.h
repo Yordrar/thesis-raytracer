@@ -10,13 +10,13 @@ public:
 	~OptionsManager();
 	static OptionsManager* get_manager();
 
-	enum class IMAGE_BASED_LIGHT_TYPE {
+    enum class IMAGE_BASED_LIGHTNING_TYPE {
 		GRADIENT,
 		ENVIRONMENT_MAP,
 	};
 
-	IMAGE_BASED_LIGHT_TYPE get_light_type() const;
-	void set_light_type(const IMAGE_BASED_LIGHT_TYPE& value);
+    IMAGE_BASED_LIGHTNING_TYPE get_light_type() const;
+    void set_light_type(const IMAGE_BASED_LIGHTNING_TYPE& value);
 
 	Vector3 get_gradient_start_color() const;
 	void set_gradient_start_color(const Vector3& value);
@@ -43,11 +43,11 @@ private:
 	OptionsManager();
 	static OptionsManager* instance;
 
-	IMAGE_BASED_LIGHT_TYPE light_type = IMAGE_BASED_LIGHT_TYPE::GRADIENT;
+    IMAGE_BASED_LIGHTNING_TYPE light_type = IMAGE_BASED_LIGHTNING_TYPE::GRADIENT;
 	Vector3 gradient_start_color, gradient_end_color;
 	Image* environment_map = nullptr;
 
 
-	float camera_move_velocity = 0.1f, camera_zoom_velocity = 0.5f, camera_aperture = 0, camera_focus_distance = 1;
+    float camera_move_velocity = 0.1f, camera_zoom_velocity = 5, camera_aperture = 0, camera_focus_distance = 1;
 };
 

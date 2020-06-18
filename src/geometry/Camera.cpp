@@ -8,6 +8,8 @@
 #include <material/Dielectric.h>
 #include <material/Metal.h>
 
+#include <iostream>
+
 Camera::Camera(int width, int height, float vertical_fov)
 	: Entity(),
 	  width(width),
@@ -174,13 +176,13 @@ Camera* Camera::get_copy()
 
 Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth) const
 {
-	double rrFactor = 1.0f;
+    float rrFactor = 1.0f;
 	if (depth >= 5) {
-		const double rrStopProbability = 0.1f;
+        const float rrStopProbability = 0.1f;
 		if (Math::Randf() <= rrStopProbability) {
 			return Vector3();
 		}
-		rrFactor = 1.0f / (1.0f - rrStopProbability);
+        rrFactor = 1.0f / (1.0f - rrStopProbability);
 	}
 
 	Vector3 color;
@@ -204,10 +206,17 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 			}
 
 			std::vector<Vector3> light_vectors;
-			for(Emitter* e : emitters) {
-				light_vectors.push_back(e->get_shadow_ray(r.get_point(intersection.get_t())).get_direction().unit());
+            for(Emitter* e : emitters) {
+                Vector3 light_vector = e->get_shadow_ray(r.get_point(intersection.get_t())).get_direction().unit();
+                Ray ray(r.get_point(t), light_vector);
+                Hit intersection = intersectables.get_intersection(ray);
+                if(!intersection.is_hit() ||
+                   (intersection.is_hit() && intersection.get_t() > e->get_distance(r.get_point(t)))) {
+                    if(normal.dot(ray.get_direction()) > 0.0f)
+                        light_vectors.push_back(light_vector);
+                }
 			}
-			material_color = material->get_color(uv, normal, light_vectors, -r.get_direction().unit());
+            material_color = material->get_color(uv, normal, light_vectors, -r.get_direction().unit());
 
 			roughness = material->get_roughness_from_map(intersection.get_uv());
 			metallicity = material->get_metallicity_from_map(intersection.get_uv());
@@ -230,13 +239,13 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 			color = emission + material_color;
 		}
     } else {
-		if(OptionsManager::get_manager()->get_light_type() == OptionsManager::IMAGE_BASED_LIGHT_TYPE::GRADIENT) {
+        if(OptionsManager::get_manager()->get_light_type() == OptionsManager::IMAGE_BASED_LIGHTNING_TYPE::GRADIENT) {
 			Vector3 unit_direction = r.get_direction().unit();
 			float t = 0.5f*(unit_direction.get_y() + 1.0f);
             color += (t*OptionsManager::get_manager()->get_gradient_start_color() +
                       (1.0f-t)*OptionsManager::get_manager()->get_gradient_end_color());
 		}
-		else if(OptionsManager::get_manager()->get_light_type() == OptionsManager::IMAGE_BASED_LIGHT_TYPE::ENVIRONMENT_MAP) {
+        else if(OptionsManager::get_manager()->get_light_type() == OptionsManager::IMAGE_BASED_LIGHTNING_TYPE::ENVIRONMENT_MAP) {
 			Image* env_map = RenderManager::get_manager()->get_environment_map();
 			if(env_map) {
 				Sphere env_sphere(r.get_origin(), -100000);
@@ -253,13 +262,13 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 
 Vector3 Camera::get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& intersectables, const std::vector<Emitter*>& emitters) const
 {
-    int num_shadow_rays = 1;
+    int num_shadow_rays = 0;
     float total_shadow_rays = 0;
     Vector3 color(0);
 	for(Emitter* e : emitters) {
         if(dynamic_cast<AreaLight*>(e)) {
-            num_shadow_rays = 10;
-            total_shadow_rays += 10;
+            num_shadow_rays = 20;
+            total_shadow_rays += 20;
         }
         else {
             num_shadow_rays = 1;
@@ -271,7 +280,8 @@ Vector3 Camera::get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& 
 			Hit intersection = intersectables.get_intersection(shadow_ray);
 			if(!intersection.is_hit() ||
                (intersection.is_hit() && intersection.get_t() > distance_to_emitter)) {
-					color += e->get_emission_color(origin) * normal.dot(shadow_ray.get_direction());
+                if(normal.dot(shadow_ray.get_direction()) > 0.0f)
+                    color += e->get_emission_color(origin) * normal.dot(shadow_ray.get_direction());
 			}
 		}
 	}

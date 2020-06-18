@@ -218,13 +218,13 @@ void RenderOptions::on_end_color_z_textEdited(const QString &arg1)
 void RenderOptions::on_gradient_toggled(bool checked)
 {
 	if(checked)
-		OptionsManager::get_manager()->set_light_type(OptionsManager::IMAGE_BASED_LIGHT_TYPE::GRADIENT);
+		OptionsManager::get_manager()->set_light_type(OptionsManager::IMAGE_BASED_LIGHTNING_TYPE::GRADIENT);
 }
 
 void RenderOptions::on_environment_map_toggled(bool checked)
 {
 	if(checked)
-		OptionsManager::get_manager()->set_light_type(OptionsManager::IMAGE_BASED_LIGHT_TYPE::ENVIRONMENT_MAP);
+		OptionsManager::get_manager()->set_light_type(OptionsManager::IMAGE_BASED_LIGHTNING_TYPE::ENVIRONMENT_MAP);
 }
 
 void RenderOptions::on_open_environment_clicked()
