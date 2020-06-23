@@ -11,10 +11,8 @@ public:
 
 	inline Vector3 get_min_corner() const {return min_corner;}
 	inline Vector3 get_max_corner() const {return max_corner;}
-	inline void set_min_corner(const Vector3& min) {min_corner = min;}
-	inline void set_max_corner(const Vector3& max) {max_corner = max;}
 
-    float get_surface_area() const;
+	inline float get_surface_area() const {return surface_area;}
 
 	bool hit(const Ray& ray, float tmin, float tmax) const;
 
@@ -25,5 +23,7 @@ public:
 
 private:
 	Vector3 min_corner, max_corner;
+	float calculate_surface_area() const;
+	float surface_area;
 };
 

@@ -1,12 +1,11 @@
 #include "BVH.h"
 #include "RandomAxis.h"
+#include "SurfaceAreaHeuristic.h"
 
 #include <algorithm>
 #include <iostream>
 
-BVHBuildStrategy* BVH::build_strategy = new RandomAxis();
-
-BVH::BVH(std::vector<Intersectable*> intersectables)
+BVH::BVH(std::vector<Intersectable*> intersectables, BVHBuildStrategy* strategy)
 {
 	int num_elem = static_cast<int>(intersectables.size());
     if (num_elem == 1) {
@@ -20,9 +19,9 @@ BVH::BVH(std::vector<Intersectable*> intersectables)
 		right = intersectables[1];
 	}
     else {
-		BVHBuildStrategy::SPLIT_AXIS axis = build_strategy->get_split_axis(intersectables);
+		std::pair<int, BVHBuildStrategy::SPLIT_AXIS> axis = strategy->get_split_axis(intersectables);
 
-		switch(axis) {
+		switch(axis.second) {
         case BVHBuildStrategy::SPLIT_AXIS::X_AXIS:
             std::qsort(intersectables.data(), num_elem, sizeof(Intersectable*), AxisAlignedBoundingBox::box_x_compare);
             break;
@@ -32,15 +31,14 @@ BVH::BVH(std::vector<Intersectable*> intersectables)
         case BVHBuildStrategy::SPLIT_AXIS::Z_AXIS:
             std::qsort(intersectables.data(), num_elem, sizeof(Intersectable*), AxisAlignedBoundingBox::box_z_compare);
             break;
-        }
-		int half_size = num_elem / 2;
-		auto half = intersectables.begin() + half_size;
+		}
+		auto half = intersectables.begin() + axis.first;
 
 		std::vector<Intersectable*> left_half(intersectables.begin(), half);
-		left = new BVH(left_half);
+		left = new BVH(left_half, strategy);
 
 		std::vector<Intersectable*> right_half(half, intersectables.end());
-		right = new BVH(right_half);
+		right = new BVH(right_half, strategy);
 	}
 
 	AxisAlignedBoundingBox box_left = left->get_bounding_box();
@@ -121,5 +119,5 @@ int BVH::get_num_intersectables() const
 	BVH* r = dynamic_cast<BVH*>(right);
     if(l && r) return l->get_num_intersectables() + r->get_num_intersectables();
 	else if (!l && !r && l != r) return 2;
-	return 1;
+	else if (!l && !r) return 1;
 }

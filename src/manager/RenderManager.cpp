@@ -14,6 +14,8 @@
 #include <renderer/CPURenderer.h>
 #include <renderer/EditModeRenderer.h>
 
+#include <geometry/BVH/RandomAxis.h>
+
 RenderManager* RenderManager::instance = nullptr;
 
 RenderManager::RenderManager()
@@ -169,7 +171,9 @@ RenderManager::MATERIAL_TYPE RenderManager::get_material() const
 
 void RenderManager::make_selection(int x, int y)
 {
-	BVH hierarchy(SceneManager::get_manager()->get_scene()->get_intersectables());
+	BVHBuildStrategy* strategy = new RandomAxis();
+	BVH hierarchy(SceneManager::get_manager()->get_scene()->get_intersectables(), strategy);
+	delete dynamic_cast<RandomAxis*>(strategy);
 	entity_selected = SceneManager::get_manager()->get_camera()->get_object(x, y, hierarchy);
 }
 

@@ -7,6 +7,9 @@
 
 #include <material/Lambertian.h>
 
+#include <geometry/BVH/RandomAxis.h>
+#include <geometry/BVH/SurfaceAreaHeuristic.h>
+
 Mesh::Mesh(std::vector<Triangle> triangles)
 {
 	this->triangles = triangles;
@@ -15,7 +18,17 @@ Mesh::Mesh(std::vector<Triangle> triangles)
 		tris.push_back(&t);
 		position += ((t.get_vertex0() + t.get_vertex1() + t.get_vertex2()) / 3) / this->triangles.size();
 	}
-	tri_hierarchy = new BVH(tris);
+	std::cout << "Building mesh BVH with " << this->triangles.size() << " triangles..." << std::endl;
+	std::chrono::steady_clock::time_point bvh_begin = std::chrono::steady_clock::now();
+	BVHBuildStrategy* strategy = new SurfaceAreaHeuristic();
+	tri_hierarchy = new BVH(tris, strategy);
+	delete dynamic_cast<SurfaceAreaHeuristic*>(strategy);
+	std::chrono::steady_clock::time_point bvh_end = std::chrono::steady_clock::now();
+	std::cout << "BVH built with: " << tri_hierarchy->get_num_nodes()
+			  << " internal nodes and " << tri_hierarchy->get_num_intersectables()
+			  << " leaf nodes" <<
+			  " in " << std::chrono::duration_cast<std::chrono::milliseconds>(bvh_end - bvh_begin).count() << " ms " << std::endl<<std::endl;
+
 	material = new Lambertian;
 }
 
@@ -66,7 +79,9 @@ void Mesh::translate_global(float delta_x, float delta_y, float delta_z)
 		tris.push_back(&t);
 	}
 	delete tri_hierarchy;
-	tri_hierarchy = new BVH(tris);
+	BVHBuildStrategy* strategy = new RandomAxis();
+	tri_hierarchy = new BVH(tris, strategy);
+	delete dynamic_cast<RandomAxis*>(strategy);
 }
 
 void Mesh::rotate_global(float euler_x, float euler_y, float euler_z)
@@ -86,5 +101,7 @@ void Mesh::rotate_global(float euler_x, float euler_y, float euler_z)
 		tris.push_back(&t);
 	}
 	delete tri_hierarchy;
-	tri_hierarchy = new BVH(tris);
+	BVHBuildStrategy* strategy = new RandomAxis();
+	tri_hierarchy = new BVH(tris, strategy);
+	delete dynamic_cast<RandomAxis*>(strategy);
 }

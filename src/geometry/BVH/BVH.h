@@ -11,7 +11,7 @@
 class BVH : public Intersectable
 {
 public:
-    BVH(std::vector<Intersectable*> intersectables);
+	BVH(std::vector<Intersectable*> intersectables, BVHBuildStrategy* strategy);
 	~BVH() override;
 
 	Hit get_intersection(const Ray& ray) const override;
@@ -20,12 +20,8 @@ public:
     int get_num_nodes() const;
     int get_num_intersectables() const;
 
-    inline static void set_build_strategy(BVHBuildStrategy* strategy) {build_strategy = strategy;}
-
 private:
 	Intersectable* left;
 	Intersectable* right;
-
-    static BVHBuildStrategy* build_strategy;
 };
 

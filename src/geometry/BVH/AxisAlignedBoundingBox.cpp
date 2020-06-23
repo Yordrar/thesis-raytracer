@@ -13,16 +13,7 @@ AxisAlignedBoundingBox::AxisAlignedBoundingBox(Vector3 min, Vector3 max)
 	: min_corner(min),
 	  max_corner(max)
 {
-
-}
-
-float AxisAlignedBoundingBox::get_surface_area() const
-{
-    float xy_plane_area = (max_corner.get_x() - min_corner.get_x()) * (max_corner.get_y() - min_corner.get_y());
-    float xz_plane_area = (max_corner.get_x() - min_corner.get_x()) * (max_corner.get_z() - min_corner.get_z());
-    float yz_plane_area = (max_corner.get_y() - min_corner.get_y()) * (max_corner.get_z() - min_corner.get_z());
-
-    return 2*xy_plane_area + 2*xz_plane_area + 2*yz_plane_area;
+	surface_area = calculate_surface_area();
 }
 
 bool AxisAlignedBoundingBox::hit(const Ray& ray, float tmin, float tmax) const
@@ -95,5 +86,14 @@ int AxisAlignedBoundingBox::box_z_compare(const void* a, const void* b) {
     if (box_left.get_min_corner().get_z() < box_right.get_min_corner().get_z())
         return -1;
     else
-        return 1;
+		return 1;
+}
+
+float AxisAlignedBoundingBox::calculate_surface_area() const
+{
+	float xy_plane_area = (max_corner.get_x() - min_corner.get_x()) * (max_corner.get_y() - min_corner.get_y());
+	float xz_plane_area = (max_corner.get_x() - min_corner.get_x()) * (max_corner.get_z() - min_corner.get_z());
+	float yz_plane_area = (max_corner.get_y() - min_corner.get_y()) * (max_corner.get_z() - min_corner.get_z());
+
+	return 2*(xy_plane_area + xz_plane_area + yz_plane_area);
 }

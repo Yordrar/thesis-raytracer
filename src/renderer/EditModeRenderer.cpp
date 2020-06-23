@@ -4,6 +4,8 @@
 #include <iostream>
 #include <omp.h>
 
+#include <geometry/BVH/RandomAxis.h>
+
 Image EditModeRenderer::render(const Scene* scene, Camera* camera, Entity* entity_selected)
 {
 	auto intersectables = scene->get_intersectables();
@@ -18,7 +20,9 @@ Image EditModeRenderer::render(const Scene* scene, Camera* camera, Entity* entit
 		return framebuffer;
 	}
 
-	BVH hierarchy(intersectables);
+	BVHBuildStrategy* strategy = new RandomAxis();
+	BVH hierarchy(intersectables, strategy);
+	delete dynamic_cast<RandomAxis*>(strategy);
 
 	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 	#pragma omp parallel for collapse(2) schedule(dynamic) shared(framebuffer)

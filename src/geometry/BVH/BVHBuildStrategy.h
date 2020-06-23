@@ -2,6 +2,8 @@
 
 #include <geometry/Intersectable.h>
 
+#include <utility>
+
 class BVHBuildStrategy
 {
 protected:
@@ -15,5 +17,5 @@ public:
         Z_AXIS
     };
 
-	virtual SPLIT_AXIS get_split_axis(std::vector<Intersectable*>& intersectables) const = 0;
+	virtual std::pair<int, SPLIT_AXIS> get_split_axis(std::vector<Intersectable*>& intersectables) const = 0;
 };

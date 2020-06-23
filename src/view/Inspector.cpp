@@ -267,7 +267,7 @@ void Inspector::on_open_texture_clicked()
 	if(filename.isNull()) return;
 	ui->texture_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(ui->texture_view->width(),
 																		   ui->texture_view->height())));
-	RenderManager::get_manager()->set_texture_map(filename);
+	RenderManager::get_manager()->set_texture_map(filename.toLatin1().constData());
 }
 
 void Inspector::on_open_normal_clicked()
@@ -281,7 +281,7 @@ void Inspector::on_open_normal_clicked()
 	if(filename.isNull()) return;
 	ui->normal_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(ui->normal_view->width(),
 																		  ui->normal_view->height())));
-	RenderManager::get_manager()->set_normal_map(filename);
+	RenderManager::get_manager()->set_normal_map(filename.toLatin1().constData());
 }
 
 void Inspector::on_material_selector_currentIndexChanged(int index)
@@ -548,7 +548,7 @@ void Inspector::on_open_roughness_clicked()
 	if(filename.isNull()) return;
 	ui->roughness_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(ui->roughness_view->width(),
 																			 ui->roughness_view->height())));
-	RenderManager::get_manager()->set_roughness_map(filename);
+	RenderManager::get_manager()->set_roughness_map(filename.toLatin1().constData());
 }
 
 void Inspector::on_open_metallicity_clicked()
@@ -562,7 +562,7 @@ void Inspector::on_open_metallicity_clicked()
 	if(filename.isNull()) return;
 	ui->metallicity_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(ui->metallicity_view->width(),
 																			   ui->metallicity_view->height())));
-	RenderManager::get_manager()->set_metallicity_map(filename);
+	RenderManager::get_manager()->set_metallicity_map(filename.toLatin1().constData());
 }
 
 void Inspector::on_open_ao_clicked()
@@ -576,5 +576,5 @@ void Inspector::on_open_ao_clicked()
 	if(filename.isNull()) return;
 	ui->ao_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(ui->ao_view->width(),
 																	  ui->ao_view->height())));
-	RenderManager::get_manager()->set_ao_map(filename);
+	RenderManager::get_manager()->set_ao_map(filename.toLatin1().constData());
 }

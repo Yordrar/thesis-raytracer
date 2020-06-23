@@ -236,7 +236,7 @@ void RenderOptions::on_open_environment_clicked()
 	if(filename.isNull()) return;
 	ui->environment_view->setPixmap(QPixmap::fromImage(QImage(filename).scaled(ui->environment_view->width(),
 																			   ui->environment_view->height())));
-	RenderManager::get_manager()->set_environment_map(filename);
+	RenderManager::get_manager()->set_environment_map(filename.toLatin1().constData());
 }
 
 void RenderOptions::on_open_color_dialog_start_clicked()
