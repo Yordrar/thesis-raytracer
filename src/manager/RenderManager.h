@@ -4,8 +4,7 @@
 #include <geometry/Scene.h>
 #include <renderer/CPURenderer.h>
 
-#include <QImage>
-#include <QString>
+#include <string>
 
 class RenderManager
 {
@@ -23,28 +22,28 @@ public:
 	inline Entity* get_entity_selected() {return entity_selected;}
 
 	Image* get_texture_map() const;
-	inline void set_texture_map(QString filename) const {
-		dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_texture_map(new Image(filename.toUtf8().constData()));
+	inline void set_texture_map(std::string filename) const {
+		dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_texture_map(new Image(filename));
 	}
 
 	Image* get_normal_map() const;
-	inline void set_normal_map(QString filename) const {
-		dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_normal_map(new Image(filename.toUtf8().constData()));
+	inline void set_normal_map(std::string filename) const {
+		dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_normal_map(new Image(filename));
 	}
 
 	Image* get_roughness_map() const;
-	inline void set_roughness_map(QString filename) const {
-		dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_roughness_map(new Image(filename.toUtf8().constData()));
+	inline void set_roughness_map(std::string filename) const {
+		dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_roughness_map(new Image(filename));
 	}
 
 	Image* get_metallicity_map() const;
-	inline void set_metallicity_map(QString filename) const {
-		dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_metallicity_map(new Image(filename.toUtf8().constData()));
+	inline void set_metallicity_map(std::string filename) const {
+		dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_metallicity_map(new Image(filename));
 	}
 
 	Image* get_ao_map() const;
-	inline void set_ao_map(QString filename) const {
-		dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_ao_map(new Image(filename.toUtf8().constData()));
+	inline void set_ao_map(std::string filename) const {
+		dynamic_cast<Scatterer*>(entity_selected)->get_material()->set_ao_map(new Image(filename));
 	}
 
 	enum class MATERIAL_TYPE {
@@ -87,9 +86,9 @@ public:
 	int get_samples_rendered() const {return CPURenderer::get_renderer()->get_samples_rendered();}
 
 	inline Image* get_environment_map() const {return environment_map;}
-	inline void set_environment_map(QString filename) {
+	inline void set_environment_map(std::string filename) {
 		if(environment_map) delete environment_map;
-		environment_map = new Image(filename.toUtf8().constData());
+		environment_map = new Image(filename);
 	}
 
 private:

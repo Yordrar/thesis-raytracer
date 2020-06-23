@@ -49,12 +49,12 @@ void Camera::set_width_and_height(int new_width, int new_height)
 	}
 }
 
-Vector3 Camera::get_color(float x, float y, const BVH& intersectables, const std::vector<Emitter*>& emitters) const
+Vector3 Camera::get_color(float x, float y, const BVH& intersectables, const std::vector<Emitter*>& emitters, const std::vector<Intersectable*>& inter) const
 {
 	float u = x / float(width);
 	float v = y / float(height);
 	Ray r = get_ray(u, v);
-	return get_color_recursive(r, intersectables, emitters, 0).clamp(0, 1);
+	return get_color_recursive(r, intersectables, emitters, 0, inter).clamp(0, 1);
 }
 
 #define DEFAULT_EDIT_MODE_BGND_COLOR 0.1f
@@ -174,7 +174,7 @@ Camera* Camera::get_copy()
 	return cam;
 }
 
-Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth) const
+Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth, const std::vector<Intersectable*>& inter) const
 {
     float rrFactor = 1.0f;
 	if (depth >= 5) {
@@ -186,7 +186,26 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 	}
 
 	Vector3 color;
+#if 1
 	Hit intersection = intersectables.get_intersection(r);
+#else
+	Hit intersection(false, nullptr, Vector3(), FLT_MAX);
+	for(Intersectable* i : inter) {
+		Hit hit = i->get_intersection(r);
+		if(hit.is_hit() && hit.get_t() <= intersection.get_t()) {
+			intersection = hit;
+		}
+	}
+#endif
+	for(Emitter* e : emitters) {
+		AreaLight* light = dynamic_cast<AreaLight*>(e);
+		if(light && r.get_direction().dot(light->get_normal()) != 0.0f) {
+			float d = (light->get_position() - r.get_origin()).dot(light->get_normal()) / r.get_direction().dot(light->get_normal());
+			if((r.get_point(d) - light->get_position()).get_magnitude() <= light->get_size() && d <= intersection.get_t()) {
+				return light->get_emission_color(r.get_origin());
+			}
+		}
+	}
 	if(intersection.is_hit()) {
 		float t = intersection.get_t();
 		Material* material = intersection.get_material();
@@ -233,7 +252,7 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 		if(material->is_affected_by_shadow_rays())
 			emitters_color = get_shadow_ray_color(new_ray.get_origin(), normal, intersectables, emitters);
         if(new_ray.get_direction().get_squared_magnitude() != 0.0f) {
-			color = emission + material_color * (emitters_color + get_color_recursive(new_ray, intersectables, emitters, depth+1));
+			color = emission + material_color * (emitters_color + get_color_recursive(new_ray, intersectables, emitters, depth+1, inter));
 		}
 		else {
 			color = emission + material_color;
@@ -267,12 +286,12 @@ Vector3 Camera::get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& 
     Vector3 color(0);
 	for(Emitter* e : emitters) {
         if(dynamic_cast<AreaLight*>(e)) {
-            num_shadow_rays = 20;
-            total_shadow_rays += 20;
+			num_shadow_rays = 20*dynamic_cast<AreaLight*>(e)->get_size();
+			total_shadow_rays += num_shadow_rays;
         }
         else {
             num_shadow_rays = 1;
-            total_shadow_rays += 1;
+			total_shadow_rays += num_shadow_rays;
         }
         for(int i = 0; i < num_shadow_rays; i++) {
 			Ray shadow_ray = e->get_shadow_ray(origin);

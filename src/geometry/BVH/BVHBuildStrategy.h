@@ -15,5 +15,5 @@ public:
         Z_AXIS
     };
 
-    virtual SPLIT_AXIS get_split_axis(std::vector<Intersectable*>& intersectables) const = 0;
+	virtual SPLIT_AXIS get_split_axis(std::vector<Intersectable*>& intersectables) const = 0;
 };

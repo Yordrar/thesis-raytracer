@@ -8,5 +8,5 @@ public:
     SurfaceAreaHeuristic();
     ~SurfaceAreaHeuristic();
 
-    SPLIT_AXIS get_split_axis(std::vector<Intersectable*>& intersectables) const override;
+	SPLIT_AXIS get_split_axis(std::vector<Intersectable*>& intersectables) const override;
 };

@@ -32,6 +32,10 @@ These are some example renders I made with this software.
 
 Typical Cornell Box with one area light
 
+![pbr_materials](/renders/pbr_materials.png)
+
+Some PBR materials. From left to right: leather, scratched metal and marble.
+
 ![panoramic_metal](/renders/panoramic_metal.png)
 
 Environment map with a glass of crystal and a metal ball

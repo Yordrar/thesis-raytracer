@@ -24,7 +24,7 @@ public:
 	inline Vector3 get_up() const {return up;}
 	inline Vector3 get_right() const {return right;}
 
-	Vector3 get_color(float x, float y, const BVH& intersectables, const std::vector<Emitter*>& emitters) const;
+	Vector3 get_color(float x, float y, const BVH& intersectables, const std::vector<Emitter*>& emitters, const std::vector<Intersectable*>& inter) const;
 	Vector3 get_color_preview(float x, float y, const BVH& intersectables, Entity* entity_selected) const;
 
 	Entity* get_object(float x, float y, const BVH& intersectables) const;
@@ -51,7 +51,7 @@ private:
 	float aperture, focus_dist;
 	float orbital_anchor_t;
 
-	Vector3 get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth) const;
+	Vector3 get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth, const std::vector<Intersectable*>& inter) const;
 	Vector3 get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& intersectables, const std::vector<Emitter*>& emitters) const;
 	void recalculate_parameters();
 	inline Ray get_ray(float u, float v) const {

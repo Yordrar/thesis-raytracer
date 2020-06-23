@@ -31,14 +31,14 @@ RenderOptions::RenderOptions(QWidget *parent) :
 	ui->focus_distance->setValidator(parameter_validator);
 
 	color_validator = new QIntValidator(0, 255);
-	Vector3 gradient_start_color = OptionsManager::get_manager()->get_gradient_start_color();
+	Vector3 gradient_start_color = OptionsManager::get_manager()->get_gradient_start_color()*255.0f;
 	ui->start_color_x->setText(QString::number(gradient_start_color.get_x()));
 	ui->start_color_x->setValidator(color_validator);
 	ui->start_color_y->setText(QString::number(gradient_start_color.get_y()));
 	ui->start_color_y->setValidator(color_validator);
 	ui->start_color_z->setText(QString::number(gradient_start_color.get_z()));
 	ui->start_color_z->setValidator(color_validator);
-	Vector3 gradient_end_color = OptionsManager::get_manager()->get_gradient_end_color();
+	Vector3 gradient_end_color = OptionsManager::get_manager()->get_gradient_end_color()*255.0f;
 	ui->end_color_x->setText(QString::number(gradient_end_color.get_x()));
 	ui->end_color_x->setValidator(color_validator);
 	ui->end_color_y->setText(QString::number(gradient_end_color.get_y()));

@@ -17,48 +17,54 @@ SceneManager* SceneManager::instance = nullptr;
 SceneManager::SceneManager()
 {
     camera = new Camera;
-    camera->translate_global(2.5f, 0, 65);
+	camera->translate_global(0, 0, 0);
 
 	scene = new Scene;
 /*
-    auto meshes = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\test4.obj");
+	auto meshes = MeshImporter::import_from_file("C:\\Users\\juana\\Desktop\\mediano.obj");
 	std::vector<Intersectable*> intersectables;
 	for(Mesh* m : meshes) {
 		intersectables.push_back(dynamic_cast<Intersectable*>(m));
 	}
 	scene->set_intersectables(intersectables);
 */
+
 	PointLight* l1 = new PointLight(Vector3(128, 64, 32), 80);
 	PointLight* l2 = new PointLight(Vector3(32, 64, 128), 80);
 	PointLight* l3 = new PointLight(Vector3(255, 255, 255), 80);
 	DirectionalLight* l4 = new DirectionalLight(Vector3(255));
 	PointLight* l5 = new PointLight(Vector3(255, 255, 255), 80);
-    AreaLight* l6 = new AreaLight(Vector3(248, 222, 126), 10);
+	//AreaLight* l6 = new AreaLight(Vector3(248, 222, 126), 10);
+	AreaLight* l6 = new AreaLight(Vector3(255), 10);
 	l1->set_position(Vector3(-2, 1, -2));
 	l2->set_position(Vector3(-2, 1, -8));
 	l3->set_position(Vector3(-2, 1, -14));
 	l5->set_position(Vector3(3, 3, -1));
-    l6->set_position(Vector3(0, 7.9f, 0));
-    l6->rotate_global(90, 0, 0);
+	l6->set_position(Vector3(0, 3, 0));
+	l6->rotate_global(90, 0, 0);
 	//scene->add_emitter(l1);
 	//scene->add_emitter(l2);
 	//scene->add_emitter(l3);
-    scene->add_emitter(l4);
+	//scene->add_emitter(l4);
 	//scene->add_emitter(l5);
-    //scene->add_emitter(l6);
+	//scene->add_emitter(l6);
 
 	Sphere* s = new Sphere(Vector3(0, -100.5f, -1), 100);
 	s->set_material(new Lambertian(Vector3(128)));
-	Sphere* s1 = new Sphere(Vector3(0, 2, 0), 0.5f);
-	s1->set_material(new Emissive());
+    Sphere* s1 = new Sphere(Vector3(1, 0, -1), 0.5f);
+	s1->set_material(new Metal());
 	//s1->get_material()->set_texture_map(new Image("C:\\Users\\juana\\Desktop\\brick_diffuse.bmp"));
-	//s1->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\brick_normal.bmp"));
-	Sphere* s2 = new Sphere(Vector3(1, 0.5f, -3), 0.5f);
+    //s1->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\brick_normal.bmp"));
+    Sphere* s2 = new Sphere(Vector3(-1, 0, -1), 0.5f);
 	s2->set_material(new Dielectric());
-    //scene->add_intersectable(s);
-    //scene->add_intersectable(s1);
-    //scene->add_intersectable(s2);
+	Sphere* s3 = new Sphere(Vector3(0, 0, -2), 0.5f);
+    s3->set_material(new Lambertian(Vector3(128)));
+	//scene->add_intersectable(s);
+	//scene->add_intersectable(s1);
+	//scene->add_intersectable(s2);
+	//scene->add_intersectable(s3);
 
+    /*
     Sphere* m6 = new Sphere(Vector3(-50, 0, 0), 5);m6->set_material(new BlinnPhong());m6->get_material()->set_reflectance(0);m6->get_material()->set_albedo(Vector3(1,0,0));
     Sphere* m5 = new Sphere(Vector3(-40, 0, 0), 5);m5->set_material(new BlinnPhong());m5->get_material()->set_reflectance(0.1f);m5->get_material()->set_albedo(Vector3(1,0,0));
     Sphere* m4 = new Sphere(Vector3(-30, 0, 0), 5);m4->set_material(new BlinnPhong());m4->get_material()->set_reflectance(0.2f);m4->get_material()->set_albedo(Vector3(1,0,0));
@@ -81,6 +87,7 @@ SceneManager::SceneManager()
     scene->add_intersectable(m9);
     scene->add_intersectable(m10);
     scene->add_intersectable(m11);
+    */
 }
 
 SceneManager::~SceneManager()

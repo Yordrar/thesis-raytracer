@@ -22,6 +22,8 @@ public:
 	inline float get_size() const {return size;}
 	inline void set_size(float value) {size = value;}
 
+	inline Vector3 get_normal() const {return normal;}
+
 private:
 	float intensity;
 	float size = 1;

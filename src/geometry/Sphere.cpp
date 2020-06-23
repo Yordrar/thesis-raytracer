@@ -23,7 +23,7 @@ AxisAlignedBoundingBox Sphere::get_bounding_box() const
 Vector3 get_uv(Vector3 normal) {
 	auto phi = atan2f(normal.get_z(), normal.get_x());
 	auto theta = asinf(normal.get_y());
-	return Vector3(1-(phi + Math::PI) / (2*Math::PI), (theta + Math::PI/2) / Math::PI, 0);
+	return Vector3(1.0f-(phi + Math::PI) / (2.0f*Math::PI), (theta + Math::PI/2.0f) / Math::PI, 0);
 }
 
 Vector3 generate_tangent(Vector3 normal)

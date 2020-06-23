@@ -26,12 +26,27 @@ Mesh::~Mesh()
 
 Hit Mesh::get_intersection(const Ray& ray) const
 {
+#if 0
+	Hit h(false, nullptr, Vector3(), FLT_MAX);
+	for(Triangle t : triangles) {
+		Hit hit = t.get_intersection(ray);
+		if(hit.is_hit() && hit.get_t() <= h.get_t()) {
+			h = hit;
+		}
+	}
+	if(h.is_hit()) {
+		h.set_material(material);
+		h.set_entity_position(position);
+	}
+	return h;
+#else
 	Hit hit = tri_hierarchy->get_intersection(ray);
 	if(hit.is_hit()) {
 		hit.set_material(material);
 		hit.set_entity_position(position);
 	}
 	return hit;
+#endif
 }
 
 AxisAlignedBoundingBox Mesh::get_bounding_box() const

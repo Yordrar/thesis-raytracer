@@ -92,10 +92,11 @@ TEST(Math, FastMax) {
 }
 
 TEST(Math, Dielectric) {
-	Dielectric d(Vector3(128), sqrtf(2.0));
+	Dielectric d(Vector3(128));
+	d.set_refraction_index(sqrtf(2.0));
 	Quaternion q = Quaternion::create_rotation(45, Vector3(0, 0, 1));
 	Vector3 normal(1, 0, 0);
 	Vector3 ray_dir = -q.apply(normal);
-	Ray scattered = d.scatter(Ray(-ray_dir, ray_dir), 1, normal);
+	Ray scattered = d.scatter(Ray(-ray_dir, ray_dir), 1, normal, 0, 0);
 	ASSERT_TRUE(Math::Float_Eq(scattered.get_direction().cross(normal).get_magnitude(), 0.5f));
 }

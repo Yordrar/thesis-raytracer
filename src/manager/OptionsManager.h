@@ -44,10 +44,11 @@ private:
 	static OptionsManager* instance;
 
     IMAGE_BASED_LIGHTNING_TYPE light_type = IMAGE_BASED_LIGHTNING_TYPE::GRADIENT;
-	Vector3 gradient_start_color, gradient_end_color;
+	Vector3 gradient_start_color = Vector3(128, 179, 255)/255.0f;
+	Vector3 gradient_end_color = Vector3(255, 255, 255)/255.0f;
 	Image* environment_map = nullptr;
 
 
-    float camera_move_velocity = 0.1f, camera_zoom_velocity = 5, camera_aperture = 0, camera_focus_distance = 1;
+    float camera_move_velocity = 0.1f, camera_zoom_velocity = 2, camera_aperture = 0, camera_focus_distance = 1;
 };
 

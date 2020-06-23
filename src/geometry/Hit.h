@@ -10,7 +10,7 @@ public:
 	Hit(bool hit = false,
 		Material* m = nullptr,
 		Vector3 normal = Vector3(),
-		float t = 0.0f,
+		float t = FLT_MAX,
 		Vector3 uv = Vector3(-1),
 		Vector3 tangent = Vector3(),
 		Vector3 bitangent = Vector3(),

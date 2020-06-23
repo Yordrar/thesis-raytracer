@@ -8,7 +8,7 @@ BVHBuildStrategy* BVH::build_strategy = new RandomAxis();
 
 BVH::BVH(std::vector<Intersectable*> intersectables)
 {
-    int num_elem = static_cast<int>(intersectables.size());
+	int num_elem = static_cast<int>(intersectables.size());
     if (num_elem == 1) {
 		left = intersectables[0];
 		right = intersectables[0];
@@ -20,9 +20,9 @@ BVH::BVH(std::vector<Intersectable*> intersectables)
 		right = intersectables[1];
 	}
     else {
-        BVHBuildStrategy::SPLIT_AXIS axis = build_strategy->get_split_axis(intersectables);
+		BVHBuildStrategy::SPLIT_AXIS axis = build_strategy->get_split_axis(intersectables);
 
-        switch(axis) {
+		switch(axis) {
         case BVHBuildStrategy::SPLIT_AXIS::X_AXIS:
             std::qsort(intersectables.data(), num_elem, sizeof(Intersectable*), AxisAlignedBoundingBox::box_x_compare);
             break;

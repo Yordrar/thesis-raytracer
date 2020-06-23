@@ -89,6 +89,12 @@ public:
 		float invVal = 1.0f/val;
 		return Quaternion(x*invVal, y*invVal, z*invVal, w*invVal);
 	}
+	inline bool operator==(const Quaternion& q) const {
+		return x == q.x && y == q.y && z == q.z && w == q.w;
+	}
+	inline bool operator!=(const Quaternion& q) const {
+		return !(*this == q);
+	}
 
 private:
 	float x, y, z, w;
