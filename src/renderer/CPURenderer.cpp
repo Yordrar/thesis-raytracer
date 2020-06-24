@@ -4,6 +4,7 @@
 #include <iostream>
 #include <omp.h>
 
+#include <geometry/BVH/RandomAxis.h>
 #include <geometry/BVH/SurfaceAreaHeuristic.h>
 
 CPURenderer* CPURenderer::instance = nullptr;
@@ -46,9 +47,9 @@ void CPURenderer::render(const Scene* scene, Camera* camera, int n_samples)
 	}
 
 	std::chrono::steady_clock::time_point bvh_begin = std::chrono::steady_clock::now();
-	BVHBuildStrategy* strategy = new SurfaceAreaHeuristic();
+	BVHBuildStrategy* strategy = new RandomAxis();
 	BVH hierarchy(intersectables, strategy);
-	delete dynamic_cast<SurfaceAreaHeuristic*>(strategy);
+	delete dynamic_cast<RandomAxis*>(strategy);
 	std::chrono::steady_clock::time_point bvh_end = std::chrono::steady_clock::now();
 	std::cout << "CPURenderer BVH built with: " << hierarchy.get_num_nodes()
 			  << " internal nodes and " << hierarchy.get_num_intersectables()

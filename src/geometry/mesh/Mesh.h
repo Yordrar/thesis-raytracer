@@ -26,6 +26,14 @@ public:
 	void translate_global(float delta_x, float delta_y, float delta_z) override;
 	void rotate_global(float euler_x, float euler_y, float euler_z) override;
 
+	inline const std::vector<Intersectable*> get_triangles() {
+		std::vector<Intersectable*> result;
+		for(Triangle& t : triangles) {
+			result.push_back(dynamic_cast<Intersectable*>(&t));
+		}
+		return result;
+	}
+
 private:
 	// The representation is a simple Indexed Triangle List
 	// The vertices are stored without repetition (some triangles may share vertices)

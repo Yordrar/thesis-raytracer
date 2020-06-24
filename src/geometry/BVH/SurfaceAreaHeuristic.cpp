@@ -16,7 +16,7 @@ struct Areas {
 	float right_area;
 };
 
-float get_area(std::vector<Intersectable*> intersectables) {
+float get_area(std::vector<Intersectable*>& intersectables) {
 	if(intersectables.size() == 0) return FLT_MAX;
 
 	float area = 0;
@@ -30,12 +30,8 @@ std::pair<int, BVHBuildStrategy::SPLIT_AXIS> SurfaceAreaHeuristic::get_split_axi
 {
 	if(intersectables.size() <= 4) return RandomAxis().get_split_axis(intersectables);
 
-	std::vector<SPLIT_AXIS> all_axis{SPLIT_AXIS::X_AXIS,
-									 SPLIT_AXIS::Y_AXIS,
-									 SPLIT_AXIS::Z_AXIS};
 	size_t num_elem = intersectables.size();
 	float total_area = get_area(intersectables);
-
 
 	std::vector<Areas> areas(intersectables.size());
 
@@ -43,16 +39,16 @@ std::pair<int, BVHBuildStrategy::SPLIT_AXIS> SurfaceAreaHeuristic::get_split_axi
     SPLIT_AXIS best_axis;
 	float best_cost = intersectables.size();
 	int best_event = -1;
-	for(SPLIT_AXIS axis : all_axis) {
+	for(SPLIT_AXIS axis : {SPLIT_AXIS::X_AXIS, SPLIT_AXIS::Y_AXIS, SPLIT_AXIS::Z_AXIS}) {
         switch (axis) {
         case SPLIT_AXIS::X_AXIS:
-            std::qsort(intersectables.data(), num_elem, sizeof(Intersectable*), AxisAlignedBoundingBox::box_x_compare);
+			std::qsort(intersectables.data(), num_elem, sizeof(Intersectable*), AxisAlignedBoundingBox::box_x_compare);
             break;
         case SPLIT_AXIS::Y_AXIS:
-            std::qsort(intersectables.data(), num_elem, sizeof(Intersectable*), AxisAlignedBoundingBox::box_y_compare);
+			std::qsort(intersectables.data(), num_elem, sizeof(Intersectable*), AxisAlignedBoundingBox::box_y_compare);
             break;
         case SPLIT_AXIS::Z_AXIS:
-            std::qsort(intersectables.data(), num_elem, sizeof(Intersectable*), AxisAlignedBoundingBox::box_z_compare);
+			std::qsort(intersectables.data(), num_elem, sizeof(Intersectable*), AxisAlignedBoundingBox::box_z_compare);
             break;
         }
 
@@ -72,9 +68,12 @@ std::pair<int, BVHBuildStrategy::SPLIT_AXIS> SurfaceAreaHeuristic::get_split_axi
 			std::vector<Intersectable*> s2(0);
 			for(int i = intersectables.size()-1; i >= 0; i--) {
 				areas[i].right_area = get_area(s2);
+				// Calculate cost
 				float this_cost = (areas[i].left_area / total_area) * s1.size() + (areas[i].right_area / total_area) * s2.size();
+				// Move triangle from S1 to S2
 				s2.push_back(s1[i]);
 				s1.pop_back();
+				// Check if found new best axis
 				if(this_cost < best_cost) {
 					best_cost = this_cost;
 					best_event = i;

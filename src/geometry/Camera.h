@@ -44,6 +44,17 @@ public:
 
 	Camera* get_copy();
 
+	inline Vector3 get_upper_left_corner() const {return upper_left_corner;}
+
+	inline Ray get_ray(float u, float v) const {
+		Vector3 p(2, 2, 0);
+		while(p.get_squared_magnitude() > 1)
+			p = Vector3(Math::Randf()*2-1, Math::Randf()*2-1, 0);
+		p *= aperture;
+		Vector3 offset = right * p.get_x() + up * p.get_y();
+		return Ray(position + offset, upper_left_corner + u*right*plane_width - v*up*plane_height - offset);
+	}
+
 private:
 	int width, height;
 	float vfov, plane_width, plane_height, half_width, half_height;
@@ -54,13 +65,5 @@ private:
 	Vector3 get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth, const std::vector<Intersectable*>& inter) const;
 	Vector3 get_shadow_ray_color(Vector3 origin, Vector3 normal, const BVH& intersectables, const std::vector<Emitter*>& emitters) const;
 	void recalculate_parameters();
-	inline Ray get_ray(float u, float v) const {
-		Vector3 p(2, 2, 0);
-		while(p.get_squared_magnitude() > 1)
-			p = Vector3(Math::Randf()*2-1, Math::Randf()*2-1, 0);
-		p *= aperture;
-		Vector3 offset = right * p.get_x() + up * p.get_y();
-		return Ray(position + offset, upper_left_corner + u*right*plane_width - v*up*plane_height - offset);
-	}
 };
 

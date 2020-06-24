@@ -105,8 +105,8 @@ Entity* BVH::get_intersectable(const Ray& ray) const
 
 int BVH::get_num_nodes() const
 {
-    BVH* l = dynamic_cast<BVH*>(left);
-    BVH* r = dynamic_cast<BVH*>(right);
+	BVH* l = dynamic_cast<BVH*>(left);
+	BVH* r = dynamic_cast<BVH*>(right);
     int num_nodes = 1;
     if(l) num_nodes += l->get_num_nodes();
     if(r) num_nodes += r->get_num_nodes();

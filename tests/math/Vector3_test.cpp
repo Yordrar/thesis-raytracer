@@ -3,18 +3,6 @@
 
 #include <cmath>
 
-TEST(Vector3, Constructors) {
-    Vector3 v1;
-    EXPECT_EQ(v1.get_x(), 0);
-    EXPECT_EQ(v1.get_y(), 0);
-    EXPECT_EQ(v1.get_z(), 0);
-    
-    Vector3 v2(1, 2, 3);
-    EXPECT_EQ(v2.get_x(), 1);
-    EXPECT_EQ(v2.get_y(), 2);
-    EXPECT_EQ(v2.get_z(), 3);
-}
-
 TEST(Vector3, GetMagnitude) {
     Vector3 v(1, 2, 3);
     ASSERT_EQ(v.get_magnitude(), static_cast<float>(sqrt(1*1 + 2*2 + 3*3)));

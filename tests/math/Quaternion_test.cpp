@@ -2,10 +2,6 @@
 
 #include <math/Quaternion.h>
 
-TEST(Quaternion, Constructors) {
-
-}
-
 TEST(Quaternion, Conjugate) {
 	Quaternion v(1, 2, 3, 4);
 	EXPECT_EQ(v.get_conjugate(), Quaternion(-1, -2, -3, 4));

@@ -1,5 +1,7 @@
 #include "Triangle.h"
 
+#include <material/Lambertian.h>
+
 Triangle::Triangle(const Vector3& v0, const Vector3& v1, const Vector3& v2)
 	: v0(v0),
 	  v1(v1),
@@ -99,6 +101,8 @@ Hit Triangle::get_intersection(const Ray& ray) const
 			intersection.set_tangent(u*tangent_v1 + v*tangent_v2 + (1-u-v)*tangent_v0);
 			intersection.set_bitangent(u*bitangent_v1 + v*bitangent_v2 + (1-u-v)*bitangent_v0);
 		}
+		intersection.set_material(new Lambertian);
+		intersection.set_entity_position((get_vertex0() + get_vertex1() + get_vertex2()) / 3.0f);
 		return intersection;
 	}
 	else // The ray is contained in the triangle

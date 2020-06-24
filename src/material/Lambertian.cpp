@@ -24,7 +24,7 @@ float Lambertian::fresnel(float n1, float n2, Vector3 normal, Vector3 incident)
     float ret = r0+(1.0-r0)*x*x*x*x*x;
 
     // adjust reflect multiplier for object reflectivity
-    ret = (reflectance * ret);
+	ret = (reflectance + (1.0-reflectance) * ret);
     return ret;
 }
 

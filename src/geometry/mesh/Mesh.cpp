@@ -20,9 +20,9 @@ Mesh::Mesh(std::vector<Triangle> triangles)
 	}
 	std::cout << "Building mesh BVH with " << this->triangles.size() << " triangles..." << std::endl;
 	std::chrono::steady_clock::time_point bvh_begin = std::chrono::steady_clock::now();
-	BVHBuildStrategy* strategy = new SurfaceAreaHeuristic();
+	BVHBuildStrategy* strategy = new RandomAxis();
 	tri_hierarchy = new BVH(tris, strategy);
-	delete dynamic_cast<SurfaceAreaHeuristic*>(strategy);
+	delete dynamic_cast<RandomAxis*>(strategy);
 	std::chrono::steady_clock::time_point bvh_end = std::chrono::steady_clock::now();
 	std::cout << "BVH built with: " << tri_hierarchy->get_num_nodes()
 			  << " internal nodes and " << tri_hierarchy->get_num_intersectables()

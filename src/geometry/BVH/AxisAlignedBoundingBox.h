@@ -14,6 +14,8 @@ public:
 
 	inline float get_surface_area() const {return surface_area;}
 
+	inline Vector3 get_centroid() const {return (min_corner + max_corner) / 2.0f;}
+
 	bool hit(const Ray& ray, float tmin, float tmax) const;
 
     static AxisAlignedBoundingBox surrounding_box(AxisAlignedBoundingBox box0, AxisAlignedBoundingBox box1);

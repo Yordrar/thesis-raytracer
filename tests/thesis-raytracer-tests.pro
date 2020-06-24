@@ -1,7 +1,7 @@
 TEMPLATE = app
 CONFIG += console c++11
 CONFIG -= app_bundle
-CONFIG -= qt core gui
+CONFIG -= qt core
 
 QMAKE_CXXFLAGS += -march=native -fopenmp
 QMAKE_LFLAGS += -fopenmp

@@ -18,7 +18,7 @@ public:
 	Entity* get_intersectable(const Ray& ray) const;
 
     int get_num_nodes() const;
-    int get_num_intersectables() const;
+	int get_num_intersectables() const;
 
 private:
 	Intersectable* left;

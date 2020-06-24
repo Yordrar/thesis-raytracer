@@ -36,6 +36,10 @@ Typical Cornell Box with one area light
 
 Some PBR materials. From left to right: leather, scratched metal and marble.
 
+![rusty_metal](/renders/rusty_metal.png)
+
+Rusty metal PBR material.
+
 ![panoramic_metal](/renders/panoramic_metal.png)
 
 Environment map with a glass of crystal and a metal ball

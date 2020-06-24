@@ -57,7 +57,7 @@ int AxisAlignedBoundingBox::box_x_compare(const void* a, const void* b) {
     AxisAlignedBoundingBox box_left = ah->get_bounding_box();
     AxisAlignedBoundingBox box_right = bh->get_bounding_box();
 
-    if (box_left.get_min_corner().get_x() < box_right.get_min_corner().get_x())
+	if (box_left.get_centroid().get_x() < box_right.get_centroid().get_x())
         return -1;
     else
         return 1;
@@ -70,7 +70,7 @@ int AxisAlignedBoundingBox::box_y_compare(const void* a, const void* b) {
     AxisAlignedBoundingBox box_left = ah->get_bounding_box();
     AxisAlignedBoundingBox box_right = bh->get_bounding_box();
 
-    if (box_left.get_min_corner().get_y() < box_right.get_min_corner().get_y())
+	if (box_left.get_centroid().get_y() < box_right.get_centroid().get_y())
         return -1;
     else
         return 1;
@@ -83,7 +83,7 @@ int AxisAlignedBoundingBox::box_z_compare(const void* a, const void* b) {
     AxisAlignedBoundingBox box_left = ah->get_bounding_box();
     AxisAlignedBoundingBox box_right = bh->get_bounding_box();
 
-    if (box_left.get_min_corner().get_z() < box_right.get_min_corner().get_z())
+	if (box_left.get_centroid().get_z() < box_right.get_centroid().get_z())
         return -1;
     else
 		return 1;
