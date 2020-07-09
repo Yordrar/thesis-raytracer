@@ -49,6 +49,6 @@ private:
 	Image* environment_map = nullptr;
 
 
-    float camera_move_velocity = 0.1f, camera_zoom_velocity = 2, camera_aperture = 0, camera_focus_distance = 1;
+	float camera_move_velocity = 0.1f, camera_zoom_velocity = 1, camera_aperture = 0, camera_focus_distance = 1;
 };
 

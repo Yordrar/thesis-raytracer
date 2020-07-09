@@ -49,12 +49,12 @@ void Camera::set_width_and_height(int new_width, int new_height)
 	}
 }
 
-Vector3 Camera::get_color(float x, float y, const BVH& intersectables, const std::vector<Emitter*>& emitters, const std::vector<Intersectable*>& inter) const
+Vector3 Camera::get_color(float x, float y, const BVH& intersectables, const std::vector<Emitter*>& emitters) const
 {
 	float u = x / float(width);
 	float v = y / float(height);
 	Ray r = get_ray(u, v);
-	return get_color_recursive(r, intersectables, emitters, 0, inter).clamp(0, 1);
+	return get_color_recursive(r, intersectables, emitters, 0).clamp(0, 1);
 }
 
 #define DEFAULT_EDIT_MODE_BGND_COLOR 0.1f
@@ -174,7 +174,7 @@ Camera* Camera::get_copy()
 	return cam;
 }
 
-Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth, const std::vector<Intersectable*>& inter) const
+Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, const std::vector<Emitter*>& emitters, int depth) const
 {
     float rrFactor = 1.0f;
 	if (depth >= 5) {
@@ -186,17 +186,7 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 	}
 
 	Vector3 color;
-#if 1
 	Hit intersection = intersectables.get_intersection(r);
-#else
-	Hit intersection(false, nullptr, Vector3(), FLT_MAX);
-	for(Intersectable* i : inter) {
-		Hit hit = i->get_intersection(r);
-		if(hit.is_hit() && hit.get_t() <= intersection.get_t()) {
-			intersection = hit;
-		}
-	}
-#endif
 	for(Emitter* e : emitters) {
 		AreaLight* light = dynamic_cast<AreaLight*>(e);
 		if(light && r.get_direction().dot(light->get_normal()) != 0.0f) {
@@ -252,7 +242,7 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 		if(material->is_affected_by_shadow_rays())
 			emitters_color = get_shadow_ray_color(new_ray.get_origin(), normal, intersectables, emitters);
         if(new_ray.get_direction().get_squared_magnitude() != 0.0f) {
-			color = emission + material_color * (emitters_color + get_color_recursive(new_ray, intersectables, emitters, depth+1, inter));
+			color = emission + material_color * (emitters_color + get_color_recursive(new_ray, intersectables, emitters, depth+1));
 		}
 		else {
 			color = emission + material_color;
@@ -272,7 +262,7 @@ Vector3 Camera::get_color_recursive(const Ray& r, const BVH& intersectables, con
 				float env_map_x = hit.get_uv().get_x() * env_map->get_width();
 				float env_map_y = (1.0f-hit.get_uv().get_y()) * env_map->get_height();
                 color += env_map->get_pixel_color_bilinear_interp(env_map_x, env_map_y);
-				color *= color;
+                color *= color;
 			}
 		}
 	}

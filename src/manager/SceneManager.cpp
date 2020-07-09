@@ -17,7 +17,7 @@ SceneManager* SceneManager::instance = nullptr;
 SceneManager::SceneManager()
 {
     camera = new Camera;
-	camera->translate_global(0, 0, 0);
+	camera->translate_global(0, 0, 1);
 
 	scene = new Scene;
 /*
@@ -57,12 +57,12 @@ SceneManager::SceneManager()
     //s1->get_material()->set_normal_map(new Image("C:\\Users\\juana\\Desktop\\brick_normal.bmp"));
     Sphere* s2 = new Sphere(Vector3(-1, 0, -1), 0.5f);
 	s2->set_material(new Dielectric());
-	Sphere* s3 = new Sphere(Vector3(0, 0, -1.5f), 0.5f);
+	Sphere* s3 = new Sphere(Vector3(0, 0, -1), 0.5f);
     s3->set_material(new Lambertian(Vector3(128)));
 	//scene->add_intersectable(s);
 	//scene->add_intersectable(s1);
 	//scene->add_intersectable(s2);
-	scene->add_intersectable(s3);
+	//scene->add_intersectable(s3);
 
     /*
     Sphere* m6 = new Sphere(Vector3(-50, 0, 0), 5);m6->set_material(new BlinnPhong());m6->get_material()->set_reflectance(0);m6->get_material()->set_albedo(Vector3(1,0,0));

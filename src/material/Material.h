@@ -12,7 +12,7 @@ public:
 	Material(float r, float g, float b);
 	virtual ~Material() = 0;
 
-	inline Vector3 get_albedo() const {return albedo;}
+    inline Vector3 get_albedo() const {return albedo*albedo;}
     inline void set_albedo(const Vector3& new_albedo) {albedo = new_albedo;}
 
 	inline Image* get_texture_map() const {return texture_map;}

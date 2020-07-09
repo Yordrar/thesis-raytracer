@@ -64,7 +64,7 @@ void CPURenderer::render(const Scene* scene, Camera* camera, int n_samples)
 			if(render_finished) continue;
 			Vector3 color;
 			for(int n = 0; n < n_samples; n++) {
-				color += camera->get_color(float(i+Math::Randf()), float(j+Math::Randf()), hierarchy, emitters, intersectables);
+				color += camera->get_color(float(i+Math::Randf()), float(j+Math::Randf()), hierarchy, emitters);
             }
             color /= n_samples;
             color = Vector3(sqrtf(color.get_x()), sqrtf(color.get_y()), sqrtf(color.get_z()));

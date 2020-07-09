@@ -364,7 +364,7 @@
     <string notr="true"/>
    </property>
    <property name="text">
-    <string>Image-Based Lightning</string>
+    <string>Image-Based Lighting</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
